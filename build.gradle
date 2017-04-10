@@ -1,0 +1,163 @@
+buildscript {
+    repositories {
+        mavenLocal()
+        maven {
+      url "https://plugins.gradle.org/m2/"
+    }
+    mavenCentral()
+        maven { 
+        credentials {
+            username nexusUser
+            password nexusPassword
+        }
+        url nexusReleaseURL
+    }
+    maven {
+        credentials {
+            username nexusUser
+            password nexusPassword
+        }
+        url nexusSnapshotURL
+    }
+    }
+    dependencies{
+         classpath 'de.abas.esdk:gradlePlugin:0.4.11-SNAPSHOT'
+         classpath("org.springframework.boot:spring-boot-gradle-plugin:1.5.2.RELEASE")
+    }
+}
+
+plugins {
+    id "java"
+    id "eclipse"
+    id "maven-publish"
+    id "com.palantir.git-version" version "0.5.3"
+}
+apply plugin: 'made-plugin'
+apply plugin: 'org.springframework.boot'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven {
+    credentials {
+        username nexusUser
+        password nexusPassword
+    }
+    url nexusReleaseURL
+    }
+    maven {
+    credentials {
+        username nexusUser
+        password nexusPassword
+    }
+    url nexusSnapshotURL
+    }
+    maven { url "http://"+NEXUS_HOST+":"+NEXUS_PORT+"/nexus/content/repositories/"+NEXUS_NAME }
+}
+
+made {
+    app {
+        name = "pdmDocumentsApp"
+        vendorId="ag"
+        appId="spare"
+        entryPoints = [
+        ]
+        shared = true
+        infosystems = ["IS.OWPDM.PDMDOCUMENTS"]
+        tables = []
+        //data = ["data.json]
+        //keys = []
+        //enums =["FILE_FORMAT"]
+    }
+
+    abas {
+        homeDir = ABAS_HOMEDIR
+        clientDir = ABAS_CLIENTDIR
+        clientId = ABAS_CLIENTID
+        edpHost = EDP_HOST
+        edpPort = EDP_PORT.toInteger()
+        edpUser = EDP_USER
+        edpPassword = EDP_PASSWORD
+    }
+
+    nexus {
+        nexusHost = NEXUS_HOST
+        nexusPort = NEXUS_PORT.toInteger()
+        nexusRepoName = NEXUS_NAME
+        nexusPassword = NEXUS_PASSWORD
+    }
+
+    ssh {
+        host = SSH_HOST
+        port = SSH_PORT.toInteger()
+        user = SSH_USER
+        password = SSH_PASSWORD
+        key = SSH_KEY
+    }
+    installType = "SSH"
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+configurations { compile.extendsFrom provided }
+
+group='de.abasgmbh.pdm'
+def versionString = gitVersion().toString()
+if (versionString.contains("-")) {
+    version versionString.split("-")[0].substring(1) + "-SNAPSHOT"
+} else {
+    version versionString.substring(1)
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId 'de.abasgmbh.pdm'
+            artifactId 'abasgmbh-searchDocuments'
+            artifact "build/libs/${project.name}-standalone-app.jar"
+        }
+    }
+    repositories {
+        if(project.hasProperty("nexusSnapshotURL") && project.hasProperty("nexusReleaseURL")
+                && project.hasProperty("nexusUser") && project.hasProperty("nexusPassword")){
+            if(project.version.endsWith('-SNAPSHOT')) {
+                maven {
+                    url nexusSnapshotURL
+                    credentials {
+                        username nexusUser
+                        password nexusPassword
+                    }
+                }
+            } else {
+                maven {
+                    url nexusReleaseURL
+                    credentials {
+                        username nexusUser
+                        password nexusPassword
+                    }
+                }
+            }
+        }
+    }
+}
+
+dependencies {
+
+    compile 'log4j:log4j:1.2.17'
+    compile("org.springframework.boot:spring-boot-starter")
+    compile group: 'org.springframework', name: 'spring-web', version: '4.3.7.RELEASE'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.7'
+    //compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.5.1'
+    //compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.25.1'
+    compile group: 'commons-codec', name: 'commons-codec', version: '1.9'
+    
+    testCompile 'junit:junit:4.12'
+    testCompile 'org.hamcrest:hamcrest-all:1.3'
+    
+}

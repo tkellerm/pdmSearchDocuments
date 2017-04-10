@@ -1,0 +1,1 @@
+Diese Infosystem dient zum Suchen von Dokumenten aus den PDM-SYSTEM Keytech und Procad über Rest-Webservice.
