@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -159,6 +160,7 @@ public class RestServiceKeytech extends AbstractRestService {
 	    	
 	        RestTemplate restTemplate = new RestTemplate();
 	        HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+	        
 	        ResponseEntity<ResponsePDMProductId> response;
 			try {
 //				response = restTemplate.exchange(url,HttpMethod.GET,request,  String.class);

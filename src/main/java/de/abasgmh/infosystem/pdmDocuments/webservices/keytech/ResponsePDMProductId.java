@@ -8,38 +8,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponsePDMProductId {
 
-//	{
-//		  "PageNumber": 1,
-//		  "Totalrecords": 1,
-//		  "PageSize": 50,
-//		  "ElementList": [
-//		    {
-//		      "Key": "DEFAULT_MI:600182",
-//		      "KeyValueList": [],
-//		      "Name": "BCU 4010 GP",
-//		      "DisplayName": "BCU 4010 GP - 00 - hydraulisches Schneidgerät - in Arbeit",
-//		      "ClassDisplayName": "Alle Artikel",
-//		      "Version": "00",
-//		      "Status": "in Arbeit",
-//		      "Description": "hydraulisches Schneidgerät",
-//		      "CreatedAt": "/Date(1347141600000)/",
-//		      "CreatedBy": "pmiller",
-//		      "CreatedByLong": "Peter Miller",
-//		      "ChangedAt": "/Date(1347141600000)/",
-//		      "ChangedBy": "pmiller",
-//		      "ChangedByLong": "Peter Miller",
-//		      "ReleasedAt": "/Date(-3600000)/",
-//		      "ReleasedBy": "",
-//		      "ReleasedByLong": "",
-//		      "ThumbnailHint": "DEFAULT_MI",
-//		      "HasVersions": false
-//		    }
-//		  ]
-//		}
-	
-	
-	
-	
 	
 	@JsonProperty("PageNumber")
 	Integer pageNumber;
