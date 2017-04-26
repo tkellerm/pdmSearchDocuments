@@ -1,7 +1,9 @@
 package de.abasgmh.infosystem.pdmDocuments.data;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 
 import de.abasgmh.infosystem.pdmDocuments.PdmDocumentsException;
@@ -43,6 +45,42 @@ public class PdmDocument {
 		
 	}
 	
+public void addDocMetaData(String valueName , Integer value) throws PdmDocumentsException{
+		
+		DocMetaData docMetaData = new DocMetaData(valueName, value);
+		
+		if (!metaDataList.containsKey(valueName)) {
+			this.metaDataList.put(valueName , docMetaData);	
+		}else {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.metaDataList.doubleValue", valueName));
+		}
+		
+	}
+	
+public void addDocMetaData(String valueName , Date value) throws PdmDocumentsException{
+	
+	DocMetaData docMetaData = new DocMetaData(valueName, value);
+	
+	if (!metaDataList.containsKey(valueName)) {
+		this.metaDataList.put(valueName , docMetaData);	
+	}else {
+		throw new PdmDocumentsException(Util.getMessage("pdmDocument.metaDataList.doubleValue", valueName));
+	}
+	
+}
+
+public void addDocMetaData(String valueName , BigDecimal value) throws PdmDocumentsException{
+	
+	DocMetaData docMetaData = new DocMetaData(valueName, value);
+	
+	if (!metaDataList.containsKey(valueName)) {
+		this.metaDataList.put(valueName , docMetaData);	
+	}else {
+		throw new PdmDocumentsException(Util.getMessage("pdmDocument.metaDataList.doubleValue", valueName));
+	}
+	
+}
+
 	public DocMetaData getDocMetaDataByName(String valueName){
 		
 		if (this.metaDataList.containsKey(valueName)) {
@@ -52,6 +90,15 @@ public class PdmDocument {
 		}
 	}
 	
+	public void addDocMetaData(String valueName, Object value) throws PdmDocumentsException {
+		DocMetaData docMetaData = new DocMetaData(valueName, value);
+		
+		if (!metaDataList.containsKey(valueName)) {
+			this.metaDataList.put(valueName , docMetaData);	
+		}else {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.metaDataList.doubleValue", valueName));
+		}
+	}
 
 	public File getFile() {
 		return file;
@@ -80,7 +127,6 @@ public class PdmDocument {
 		}else 
 			return "";
 	}
-	
 	
 
 }

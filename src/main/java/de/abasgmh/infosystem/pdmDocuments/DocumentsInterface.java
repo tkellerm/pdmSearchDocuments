@@ -20,7 +20,7 @@ public interface DocumentsInterface {
 	
 	public  ArrayList<PdmDocument> getAllDocuments(String abasIdNo) throws PdmDocumentsException;
 	
-	public  ArrayList<PdmDocument> getAllDocumentsUnderThisProduct(String abasIdNo) throws PdmDocumentsException;
+	
 	
 	
 }

@@ -9,6 +9,39 @@ public class DocMetaData {
 	private String 	value;
 	private MetaDataTyp typ;
 	
+public DocMetaData(String name, Object value) {
+		
+		super();
+		this.name = name;
+		
+		
+		if (value instanceof Integer) {
+			Integer temp = (Integer)value;
+			this.value = temp.toString();
+			this.typ = MetaDataTyp.INTEGER;	
+		}else if (value instanceof String ) {
+			this.value = (String)value;
+			this.typ = MetaDataTyp.STRING;
+		}else if (value instanceof Date) {
+			Date temp = (Date)value;
+			this.value = temp.toString();
+			this.typ = MetaDataTyp.DATE;
+		}else if (value instanceof BigDecimal) {
+			BigDecimal temp = (BigDecimal)value;
+			this.value = temp.toString();
+			this.typ = MetaDataTyp.BIGDEZIMAL;	
+		}else if (value instanceof String[]) {
+			this.value = value.toString();
+			this.typ = MetaDataTyp.STRINGLIST;	
+		}
+		
+		
+		
+		
+	}
+	
+	
+	
 	
 	public DocMetaData(String name, Integer value) {
 		
@@ -47,6 +80,8 @@ public class DocMetaData {
 		this.typ = MetaDataTyp.STRING;
 	}
 
+	
+	
 	public String getName() {
 		return name;
 	}
