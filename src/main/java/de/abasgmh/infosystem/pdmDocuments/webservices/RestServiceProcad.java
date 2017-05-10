@@ -24,11 +24,12 @@ public class RestServiceProcad extends AbstractRestService {
 		return null;
 	}
 
-	@Override
-	public ArrayList<PdmDocument> getAllDocumentsUnderThisProduct(String abasIdNo) throws PdmDocumentsException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public ArrayList<PdmDocument> getAllDocumentsUnderThisProduct(String abasIdNo) throws PdmDocumentsException {
+//		// http://localhost/procad/profile/api/profile86/objects/document
+////		Durchwahl 693 Spindler
+//		return null;
+//	}
 
 	
 
