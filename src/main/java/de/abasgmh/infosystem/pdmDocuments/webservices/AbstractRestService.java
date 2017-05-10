@@ -89,7 +89,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		} else {
 			log.error(url + " " + response.getStatus() + " " + response.getMetadata().toString());
 			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + " " + response.getMetadata().toString()));
+					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + ";" + response.getMetadata().toString()));
 		}
 
 	}
