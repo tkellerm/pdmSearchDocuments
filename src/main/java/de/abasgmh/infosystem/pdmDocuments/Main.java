@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import de.abas.eks.jfop.annotation.Stateful;
+import de.abas.eks.jfop.remote.FO;
 import de.abas.erp.api.gui.TextBox;
 import de.abas.erp.axi.event.EventException;
 import de.abas.erp.axi.screen.ScreenControl;
@@ -48,6 +49,8 @@ import de.abas.erp.db.schema.sales.WebOrder;
 import de.abas.erp.db.schema.workorder.WorkOrders;
 import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
+import de.abas.jfop.base.buffer.BufferFactory;
+import de.abas.jfop.base.buffer.UserTextBuffer;
 import de.abasgmh.infosystem.pdmDocuments.data.DocMetaData;
 import de.abasgmh.infosystem.pdmDocuments.data.PdmDocument;
 import de.abasgmh.infosystem.pdmDocuments.utils.Util;
@@ -69,7 +72,8 @@ public class Main {
 	public void startAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head) throws EventException{
 		
 		getConfigInMask(head , ctx);
-//		String product = infosys.getYartikel().getIdno();
+	if (head.getYartikel() != null) {
+//	    String product = head.getYartikel().getIdno();
 		String product = head.getYartikel().getDrawingNorm();
 		String user = head.getYuser();
 		String password = head.getYpassword();
@@ -77,26 +81,27 @@ public class Main {
 		String documentTyp = head.getYdokart();
 		String pdmsystem = head.getYpdmsystem();
 		head.table().clear();
-		
-		loadProductsInTable(head, ctx );
-		
+		loadProductsInTable(head, ctx);
 		DocumentSearchfactory documentSearchfactory = new DocumentSearchfactory();
-		DocumentsInterface searchdokuments = documentSearchfactory.create(pdmsystem, server , user , password);
+		DocumentsInterface searchdokuments = documentSearchfactory.create(pdmsystem, server, user, password);
 		if (searchdokuments != null) {
 			try {
 				Iterable<Row> rows = head.table().getRows();
 				for (Row row : rows) {
 					if (row.getYtartikel() != null) {
-						insertDocuments(product , searchdokuments ,head);
+						insertDocuments(product, searchdokuments, head);
 					}
-				}	
-				
+				}
+	
 			} catch (PdmDocumentsException | IOException e) {
-				showErrorBox(ctx , e.getMessage());
-			} 
-		}else {
-			showErrorBox(ctx, Util.getMessage("main.error.noConnection" , head.getYserver()));
-		}
+				showErrorBox(ctx, e.getMessage());
+			}
+		} else {
+			showErrorBox(ctx, Util.getMessage("main.error.noConnection", head.getYserver()));
+		} 
+	}else {
+		showErrorBox(ctx, Util.getMessage("main.error.noProduct"));
+	}
 		
 	}
 	
@@ -106,12 +111,22 @@ public class Main {
 
 		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product);
 		for (PdmDocument pdmDocument : pdmDocuments) {
-			Row row = head.table().appendRow();
-			row.setYdateiname(pdmDocument.getFilename());
-			row.setYdatend(pdmDocument.getFiletyp());
-			row.setYpfad(pdmDocument.getFile().getCanonicalPath().toString());
-			row.setYdoktyp(pdmDocument.getDocumenttyp());
+			
+			if (checkdocuments(head , pdmDocument)) {
+				Row row = head.table().appendRow();
+				row.setYdateiname(pdmDocument.getFilename());
+				row.setYdatend(pdmDocument.getFiletyp());
+				row.setYpfad(pdmDocument.getFile().getCanonicalPath().toString());
+				row.setYdoktyp(pdmDocument.getDocumenttyp());
+			}
 		}
+	}
+
+
+
+	private boolean checkdocuments(PdmDocuments head, PdmDocument pdmDocument) {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 
@@ -145,7 +160,28 @@ public class Main {
 
 	@ButtonEventHandler(field="ybuanzeigen", type = ButtonEventType.AFTER, table=true)
 	public void ybuanzeigenAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head, PdmDocuments.Row currentRow) throws EventException{
-		// TODO Auto-generated method stub
+		    String varnamezieldat = "xtzieldat";
+		    String vartypezieldat = "text";
+		    String varnamecmd = "xtcmd";
+		    String vartypecmd = "text";
+//			UserTextBuffer userTextBuffer = BufferFactory.newInstance(true).getUserTextBuffer();
+//			if (!userTextBuffer.isVarDefined(varnamezieldat)) {
+//				userTextBuffer.defineVar(vartypezieldat, varnamezieldat);
+//			}
+//			if (!userTextBuffer.isVarDefined(varnamecmd)) {
+//				userTextBuffer.defineVar(vartypecmd, varnamecmd);
+//			}
+			
+			
+			String zieldatvalue = "C:\\abas\\pdmDocuments\\" 	+   currentRow.getYdateiname() ;
+//			userTextBuffer.setValue(varnamezieldat , zieldatvalue);
+			
+			String valuecmd = " -PC -BIN " +  currentRow.getYpfad() + " " + zieldatvalue;
+			
+
+			FO.pc_copy(valuecmd);
+			FO.pc_open(zieldatvalue);
+			
 	}
 
 	@ScreenEventHandler(type = ScreenEventType.ENTER)

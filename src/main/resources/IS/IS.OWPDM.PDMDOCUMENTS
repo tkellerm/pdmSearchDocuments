@@ -1,11 +1,11 @@
 V#21
 K#n#PDMDOCUMENTS#Dokumente aus dem PDM-System holen#A#isrein/screen.OWPDM.PDMDOCUMENTS#25B.1##
-K#(0)#(0)#100024##n#n##y
+K#(0)#(0)#100024##n#n#PdmDocuments#y
 K#n#(1)#
-K######
+K#java:de.abasgmh.infosystem.pdmDocuments.Main@pdmDocumentsApp#####
 K#######
 K#owpdm#(127)##(116)#(98)###0#0#
-K#########
+K#is/VERBOTEN##is/VERBOTEN###is/VERBOTEN###
 Z#0#itgrust##n####(0)######n#0#n#0##n##
 Z#0#itgruppe##n####(0)######n#2#n#0##n##
 Z#0#itgrbez##n####(0)######n#2#n#0##n##
@@ -69,6 +69,7 @@ Z#0#isbstart##n####(1)##java:de.abasgmh.infosystem.pdmDocuments.Main@pdmDocument
 Z#0#isstartzeit##n####(0)######n#0#n#0##n##
 Z#1#isyartikel#P2:1#n#Artikel#A#A#(2)######y#1#y#0##y##
 Z#1#isystruktur#B#n#Dokumente aus der Struktur holen#A#A#(2)######y#1#y#0##y##
+Z#1#isystufe#IP4#n#Stufe#A#A#(2)######y#1#y#0##y##
 Z#1#isypdf#B#n#pdf Dateien#A#A#(2)######y#1#y#0##y##
 Z#1#isydwg#B#n#dwg Dateien#A#A#(2)######y#1#y#0##y##
 Z#1#isydxf#B#n#dxf Dateien#A#A#(2)######y#1#y#0##y##
@@ -76,6 +77,15 @@ Z#1#isyalle#B#n#alle Dateitypen#A#A#(2)######y#1#y#0##y##
 Z#1#isydokart#GL30#n#Dokumentenart#A#A#(2)######y#1#y#0##y##
 Z#1#isypdmsystem#GL30#n#PDM-SYSTEM#A#A#(2)######y#1#y#0##y##
 Z#1#isyserver#GL30#n#PDM -Server#A#A#(2)######y#1#y#0##y##
+Z#1#isyuser#GL30#n#Benutzer#A#A#(2)######y#1#y#0##y##
+Z#1#isypassword#GL30#n#Passwort#A#A#(2)######y#1#y#0##y##
+Z#1#isysaveconfig#BU3#n#Konfiguration speichern#A#A#(1)##java:de.abasgmh.infosystem.pdmDocuments.Main@pdmDocumentsApp####y#1#y#0##y##
+Z#1#isyuebfile#TN#n#öbergabe fÅr Druck#A#A#(2)######y#1#y#0##y##
+Z#1#isyanhangliste#GL#n#Anhangsliste#A#A#(2)######y#1#y#0##y##
+Z#1#isybeleg#VP11#n#Beleg#A#A#(2)######y#1#y#0##y##
+Z#1#isydrucktypen#GL50#n#Dateitypen fÅr den Druck auf Drucker#A#A#(2)######y#1#y#0##y##
+Z#1#isyemailtypen#GL50#n#Dateitypen fÅr den Emailversand#A#A#(2)######y#1#y#0##y##
+Z#1#isyauswpapersize#AZL99000002#n#Selektion Papierformat#A#A#(2)######y#1#y#0##y##
 Z#0#ittabnr##y####(0)######n#0#n#0##n##
 Z#0#itzid##y####(0)######n#0#n#0##n##
 Z#0#itzn##y####(0)######n#0#n#0##n##
@@ -95,8 +105,23 @@ Z#0#istbaumiconz##y####(0)######n#2#n#0##n##
 Z#0#istmenuemoeglich##y####(0)######n#0#n#0##n##
 Z#0#istmenueaktion##y####(0)######n#0#n#0##n##
 Z#0#istmenuean##y####(0)######n#0#n#0##n##
+Z#2#isyauswahl#B#y#Auswahl#A#A#(2)######y#1#y#0##y##
+Z#2#isytstufe#IP4#y#Stufe#A#A#(0)######y#1#y#0##y##
+Z#2#isytartikel#P2:1#y#Artikel#A#A#(0)######y#1#y#0##y##
+Z#2#isytartikelname#PT2:1#y#Bezeichnung#A#A#(0)######y#3#y#0##y##
 Z#2#isypfad#GL250#y#Dateipfad#A#A#(0)######y#1#y#0##y##
-Z#2#isydateiname#GL50#y#Dateiname#A#A#(0)######y#1#y#0##y##
+Z#2#isydateiname#GL100#y#Dateiname#A#A#(0)######y#1#y#0##y##
 Z#2#isydatend#GL5#y#Datei Typ#A#A#(0)######y#1#y#0##y##
 Z#2#isydoktyp#GL30#y#Dokument Typ#A#A#(0)######y#1#y#0##y##
-Z#2#isybuanzeigen#BU4#y#Dokumentanzeigen#A#A#(1)######y#1#y#0##y##
+Z#2#isybuanzeigen#BU4#y#Dokumentanzeigen#A#A#(1)##owpdm/IS.PDMDOCUMENTS####y#1#y#0##y##
+Z#2#isymeta1key#GL20#y#Meta 1#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta1value#GL100#y#Meta 1#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta2key#GL20#y#Meta 2#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta2value#GL100#y#Meta 2#A#A#(0)######y#1#y#0##y##
+Z#2#isymete3key#GL20#y#Meta 3#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta3value#GL100#y#Meta 3#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta4key#GL20#y#Meta 4#A#A#(0)######y#1#y#0##y##
+Z#2#isymete4value#GL100#y#Meta 4#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta5key#GL20#y#Meta 5#A#A#(0)######y#1#y#0##y##
+Z#2#isymeta5value#GL100#y#Meta 5#A#A#(0)######y#1#y#0##y##
+Z#2#isypapersize#AZL99000002#y#Format#A#A#(0)######y#1#y#0##y##

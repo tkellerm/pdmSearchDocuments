@@ -21,6 +21,7 @@
       <cell gridX="1" gridY="1" sizeX="2">
        <erpfield access="readOnly" s3Name="1:ydateiname" />
       </cell>
+      <cell gridX="3" gridY="1" />
       <cell gridX="0" gridY="2">
        <label msgId="042adb5cf4d14a9425cf5416938694ac.1" />
       </cell>

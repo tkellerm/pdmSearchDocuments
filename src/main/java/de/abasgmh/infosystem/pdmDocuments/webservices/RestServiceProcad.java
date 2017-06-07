@@ -27,6 +27,7 @@ public class RestServiceProcad extends AbstractRestService {
 //	@Override
 //	public ArrayList<PdmDocument> getAllDocumentsUnderThisProduct(String abasIdNo) throws PdmDocumentsException {
 //		// http://localhost/procad/profile/api/profile86/objects/document
+//	http://pro-biz01/procad/profile/api/profile86/objects/part/10068/
 ////		Durchwahl 693 Spindler
 //		return null;
 //	}
