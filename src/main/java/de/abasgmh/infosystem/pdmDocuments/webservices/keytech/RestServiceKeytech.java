@@ -3,10 +3,7 @@ package de.abasgmh.infosystem.pdmDocuments.webservices.keytech;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -123,12 +120,10 @@ public class RestServiceKeytech extends AbstractRestService {
 					 for (String key : properties.keySet()) {
 						Object value = properties.get(key);
 						
-						
 							pdmDocument.addDocMetaData(key ,value );
 						
-						
 					}
-					 
+	 
 					 pdmDocumentList.add(pdmDocument);	
 				}
 					
