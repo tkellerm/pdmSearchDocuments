@@ -10,7 +10,6 @@ import java.net.URLConnection;
 
 import org.jboss.logging.Logger;
 
-import de.abasgmh.infosystem.pdmDocuments.webservices.AbstractRestService;
 import de.abasgmh.infosystem.pdmDocuments.webservices.RestServiceProcad;
 import de.abasgmh.infosystem.pdmDocuments.webservices.keytech.RestServiceKeytech;
 
