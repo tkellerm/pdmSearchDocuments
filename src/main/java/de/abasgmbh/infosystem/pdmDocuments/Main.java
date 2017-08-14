@@ -391,10 +391,10 @@ private boolean isRealPrinter(Printer printer) {
 			
 			if (config.getPdmSystem() == UserEnumPdmSystems.PROFILE) {
 				String maskkont = printbuf.getStringValue("maskkontextfop");
-				String newMaskkontext = maskkont; 
+				String newMaskkontext = UserEnumPdmSystems.PROFILE.name().toUpperCase(); 
 				printbuf.assign("maskkontextfop" , newMaskkontext);
 			}else if (config.getPdmSystem() == UserEnumPdmSystems.KEYTECH) {
-				printbuf.assign("maskkontextfop" , UserEnumPdmSystems.KEYTECH.name().toString().toUpperCase());
+				printbuf.assign("maskkontextfop" , UserEnumPdmSystems.KEYTECH.name().toUpperCase());
 			}
 			
 		}else {
