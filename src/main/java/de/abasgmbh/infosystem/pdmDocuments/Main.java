@@ -353,6 +353,7 @@ private boolean isRealPrinter(Printer printer) {
 		        config.setFiletypes(head.getYemailtypen(), head.getYdrucktypen(), head.getYbildschirmtypen());
 		        config.setPdmSystem(head.getYpdmsystem());
 		        config.setPartFieldName(head.getYfieldfornumber());
+		        config.setPartProFileIDFieldName(head.getYfieldforpartid());
 				ConfigurationHandler.saveConfigurationtoFile(config);
 			} catch (PdmDocumentsException e) {
 				// TODO Auto-generated catch block
@@ -429,6 +430,12 @@ private boolean isRealPrinter(Printer printer) {
 			head.setYdatabase(config.getSqldatabase());
 			head.setYsqluser(config.getSqlUser());
 			head.setYsqlpassword(config.getSqlPassword());
+			head.setYsqldriver(config.getSqlDriver());
+			
+//			Vorbelegung für SQL-Server falls noch nicht gespeichert
+			if (head.getYsqldriver().isEmpty()) {
+				head.setYsqldriver("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			}
 
 			head.setYpdmsystem(config.getPdmSystem());
 			
@@ -436,7 +443,7 @@ private boolean isRealPrinter(Printer printer) {
 			head.setYdrucktypen(config.getFileTypesPrinter());
 			head.setYemailtypen(config.getFileTypesEmail());
 			head.setYfieldfornumber(config.getPartFieldName());
-			
+			head.setYfieldforpartid(config.getPartProFileIDFieldName());
 			
 		} catch (PdmDocumentsException e) {
 			

@@ -30,6 +30,7 @@ pdmdocuments_owpdm_fhead_ydatabase=SQLServer Datenbank
 pdmdocuments_owpdm_fhead_ydrucktypen=Dateitypen für den Druck auf Drucker
 pdmdocuments_owpdm_fhead_yemailtypen=Dateitypen für den Emailversand
 pdmdocuments_owpdm_fhead_yfieldfornumber=Feldname für AbasNumber in ProFile
+pdmdocuments_owpdm_fhead_yfieldforpartid=Feldname für PartID in ProFile
 pdmdocuments_owpdm_fhead_ysaveconfig=Konfiguration speichern
 pdmdocuments_owpdm_fhead_ysqlpassword=SQLServer Passwort
 pdmdocuments_owpdm_fhead_ysqlport=SQLServer Port

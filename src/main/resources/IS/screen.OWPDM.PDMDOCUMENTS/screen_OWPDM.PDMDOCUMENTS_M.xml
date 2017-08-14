@@ -165,10 +165,10 @@
                <erpfield s3Name="0:ysqlport" />
               </cell>
               <cell gridX="5" gridY="2">
-               <label msgId="pdmdocuments_owpdm_fhead_ydatabase" />
+               <label msgId="pdmdocuments_owpdm_fhead_yfieldforpartid" />
               </cell>
               <cell gridX="6" gridY="2">
-               <erpfield s3Name="0:ydatabase" />
+               <erpfield s3Name="0:yfieldforpartid" />
               </cell>
               <cell gridX="0" gridY="3">
                <label msgId="pdmdocuments_owpdm_fhead_ysqluser" />
@@ -182,8 +182,12 @@
               <cell gridX="3" gridY="3" sizeX="2">
                <erpfield s3Name="0:ysqlpassword" />
               </cell>
-              <cell gridX="5" gridY="3" />
-              <cell gridX="6" gridY="3" />
+              <cell gridX="5" gridY="3">
+               <label msgId="pdmdocuments_owpdm_fhead_ydatabase" />
+              </cell>
+              <cell gridX="6" gridY="3">
+               <erpfield s3Name="0:ydatabase" />
+              </cell>
              </layout.grid>
             </cell>
            </layout.grid>

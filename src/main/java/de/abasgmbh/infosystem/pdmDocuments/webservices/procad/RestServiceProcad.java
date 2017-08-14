@@ -8,6 +8,8 @@ import java.net.NoRouteToHostException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -92,16 +94,26 @@ public class RestServiceProcad extends AbstractRestService {
 	        
 	        
 		
-//		ArrayList<PartObject> elementsList = response.getElementsList();
-//		if (elementsList.size() == 1 ) {
+	        List<PartObject> elementsList = response.getObjectsList();
+		if (elementsList.size() == 1 ) {
 //			return elementsList.get(0).getKey();
-//		}else if (elementsList.size() == 0) {
-//			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.noResult", abasIdNo));
-//		}else {
-//			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.moreThanOneResult", abasIdNo));
-//		}
-		
-		return "";
+			Values values = elementsList.get(0).getValues();
+			Map<String, Object> prop = values.getAdditionalProperties();
+			
+			if (prop.containsKey(config.getPartFieldName())) {
+				Object objektID = prop.get(config.getPartProFileIDFieldName());
+				if (objektID instanceof String) {
+					String objStringID = (String)objektID;
+					return objStringID;
+				}
+				 
+			}
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.ResultFalseField", abasIdNo));
+		}else if (elementsList.size() == 0) {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.noResult", abasIdNo));
+		}else {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.moreThanOneResult", abasIdNo));
+		}
 		
 	}
 

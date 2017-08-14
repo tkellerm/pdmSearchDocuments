@@ -90,11 +90,13 @@ Z#1#isydrucker#P91:1#n#Drucker#A#A#(2)######y#1#y#0##y##
 Z#1#isybildschirmtypen#GL50#n#Dateitypen fÅr Bildschirmanzeige#A#A#(2)######y#1#y#0##y##
 Z#1#isytenant#GL30#n#Tenant (Datenbank Profile#A#A#(2)######y#1#y#0##y##
 Z#1#isyfieldfornumber#GL50#n#Feldname fÅr AbasNumber in ProFile#A#A#(2)######y#1#y#0##y##
+Z#1#isyfieldforpartid#GL50#n#Feldname fÅr PartID in ProFile#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlserver#GL50#n#SQLServer IP / DNS-Name#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlport#I5#n#SQLServer Port#A#A#(2)######y#1#y#0##y##
 Z#1#isydatabase#GL50#n#SQLServer Datenbank#A#A#(2)######y#1#y#0##y##
 Z#1#isysqluser#GL30#n#SQLServer User#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlpassword#GL30#n#SQLServer Passwort#A#A#(2)######y#1#y#0##y##
+Z#1#isysqldriver#GL100#n#SQLServer Driver#A#A#(2)######y#1#y#0##y##
 Z#0#ittabnr##y####(0)######n#0#n#0##n##
 Z#0#itzid##y####(0)######n#0#n#0##n##
 Z#0#itzn##y####(0)######n#0#n#0##n##
