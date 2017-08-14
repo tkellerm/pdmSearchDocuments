@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ABASData>
+<RecordSet tableNumber="88:4" tableName="Druckparameter:Papierformat">
+        <Record id="(1281,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1281,88,0)</Field>
+                <Field name="guid" abasType="GLA38">00ee1b5a-f57e-4d24-991a-bcee17a3e7ee</Field>
+                <Field name="such" abasType="SWK88">A2</Field>
+                <Field name="name" abasType="T46">DIN A2</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 420.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 594.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1280,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1280,88,0)</Field>
+                <Field name="guid" abasType="GLA38">485889ae-f9f5-422d-8854-5e9a5daafbf6</Field>
+                <Field name="such" abasType="SWK88">A3</Field>
+                <Field name="name" abasType="T46">DIN A3</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 297.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 420.0</Field>
+            </Head>
+        </Record>
+        <Record id="(154,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(154,88,0)</Field>
+                <Field name="guid" abasType="GLA38">2b93ed3e-5aa1-4475-b483-287b44acda32</Field>
+                <Field name="such" abasType="SWK88">A5</Field>
+                <Field name="name" abasType="T46">DIN A5</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 148.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 210.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1283,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1283,88,0)</Field>
+                <Field name="guid" abasType="GLA38">bb8419f5-8104-4700-bd0d-aa9e92585bd6</Field>
+                <Field name="such" abasType="SWK88">A0</Field>
+                <Field name="name" abasType="T46">DIN A0</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 841.0</Field>
+                <Field name="hoehe" abasType="RP4.1">1189.0</Field>
+            </Head>
+        </Record>
+        <Record id="(153,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(153,88,0)</Field>
+                <Field name="guid" abasType="GLA38">43cc592d-dcd7-4c2b-9eaa-04f2ed848093</Field>
+                <Field name="such" abasType="SWK88">A4</Field>
+                <Field name="name" abasType="T46">DIN A4</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 210.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 297.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1282,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1282,88,0)</Field>
+                <Field name="guid" abasType="GLA38">0f7410bd-decf-4c37-90a7-291baefd3cc4</Field>
+                <Field name="such" abasType="SWK88">A1</Field>
+                <Field name="name" abasType="T46">DIN A1</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 594.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 841.0</Field>
+            </Head>
+        </Record>
+    </RecordSet>
+    <RecordSet tableNumber="107:1" tableName="Aufzählung:Aufzählung">
+        <Record id="(319,107,0)">
+            <Head>
+                <Field name="id" abasType="ID107">(319,107,0)</Field>
+                <Field name="guid" abasType="GLA38">6d8d6b29-4c1e-475a-90ec-832a1bb043cd</Field>
+                <Field name="nummer" abasType="NK107">99000002</Field>
+                <Field name="such" abasType="SWK107">PAPIERFORMAT</Field>
+                <Field name="name" abasType="GL45">Papierformate</Field>
+                <Field name="name14" abasType="GL45">Paper Size</Field>
+                <Field name="classname" abasType="GLA40">PaperSize</Field>
+                <Field name="tabart" abasType="NT24">P88:4</Field>
+                <Field name="fldname" abasType="NT24">sucherw</Field>
+                <Field name="fldkname" abasType="NT24">such</Field>
+                <Field name="fldbezname" abasType="NT24">such</Field>
+                <Field name="fldiname" abasType="NT24"></Field>
+                <Field name="leerok" abasType="B">0</Field>
+                
+            </Head>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ107:1"> (319,107,0,1)</Field>
+                <Field name="aufzelem" abasType="GL25">A5</Field>
+            </Row>
+            <Row number="5">
+                <Field name="zid" abasType="IDZ107:1">(319,107,0,5)</Field>
+                <Field name="aufzelem" abasType="GL25">A1</Field>
+            </Row>
+            <Row number="4">
+                <Field name="zid" abasType="IDZ107:1">(319,107,0,4)</Field>
+                <Field name="aufzelem" abasType="GL25">A2</Field>
+            </Row>
+            <Row number="3">
+                <Field name="zid" abasType="IDZ107:1">(319,107,0,3)</Field>
+                <Field name="aufzelem" abasType="GL25">A3</Field>
+            </Row>
+            <Row number="2">
+                <Field name="zid" abasType="IDZ107:1">(319,107,0,2)</Field>
+                <Field name="aufzelem" abasType="GL25">A4</Field>
+            </Row>
+            <Row number="6">
+                <Field name="zid" abasType="IDZ107:1">(319,107,0,6)</Field>
+                <Field name="aufzelem" abasType="GL25">A0</Field>
+            </Row>
+        </Record>
+    </RecordSet>
+    <RecordSet tableNumber="107:1" tableName="Aufzählung:Aufzählung">
+        <Record id="(321,107,0)">
+            <Head>
+                <Field name="id" abasType="ID107">(321,107,0)</Field>
+                <Field name="guid" abasType="GLA38">b3b88661-891a-4504-a0e4-f169f65fbed0</Field>
+                <Field name="nummer" abasType="NK107">99000004</Field>
+                <Field name="such" abasType="SWK107">PDMSYSTEMS</Field>
+                <Field name="name" abasType="GL45">Auswahl PDMSysteme</Field>
+                <Field name="name14" abasType="GL45"></Field>
+                <Field name="classname" abasType="GLA40">PdmSystems</Field>
+                <Field name="tabart" abasType="NT24">P109:2</Field>
+            </Head>
+            <Row number="2">
+                <Field name="zid" abasType="IDZ107:1">(321,107,0,2)</Field>
+                <Field name="vaufzelem" abasType="VID88">(1741,109,0)</Field>
+            </Row>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ107:1">(321,107,0,1)</Field>
+                <Field name="vaufzelem" abasType="VID88">(1740,109,0)</Field>
+            </Row>
+        </Record>
+    </RecordSet>
+    <RecordSet tableNumber="109:2" tableName="Wertemengen:Bezeichner">
+        <Record id="(1741,109,0)">
+            <Head>
+                <Field name="id" abasType="ID109">(1741,109,0)</Field>
+                <Field name="guid" abasType="GLA38">141b3b39-35f5-4882-a25a-19d50444b25c</Field>
+                <Field name="nummer" abasType="NK109">9000201</Field>
+                <Field name="such" abasType="SWK109">PDMPROFILE</Field>
+                <Field name="name" abasType="GL50">ProFile</Field>
+                <Field name="name14" abasType="GL50"></Field>
+                <Field name="langtxt" abasType="GL"></Field>
+                <Field name="kbezbspr" abasType="GL15"></Field>
+                <Field name="katego" abasType="NT15">PROFILE</Field>
+                <Field name="icontxt" abasType="DV1"></Field>
+                <Field name="besch" abasType="T65"></Field>
+            </Head>
+        </Record>
+        <Record id="(1740,109,0)">
+            <Head>
+                <Field name="id" abasType="ID109">(1740,109,0)</Field>
+                <Field name="guid" abasType="GLA38">22138d93-4357-4d30-aa41-ea73d2e63419</Field>
+                <Field name="nummer" abasType="NK109">99000200</Field>
+                <Field name="such" abasType="SWK109">PDMKEYTECH</Field>
+                <Field name="name" abasType="GL50">Keytech</Field>
+                <Field name="name14" abasType="GL50"></Field>
+                <Field name="langtxt" abasType="GL"></Field>
+                <Field name="kbezbspr" abasType="GL15"></Field>
+                <Field name="katego" abasType="NT15">KEYTECH</Field>
+                <Field name="icontxt" abasType="DV1"></Field>
+                <Field name="besch" abasType="T65"></Field>
+            </Head>
+        </Record>
+    </RecordSet>
+</ABASData>

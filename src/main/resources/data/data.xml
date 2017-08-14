@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ABASData>
+    <RecordSet tableNumber="88:4" tableName="Druckparameter:Papierformat">
+        <Record id="(1281,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1281,88,0)</Field>
+                <Field name="guid" abasType="GLA38">00ee1b5a-f57e-4d24-991a-bcee17a3e7ee</Field>
+                <Field name="such" abasType="SWK88">A2</Field>
+                <Field name="name" abasType="T46">DIN A2</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 420.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 594.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1280,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1280,88,0)</Field>
+                <Field name="guid" abasType="GLA38">485889ae-f9f5-422d-8854-5e9a5daafbf6</Field>
+                <Field name="such" abasType="SWK88">A3</Field>
+                <Field name="name" abasType="T46">DIN A3</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 297.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 420.0</Field>
+            </Head>
+        </Record>
+        <Record id="(154,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(154,88,0)</Field>
+                <Field name="guid" abasType="GLA38">2b93ed3e-5aa1-4475-b483-287b44acda32</Field>
+                <Field name="such" abasType="SWK88">A5</Field>
+                <Field name="name" abasType="T46">DIN A5</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 148.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 210.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1283,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1283,88,0)</Field>
+                <Field name="guid" abasType="GLA38">bb8419f5-8104-4700-bd0d-aa9e92585bd6</Field>
+                <Field name="such" abasType="SWK88">A0</Field>
+                <Field name="name" abasType="T46">DIN A0</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 841.0</Field>
+                <Field name="hoehe" abasType="RP4.1">1189.0</Field>
+            </Head>
+        </Record>
+        <Record id="(153,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(153,88,0)</Field>
+                <Field name="guid" abasType="GLA38">43cc592d-dcd7-4c2b-9eaa-04f2ed848093</Field>
+                <Field name="such" abasType="SWK88">A4</Field>
+                <Field name="name" abasType="T46">DIN A4</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 210.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 297.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1282,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1282,88,0)</Field>
+                <Field name="guid" abasType="GLA38">0f7410bd-decf-4c37-90a7-291baefd3cc4</Field>
+                <Field name="such" abasType="SWK88">A1</Field>
+                <Field name="name" abasType="T46">DIN A1</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 594.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 841.0</Field>
+            </Head>
+        </Record>
+    </RecordSet>
+</ABASData>
