@@ -1,4 +1,4 @@
-package de.abasgmh.infosystem.pdmDocuments.webservices;
+package de.abasgmbh.infosystem.pdmDocuments.webservices;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,9 +18,9 @@ import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
-import de.abasgmh.infosystem.pdmDocuments.DocumentsInterface;
-import de.abasgmh.infosystem.pdmDocuments.PdmDocumentsException;
-import de.abasgmh.infosystem.pdmDocuments.utils.Util;
+import de.abasgmbh.infosystem.pdmDocuments.DocumentsInterface;
+import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
+import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 
 public abstract class AbstractRestService implements DocumentsInterface {
 
@@ -61,6 +61,8 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		this.pdmDocumentTyp = pdmDocumentTyp;
 
 	}
+	
+	
 
 	protected String callRestservice(String url) throws PdmDocumentsException {
 
@@ -83,7 +85,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		} else {
 			log.error(url + " " + response.getStatus() + " " + response.getMetadata().toString());
 			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + ";" + response.getMetadata().toString()));
+					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + " " + response.getMetadata().toString()));
 		}
 
 	}

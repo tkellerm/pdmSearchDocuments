@@ -1,4 +1,4 @@
-package de.abasgmh.infosystem.pdmDocuments;
+package de.abasgmbh.infosystem.pdmDocuments;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 

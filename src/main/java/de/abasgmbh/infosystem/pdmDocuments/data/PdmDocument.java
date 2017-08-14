@@ -1,13 +1,15 @@
-package de.abasgmh.infosystem.pdmDocuments.data;
+package de.abasgmbh.infosystem.pdmDocuments.data;
 
 import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 
-import de.abasgmh.infosystem.pdmDocuments.PdmDocumentsException;
-import de.abasgmh.infosystem.pdmDocuments.utils.Util;
+import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
+import de.abasgmbh.infosystem.pdmDocuments.utils.DocumentsUtil;
+import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 
 public class PdmDocument {
 	
@@ -15,16 +17,22 @@ public class PdmDocument {
 	private String filename;
 	private String filetyp;
 	private String documenttyp;
+	private String pageformat;
 	
 	HashMap<String , DocMetaData> metaDataList;
 
-	public PdmDocument(File file, String documenttyp) {
+	public PdmDocument(File file, String documenttyp) throws PdmDocumentsException {
 		super();
 		this.file = file;
 		this.filename = this.file.getName();
-		this.filetyp = getFileExtension(this.file);
+		this.filetyp = DocumentsUtil.getFileExtension(this.file);
 		this.metaDataList = new HashMap<String , DocMetaData>();
 		this.documenttyp = documenttyp;
+		try {
+			this.pageformat = DocumentsUtil.getPageFormat(this.file);
+		} catch (IOException e) {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.formatcheck.error.io"));
+		}
 	}
 	
 	
@@ -117,16 +125,7 @@ public void addDocMetaData(String valueName , BigDecimal value) throws PdmDocume
 		return this.metaDataList.values();
 	}
 
-	private String getFileExtension(File file2) {
-		
-		String filename = file.getName();
-		int pointIndex = filename.lastIndexOf(".");
-		 if (pointIndex != -1) {
-			String fileExtension = filename.substring(pointIndex);
-			return fileExtension;
-		}else 
-			return "";
-	}
+	
 	
 
 }

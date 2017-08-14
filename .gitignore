@@ -1,5 +1,11 @@
 /.gradle/
 /bin/
-/build/
+build/
 /rmtmp/
 /src/
+gradle.p*
+.settings/
+
+/exportEnums.log
+/gradle.debug.log
+/exportEnums_stacktrace.log

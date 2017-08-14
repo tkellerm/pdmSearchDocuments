@@ -1,8 +1,8 @@
-package de.abasgmh.infosystem.pdmDocuments;
+package de.abasgmbh.infosystem.pdmDocuments;
 
 import java.util.ArrayList;
 
-import de.abasgmh.infosystem.pdmDocuments.data.PdmDocument;
+import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
 
 public interface DocumentsInterface {
 	
@@ -15,6 +15,8 @@ public interface DocumentsInterface {
 	public void setPasword(String password);
 	
 	public void setUser(String user);
+	
+	public Boolean testConnection() throws PdmDocumentsException;
 	
 	public String searchPdmProductID(String abasIdNo) throws PdmDocumentsException;
 	

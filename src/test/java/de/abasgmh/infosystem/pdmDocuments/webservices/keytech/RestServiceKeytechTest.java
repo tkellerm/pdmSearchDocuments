@@ -6,10 +6,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import de.abasgmh.infosystem.pdmDocuments.DocumentSearchfactory;
-import de.abasgmh.infosystem.pdmDocuments.DocumentsInterface;
-import de.abasgmh.infosystem.pdmDocuments.PdmDocumentsException;
-import de.abasgmh.infosystem.pdmDocuments.data.PdmDocument;
+import de.abasgmbh.infosystem.pdmDocuments.DocumentSearchfactory;
+import de.abasgmbh.infosystem.pdmDocuments.DocumentsInterface;
+import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
+import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
 
 public class RestServiceKeytechTest {
 

@@ -1,4 +1,4 @@
-package de.abasgmh.infosystem.pdmDocuments.data;
+package de.abasgmbh.infosystem.pdmDocuments.data;
 
 import java.math.BigDecimal;
 import java.util.Date;

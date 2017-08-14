@@ -1,0 +1,11 @@
+{
+  "roots" : [
+    {
+      "dbnr" : 88,
+      "grnr" : 4,
+      "headfields" : [ "id", "guid", "such", "name",  "leinh" ,"breite" , "hoehe"],
+      "tablefields" : [],
+      "criteria" : "such=A!A"
+    }
+  ]
+}

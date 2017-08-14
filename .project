@@ -5,16 +5,12 @@
 	<projects/>
 	<natures>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>org.eclipse.buildship.core.gradleprojectnature</nature>
 		<nature>com.jaspersoft.studio.babel.editor.rbeNature</nature>
+		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
 	</natures>
 	<buildSpec>
 		<buildCommand>
 			<name>org.eclipse.jdt.core.javabuilder</name>
-			<arguments/>
-		</buildCommand>
-		<buildCommand>
-			<name>org.eclipse.buildship.core.gradleprojectbuilder</name>
 			<arguments/>
 		</buildCommand>
 		<buildCommand>
@@ -23,4 +19,5 @@
 		</buildCommand>
 	</buildSpec>
 	<linkedResources/>
+	<filteredResources/>
 </projectDescription>

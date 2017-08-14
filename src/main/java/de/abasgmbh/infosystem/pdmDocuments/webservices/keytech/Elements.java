@@ -1,4 +1,4 @@
-package de.abasgmh.infosystem.pdmDocuments.webservices.keytech;
+package de.abasgmbh.infosystem.pdmDocuments.webservices.keytech;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

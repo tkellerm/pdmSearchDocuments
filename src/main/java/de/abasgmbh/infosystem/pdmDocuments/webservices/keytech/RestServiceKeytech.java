@@ -1,8 +1,13 @@
-package de.abasgmh.infosystem.pdmDocuments.webservices.keytech;
+package de.abasgmbh.infosystem.pdmDocuments.webservices.keytech;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.NoRouteToHostException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +17,11 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import de.abasgmh.infosystem.pdmDocuments.PdmDocumentsException;
-import de.abasgmh.infosystem.pdmDocuments.data.PdmDocument;
-import de.abasgmh.infosystem.pdmDocuments.utils.Util;
-import de.abasgmh.infosystem.pdmDocuments.webservices.AbstractRestService;
+import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
+import de.abasgmbh.infosystem.pdmDocuments.config.Configuration;
+import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
+import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
+import de.abasgmbh.infosystem.pdmDocuments.webservices.AbstractRestService;
 
 public class RestServiceKeytech extends AbstractRestService {
 
@@ -35,6 +41,13 @@ public class RestServiceKeytech extends AbstractRestService {
 		this.setServer(server);
 		this.setUser(user);
 		this.setPasword(password);
+	}
+
+	public RestServiceKeytech(Configuration config) {
+		super();
+		this.setServer(config.getRestServer());
+		this.setUser(config.getRestUser());
+		this.setPasword(config.getRestPassword());
 	}
 
 	@Override
@@ -140,7 +153,7 @@ public class RestServiceKeytech extends AbstractRestService {
 		
 		String url =  String.format(GETFILE_URL, this.server,childLink.getChildLinkTo(), fileInfo.getFileid());
 		String targetPath = "rmtmp/pdmgetDocuments/" + TIMESTAMP + "/"; 
-		String targetFileName=  fileInfo.getFilename().replaceAll(" ", "_"); 
+		String targetFileName=  Util.replaceUmlaute(fileInfo.getFilename().replaceAll(" ", "_"));
 		File targetPathFile = new File(targetPath);
 		if (!targetPathFile.exists()) {
 			targetPathFile.mkdirs();
@@ -187,10 +200,35 @@ public class RestServiceKeytech extends AbstractRestService {
        
 	}
 
-	
+	@Override
+	public Boolean testConnection() {
+			 InputStream is = null;
+		      try {
+		         URL url = new URL(this.server);
+		         URLConnection con = url.openConnection();
 
-	
-	
-	
+		         is = con.getInputStream();
+		         log.info("Server erreichbar");
+		         return true;
+		      } catch (NoRouteToHostException e) {
+		    	  log.error(e);
+		         return false;
+		      }catch (FileNotFoundException e) {
+		    	  log.info("Server erreichbar" , e);
+//		    	  Server ist erreichbar, aber es ist keine richtige Seite verfuegbar
+				return true;
+			} catch (MalformedURLException e) {
+				log.error(e);
+				return false;
+			} catch (IOException e) {
+				log.error(e);
+				return false;
+			}
+		      finally{
+		         if(is!= null)
+		            try {is.close();} catch (IOException e){ }
+		      }
+			
+	}
 	
 }
