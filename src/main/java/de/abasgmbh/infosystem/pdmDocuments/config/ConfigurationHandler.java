@@ -113,6 +113,7 @@ public class ConfigurationHandler {
 		configProperties.setProperty(PDM_CONFIG_SQL_DATABASE, config.getSqldatabase());
 		configProperties.setProperty(PDM_CONFIG_SQL_USER, config.getSqlUser());
 		configProperties.setProperty(PDM_CONFIG_SQL_PASSWORD, config.getSqlPassword());
+		configProperties.setProperty(PDM_CONFIG_SQL_DRIVER, config.getSqlDriver());
 
 		configProperties.setProperty(PDM_CONFIG_FILETYPES_EMAIL, config.getFileTypesEmail());
 		configProperties.setProperty(PDM_CONFIG_FILETYPES_PRINTER, config.getFileTypesPrinter());

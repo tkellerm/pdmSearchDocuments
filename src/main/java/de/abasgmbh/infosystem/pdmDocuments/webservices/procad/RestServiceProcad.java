@@ -1,5 +1,6 @@
 package de.abasgmbh.infosystem.pdmDocuments.webservices.procad;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,6 +11,7 @@ import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -22,38 +24,28 @@ import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
 import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 import de.abasgmbh.infosystem.pdmDocuments.webservices.AbstractRestService;
 
-import de.abasgmbh.infosystem.pdmDocuments.webservices.procad.ResponsePDMProductId;
-
 public class RestServiceProcad extends AbstractRestService {
 	
 	private static String TESTSERVICE_URL = "http://%1s/procad/profile/api/version";
 //	https://{server}:{port}/procad/profile/api/{tenant}/
 	private static String BASE_URL = "http://%1s/procad/profile/api/%2s/";
 	private static String SEARCHPRODUCT_URL = "objects/Part?query='%3s'='%4s'";
-	private static String GETDOCUMENT_INFO = "";
-	private static String GETDOCUMENT_FILE ="";
+	private static String GETDOCUMENT_INFO = "objects/Document/%3s/";
+	private static String GETDOCUMENT_FILE ="objects/Document/%3s/file";
 	private String tenant;
-	private String sqlServer;
-	private Integer sqlPort;
-	private String sqlDatabase;
-	private String sqlUser;
-	private String sqlPassword;
-	private Configuration config;
 	
-	public RestServiceProcad(String server, String user, String password, String tenant, String sqlserver, Integer sqlport, String sqldatabase, String sqluser, String sqlpassword) {
-
-		super();
-		this.setServer(server);
-		this.setUser(user);
-		this.setPasword(password);
-		this.tenant = tenant;
-		this.sqlServer = sqlserver;
-		this.sqlPort = sqlport;
-		this.sqlDatabase = sqldatabase;
-		this.sqlUser = sqluser;
-		this.sqlPassword = sqlpassword;
-		
-	}
+	private Configuration config;
+//	
+//	public RestServiceProcad(String server, String user, String password, String tenant, String sqlserver, Integer sqlport, String sqldatabase, String sqluser, String sqlpassword) {
+//
+//		super();
+//		this.setServer(server);
+//		this.setUser(user);
+//		this.setPasword(password);
+//		this.tenant = tenant;
+//		
+//		
+//	}
 
 	public RestServiceProcad(Configuration config) {
 		super();
@@ -62,11 +54,7 @@ public class RestServiceProcad extends AbstractRestService {
 		this.setUser(config.getRestUser());
 		this.setPasword(config.getRestPassword());
 		this.tenant = config.getRestTenant();
-		this.sqlServer = config.getSqlServer();
-		this.sqlPort = config.getSqlPort();
-		this.sqlDatabase = config.getSqldatabase();
-		this.sqlUser = config.getSqlUser();
-		this.sqlPassword = config.getSqlPassword();
+		
 		
 		String testRestServiceUrl = String.format(TESTSERVICE_URL, this.server); 
 		testRestService(testRestServiceUrl);
@@ -106,7 +94,11 @@ public class RestServiceProcad extends AbstractRestService {
 					String objStringID = (String)objektID;
 					return objStringID;
 				}
-				 
+				if (objektID instanceof Integer) {
+					 Integer objIntegerID = (Integer)objektID;
+					 String objStringID = objIntegerID.toString();
+					return objStringID;
+				} 
 			}
 			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.ResultFalseField", abasIdNo));
 		}else if (elementsList.size() == 0) {
@@ -120,17 +112,93 @@ public class RestServiceProcad extends AbstractRestService {
 	@Override
 	public ArrayList<PdmDocument> getAllDocuments(String abasIdNo) throws PdmDocumentsException {
 		String pdmProductID = searchPdmProductID(abasIdNo);
-		
-		return null;
+		 ArrayList<String> procadDocuments = getDokumentsFromSQL(pdmProductID);
+		 ArrayList<PdmDocument> pdmDocs = getPdmDocumentsfromProcad(procadDocuments);
+		return pdmDocs;
 	}
 
-//	@Override
-//	public ArrayList<PdmDocument> getAllDocumentsUnderThisProduct(String abasIdNo) throws PdmDocumentsException {
-//		// http://localhost/procad/profile/api/profile86/objects/document
-//	http://pro-biz01/procad/profile/api/profile86/objects/part/10068/
-////		Durchwahl 693 Spindler
-//		return null;
-//	}
+private ArrayList<PdmDocument> getPdmDocumentsfromProcad(ArrayList<String> procadDocuments) throws PdmDocumentsException {
+	ArrayList<PdmDocument> pdmDocs = new ArrayList<PdmDocument>(); 
+	ProcadDocument response;
+	
+	for (String  proString : procadDocuments) {
+		String testString = BASE_URL + GETDOCUMENT_INFO;
+		String urlDocInfo = String.format(BASE_URL + GETDOCUMENT_INFO, this.server, this.tenant, proString);
+		String urlDocFile = String.format(BASE_URL + GETDOCUMENT_FILE, this.server, this.tenant, proString);
+		
+		
+		
+		String jsonString = callRestservice(urlDocInfo);
+		ObjectMapper mapper = new ObjectMapper();
+		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+		try {
+			response = mapper.readValue(jsonString, ProcadDocument.class);
+			
+			Values values = response.getValues();
+			Map<String, Object> valueMap = values.getAdditionalProperties();
+			String searchFileName = "/Document/orgName";
+			String filename = getStringFromMap(valueMap, searchFileName);
+			String searchDocType = "/Document/docType";
+			String docType = getStringFromMap(valueMap, searchDocType);
+			
+			
+			String targetFileName =  Util.replaceUmlaute(filename.replaceAll(" ", "_"));
+			
+			
+			PdmDocument pdmDocument;
+			List<File> fileList = downloadFileFromRestservice(urlDocFile, targetFileName , getTargetPath());
+			for (File file2 : fileList) {
+				pdmDocument = new PdmDocument(file2, docType);
+				
+				Set<String> keyset = valueMap.keySet();
+				for (String key : keyset) {
+					pdmDocument.addDocMetaData(key, valueMap.get(key));
+				}
+				pdmDocs.add(pdmDocument);
+			}
+		
+			
+		} catch (JsonParseException e) {
+			throw new PdmDocumentsException(
+					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+					e);
+		} catch (JsonMappingException e) {
+			throw new PdmDocumentsException(
+					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+					e);
+		} catch (IOException e) {
+			throw new PdmDocumentsException(
+					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+					e);
+		}
+	}
+	
+	return pdmDocs;
+	}
+
+private String getStringFromMap(Map<String, Object> valueMap, String searchString) {
+	Object fileNameObj = valueMap.get(searchString);
+	String filename;
+	if (fileNameObj instanceof String) {
+		filename = (String)fileNameObj;
+		
+	}else {
+		filename = fileNameObj.toString();
+	}
+	return filename;
+}
+
+
+
+	private ArrayList<String> getDokumentsFromSQL(String pdmProductID) throws PdmDocumentsException {
+		
+		SQLConnectionHandler sqlConnHandler = new SQLConnectionHandler(config);
+		
+		String sqlQuery = "select vb_objidnr2 from " + config.getSqldatabase()+ ".dbo.VERBIND where vb_objidnr1 =" + pdmProductID + " and vb_objtyp1 =2 and vb_objtyp2=3";
+		 ArrayList<String> result = sqlConnHandler.executeQuery(sqlQuery);
+		
+		return result;
+	}
 
 	public boolean testRestService(String urlString){
 		

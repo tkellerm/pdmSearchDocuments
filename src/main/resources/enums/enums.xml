@@ -112,28 +112,6 @@
             </Row>
         </Record>
     </RecordSet>
-    <RecordSet tableNumber="107:1" tableName="Aufzählung:Aufzählung">
-        <Record id="(321,107,0)">
-            <Head>
-                <Field name="id" abasType="ID107">(321,107,0)</Field>
-                <Field name="guid" abasType="GLA38">b3b88661-891a-4504-a0e4-f169f65fbed0</Field>
-                <Field name="nummer" abasType="NK107">99000004</Field>
-                <Field name="such" abasType="SWK107">PDMSYSTEMS</Field>
-                <Field name="name" abasType="GL45">Auswahl PDMSysteme</Field>
-                <Field name="name14" abasType="GL45"></Field>
-                <Field name="classname" abasType="GLA40">PdmSystems</Field>
-                <Field name="tabart" abasType="NT24">P109:2</Field>
-            </Head>
-            <Row number="2">
-                <Field name="zid" abasType="IDZ107:1">(321,107,0,2)</Field>
-                <Field name="vaufzelem" abasType="VID88">(1741,109,0)</Field>
-            </Row>
-            <Row number="1">
-                <Field name="zid" abasType="IDZ107:1">(321,107,0,1)</Field>
-                <Field name="vaufzelem" abasType="VID88">(1740,109,0)</Field>
-            </Row>
-        </Record>
-    </RecordSet>
     <RecordSet tableNumber="109:2" tableName="Wertemengen:Bezeichner">
         <Record id="(1741,109,0)">
             <Head>
@@ -166,4 +144,27 @@
             </Head>
         </Record>
     </RecordSet>
+    <RecordSet tableNumber="107:1" tableName="Aufzählung:Aufzählung">
+        <Record id="(321,107,0)">
+            <Head>
+                <Field name="id" abasType="ID107">(321,107,0)</Field>
+                <Field name="guid" abasType="GLA38">b3b88661-891a-4504-a0e4-f169f65fbed0</Field>
+                <Field name="nummer" abasType="NK107">99000004</Field>
+                <Field name="such" abasType="SWK107">PDMSYSTEMS</Field>
+                <Field name="name" abasType="GL45">Auswahl PDMSysteme</Field>
+                <Field name="name14" abasType="GL45"></Field>
+                <Field name="classname" abasType="GLA40">PdmSystems</Field>
+                <Field name="tabart" abasType="NT24">P109:2</Field>
+            </Head>
+            <Row number="2">
+                <Field name="zid" abasType="IDZ107:1">(321,107,0,2)</Field>
+                <Field name="vaufzelem" abasType="VID88">(1741,109,0)</Field>
+            </Row>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ107:1">(321,107,0,1)</Field>
+                <Field name="vaufzelem" abasType="VID88">(1740,109,0)</Field>
+            </Row>
+        </Record>
+    </RecordSet>
+    
 </ABASData>

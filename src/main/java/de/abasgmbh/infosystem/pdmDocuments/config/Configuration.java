@@ -30,7 +30,9 @@ public class Configuration {
 	private String sqlPassword;
 	private String sqlDriver;
 	
-//	Auswahl der DateiTypen
+
+
+	//	Auswahl der DateiTypen
 	private String fileTypesEmail;
 	private String fileTypesPrinter;
 	private String fileTypesScreen;
@@ -49,6 +51,7 @@ public class Configuration {
 		this.fileTypesEmail = null;
 		this.fileTypesPrinter = null;
 		this.fileTypesScreen = null;
+		this.sqlDriver = null;
 	}
 	
 	public static synchronized Configuration getInstance () {
@@ -96,7 +99,7 @@ public class Configuration {
 	
 	
 	public void setSqlConnection(String sqlServer, Integer sqlPort, String sqldatabase, String sqlUser,
-			String sqlPassword){
+			String sqlPassword, String sqlDriver){
 		
 		this.sqlServer = sqlServer;
 		this.sqlPort = sqlPort;
@@ -210,7 +213,9 @@ public class Configuration {
 		this.partProFileIDFieldName = partProFileIDFieldName;
 	}
 	
-	
+	public void setSqlDriver(String sqlDriver) {
+		this.sqlDriver = sqlDriver;
+	}
 	
 
 }

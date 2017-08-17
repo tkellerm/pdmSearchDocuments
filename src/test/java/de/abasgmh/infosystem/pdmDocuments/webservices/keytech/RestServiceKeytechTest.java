@@ -6,9 +6,12 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import de.abas.erp.db.schema.userenums.UserEnumPdmSystems;
 import de.abasgmbh.infosystem.pdmDocuments.DocumentSearchfactory;
 import de.abasgmbh.infosystem.pdmDocuments.DocumentsInterface;
 import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
+import de.abasgmbh.infosystem.pdmDocuments.config.Configuration;
+import de.abasgmbh.infosystem.pdmDocuments.config.ConfigurationHandler;
 import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
 
 public class RestServiceKeytechTest {
@@ -19,10 +22,15 @@ public class RestServiceKeytechTest {
 //	}
 
 	@Test
-	public void testSearchPdmProductID() {
+	public void testSearchPdmProductID() { 
+		Configuration config = Configuration.getInstance();
+		config.setPdmSystem(UserEnumPdmSystems.KEYTECH);
+		
 		DocumentSearchfactory factory = new DocumentSearchfactory();
-		DocumentsInterface restService = factory.create("keytech", "demo.keytech.de", "jgrant", "");
+		
 		try {
+			config.setRestServer("demo.keytech.de", "jgrant", "", "");
+			DocumentsInterface restService = factory.create(config);
 			String ergebnis = restService.searchPdmProductID("BCU 4010 GP");
 			assertTrue(ergebnis.length() > 0);
 		} catch (PdmDocumentsException e) {
@@ -35,8 +43,9 @@ public class RestServiceKeytechTest {
 	@Test
 	public void testGetAllDocuments() {
 		DocumentSearchfactory factory = new DocumentSearchfactory();
-		DocumentsInterface restService = factory.create("keytech", "demo.keytech.de", "jgrant", "");
+		DocumentsInterface restService;
 		try {
+			restService = factory.create(Configuration.getInstance());
 			ArrayList<PdmDocument> ergebnis = restService.getAllDocuments("ITM004730");
 			assertTrue(ergebnis!=null);
 		} catch (PdmDocumentsException e) {

@@ -61,6 +61,7 @@ import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 @RunFopWith(EventHandlerRunner.class)
 public class Main {
 	protected final static Logger log = Logger.getLogger("de.abasgmbh.infosystem.pdmDocuments");
+	protected final static String SQL_DRIVER_DEFAULT = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	
 
 	private Configuration config = Configuration.getInstance();
@@ -349,7 +350,7 @@ private boolean isRealPrinter(Printer printer) {
 			Configuration config = Configuration.getInstance();
 			try {
 				config.setRestServer(head.getYserver(), head.getYuser() , head.getYpassword(), head.getYtenant());
-				config.setSqlConnection(head.getYserver(), head.getYsqlport(), head.getYdatabase() , head.getYsqluser(), head.getYsqlpassword());
+				config.setSqlConnection(head.getYserver(), head.getYsqlport(), head.getYdatabase() , head.getYsqluser(), head.getYsqlpassword(), head.getYsqldriver());
 		        config.setFiletypes(head.getYemailtypen(), head.getYdrucktypen(), head.getYbildschirmtypen());
 		        config.setPdmSystem(head.getYpdmsystem());
 		        config.setPartFieldName(head.getYfieldfornumber());
@@ -391,10 +392,10 @@ private boolean isRealPrinter(Printer printer) {
 			
 			if (config.getPdmSystem() == UserEnumPdmSystems.PROFILE) {
 				String maskkont = printbuf.getStringValue("maskkontextfop");
-				String newMaskkontext = UserEnumPdmSystems.PROFILE.name().toUpperCase(); 
+				String newMaskkontext = UserEnumPdmSystems.PROFILE.name().toString().toUpperCase(); 
 				printbuf.assign("maskkontextfop" , newMaskkontext);
 			}else if (config.getPdmSystem() == UserEnumPdmSystems.KEYTECH) {
-				printbuf.assign("maskkontextfop" , UserEnumPdmSystems.KEYTECH.name().toUpperCase());
+				printbuf.assign("maskkontextfop" , UserEnumPdmSystems.KEYTECH.name().toString().toUpperCase());
 			}
 			
 		}else {
@@ -434,7 +435,8 @@ private boolean isRealPrinter(Printer printer) {
 			
 //			Vorbelegung für SQL-Server falls noch nicht gespeichert
 			if (head.getYsqldriver().isEmpty()) {
-				head.setYsqldriver("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+				head.setYsqldriver(this.SQL_DRIVER_DEFAULT);
+				config.setSqlDriver(this.SQL_DRIVER_DEFAULT);
 			}
 
 			head.setYpdmsystem(config.getPdmSystem());

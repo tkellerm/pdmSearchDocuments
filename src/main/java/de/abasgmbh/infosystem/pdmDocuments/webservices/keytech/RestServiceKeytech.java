@@ -152,16 +152,13 @@ public class RestServiceKeytech extends AbstractRestService {
 		
 		
 		String url =  String.format(GETFILE_URL, this.server,childLink.getChildLinkTo(), fileInfo.getFileid());
-		String targetPath = "rmtmp/pdmgetDocuments/" + TIMESTAMP + "/"; 
+	
 		String targetFileName=  Util.replaceUmlaute(fileInfo.getFilename().replaceAll(" ", "_"));
-		File targetPathFile = new File(targetPath);
-		if (!targetPathFile.exists()) {
-			targetPathFile.mkdirs();
-		}
+		
 		
 		try {
-			List<File> fileList = downloadFileFromRestservice(url, targetFileName , targetPath);
-			log.info("Ok - Download : "  + targetPath + targetFileName);
+			List<File> fileList = downloadFileFromRestservice(url, targetFileName , getTargetPath());
+			log.info("Ok - Download : "  + getTargetPath() + targetFileName);
 			return fileList;
 			
 		} catch (FileNotFoundException e) {

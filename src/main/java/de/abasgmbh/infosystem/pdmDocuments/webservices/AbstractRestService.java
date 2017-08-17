@@ -25,7 +25,8 @@ import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 public abstract class AbstractRestService implements DocumentsInterface {
 
 	protected final static Logger log = Logger.getLogger(AbstractRestService.class);
-
+	private static String  TIMESTAMP = Util.getTimestamp();
+	
 	protected String server;
 	protected String pdmProductID;
 	protected String pdmDocumentTyp;
@@ -124,5 +125,17 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		return fileList;
 
 	}
+	
+	protected String getTargetPath(){
+		String targetPath = "rmtmp/pdmgetDocuments/" + TIMESTAMP + "/"; 
+//		Sicherstellen das der TargetPath existiert
+		File targetPathFile = new File(targetPath);
+		if (!targetPathFile.exists()) {
+			targetPathFile.mkdirs();
+		}
+		return targetPath;
+	}
+	
+	
 
 }

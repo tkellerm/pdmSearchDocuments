@@ -188,6 +188,17 @@
               <cell gridX="6" gridY="3">
                <erpfield s3Name="0:ydatabase" />
               </cell>
+              <cell gridX="0" gridY="4" />
+              <cell gridX="1" gridY="4" />
+              <cell gridX="2" gridY="4" />
+              <cell gridX="3" gridY="4" />
+              <cell gridX="4" gridY="4" />
+              <cell gridX="5" gridY="4">
+               <label msgId="pdmdocuments_owpdm_fhead_ysqldriver" />
+              </cell>
+              <cell gridX="6" gridY="4">
+               <erpfield s3Name="0:ysqldriver" />
+              </cell>
              </layout.grid>
             </cell>
            </layout.grid>
