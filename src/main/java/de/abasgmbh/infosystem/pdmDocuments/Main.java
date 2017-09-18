@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import de.abas.ceks.jedp.protocol.EDPSessionAsync;
 import de.abas.eks.jfop.annotation.Stateful;
 import de.abas.eks.jfop.remote.FO;
 import de.abas.erp.api.gui.TextBox;
@@ -19,13 +18,10 @@ import de.abas.erp.axi.screen.ScreenControl;
 import de.abas.erp.axi2.EventHandlerRunner;
 import de.abas.erp.axi2.annotation.ButtonEventHandler;
 import de.abas.erp.axi2.annotation.EventHandler;
-import de.abas.erp.axi2.annotation.FieldEventHandler;
 import de.abas.erp.axi2.annotation.ScreenEventHandler;
 import de.abas.erp.axi2.event.ButtonEvent;
-import de.abas.erp.axi2.event.FieldEvent;
 import de.abas.erp.axi2.event.ScreenEvent;
 import de.abas.erp.axi2.type.ButtonEventType;
-import de.abas.erp.axi2.type.FieldEventType;
 import de.abas.erp.axi2.type.ScreenEventType;
 import de.abas.erp.common.type.Id;
 import de.abas.erp.common.type.enums.EnumPrinterType;
@@ -50,9 +46,6 @@ import de.abas.erp.db.selection.ExpertSelection;
 import de.abas.erp.db.selection.Selection;
 import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
-import de.abas.erp.print.core.jasper.JRRenderJob;
-import de.abas.erp.print.core.jasper.util.EDPSessionPool;
-import de.abas.erp.print.core.jasper.util.EDPSessionPoolFactory;
 import de.abas.jfop.base.buffer.BufferFactory;
 import de.abas.jfop.base.buffer.PrintBuffer;
 import de.abasgmbh.infosystem.pdmDocuments.config.Configuration;
@@ -64,7 +57,7 @@ import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 @EventHandler(head = PdmDocuments.class, row = PdmDocuments.Row.class)
 @RunFopWith(EventHandlerRunner.class)
 public class Main {
-	protected final static Logger log = Logger.getLogger("de.abasgmbh.infosystem.pdmDocuments");
+	protected final static Logger log = Logger.getLogger(Main.class);
 	protected final static String SQL_DRIVER_DEFAULT = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	
 
@@ -73,7 +66,6 @@ public class Main {
 	@ButtonEventHandler(field = "start", type = ButtonEventType.AFTER, table = false)
 	public void startAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head)
 			throws EventException {
-		
 		
 		getConfigInMask(head, ctx);
 //		SelectableObject beleg = head.getYbeleg();
