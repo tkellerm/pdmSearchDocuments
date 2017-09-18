@@ -2,6 +2,7 @@ package de.abasgmbh.infosystem.pdmDocuments.utils;
 
 import java.text.MessageFormat;
 import java.time.Instant;
+import java.util.Enumeration;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -30,6 +31,8 @@ public class Util {
 
 	public static String getMessage(String key, Object... params) {
 		final ResourceBundle rb = ResourceBundle.getBundle(MESSAGE_BASE, getLocale());
+		String rbname = rb.getBaseBundleName();
+		Enumeration<String> rbvalues = rb.getKeys();
 		return MessageFormat.format(rb.getString(key), params);
 	}
 

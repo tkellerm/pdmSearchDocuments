@@ -9,7 +9,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.StatusType;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
@@ -25,6 +27,7 @@ import de.abasgmbh.infosystem.pdmDocuments.utils.Util;
 public abstract class AbstractRestService implements DocumentsInterface {
 
 	protected final static Logger log = Logger.getLogger(AbstractRestService.class);
+	protected final static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(AbstractRestService.class); 
 	private static String  TIMESTAMP = Util.getTimestamp();
 	
 	protected String server;
@@ -73,21 +76,24 @@ public abstract class AbstractRestService implements DocumentsInterface {
 
 		Response response = target.request().get();
 		if (response.getStatus() == 200) {
-			log.info("ok - " + url);
+			log4j.info("ok - " + url);
 			
 			String value;
 			try {
 				value = response.readEntity(String.class);
-				log.debug("Response : " + value);
+				log4j.debug("Response : " + value);
 			} finally {
 				response.close();
 			}
 			return value;
 		} else {
-			log.error(url + " " + response.getStatus() + " " + response.getMetadata().toString());
+			if (response.getStatus() == 404) {
+				return "404";
+			}
+			log4j.error(url + " " + response.getStatus() + " " + response.getStatusInfo() +   " " + response.getMetadata().toString());
 			throw new PdmDocumentsException(
 					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + " " + response.getMetadata().toString()));
-		}
+		   }
 
 	}
 

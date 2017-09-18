@@ -66,6 +66,9 @@ public class RestServiceProcad extends AbstractRestService {
 		String url = String.format(BASE_URL + SEARCHPRODUCT_URL, this.server, this.tenant , this.config.getPartFieldName(),  abasIdNo);
 		
 		String jsonString = callRestservice(url);
+		if (jsonString.equals("404")) {
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.procad.error.ProductID.notfound", "abasidno"));
+		}
 		
 		 ObjectMapper mapper = new ObjectMapper();
 	        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
@@ -109,6 +112,8 @@ public class RestServiceProcad extends AbstractRestService {
 		
 	}
 
+	
+
 	@Override
 	public ArrayList<PdmDocument> getAllDocuments(String abasIdNo) throws PdmDocumentsException {
 		String pdmProductID = searchPdmProductID(abasIdNo);
@@ -125,51 +130,51 @@ private ArrayList<PdmDocument> getPdmDocumentsfromProcad(ArrayList<String> proca
 		String testString = BASE_URL + GETDOCUMENT_INFO;
 		String urlDocInfo = String.format(BASE_URL + GETDOCUMENT_INFO, this.server, this.tenant, proString);
 		String urlDocFile = String.format(BASE_URL + GETDOCUMENT_FILE, this.server, this.tenant, proString);
-		
-		
-		
+		log.info(Util.getMessage("pdmDocument.restservice.procad.searchDokid" , proString));
 		String jsonString = callRestservice(urlDocInfo);
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-		try {
-			response = mapper.readValue(jsonString, ProcadDocument.class);
-			
-			Values values = response.getValues();
-			Map<String, Object> valueMap = values.getAdditionalProperties();
-			String searchFileName = "/Document/orgName";
-			String filename = getStringFromMap(valueMap, searchFileName);
-			String searchDocType = "/Document/docType";
-			String docType = getStringFromMap(valueMap, searchDocType);
-			
-			
-			String targetFileName =  Util.replaceUmlaute(filename.replaceAll(" ", "_"));
-			
-			
-			PdmDocument pdmDocument;
-			List<File> fileList = downloadFileFromRestservice(urlDocFile, targetFileName , getTargetPath());
-			for (File file2 : fileList) {
-				pdmDocument = new PdmDocument(file2, docType);
-				
-				Set<String> keyset = valueMap.keySet();
-				for (String key : keyset) {
-					pdmDocument.addDocMetaData(key, valueMap.get(key));
-				}
-				pdmDocs.add(pdmDocument);
-			}
 		
-			
-		} catch (JsonParseException e) {
-			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
-					e);
-		} catch (JsonMappingException e) {
-			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
-					e);
-		} catch (IOException e) {
-			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
-					e);
+		if (!jsonString.equals("404")) {
+			ObjectMapper mapper = new ObjectMapper();
+			mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+			try {
+				response = mapper.readValue(jsonString, ProcadDocument.class);
+
+				Values values = response.getValues();
+				Map<String, Object> valueMap = values.getAdditionalProperties();
+				String searchFileName = "/Document/orgName";
+				String filename = getStringFromMap(valueMap, searchFileName);
+				String searchDocType = "/Document/docType";
+				String docType = getStringFromMap(valueMap, searchDocType);
+
+				String targetFileName = Util.replaceUmlaute(filename.replaceAll(" ", "_"));
+
+				PdmDocument pdmDocument;
+				List<File> fileList = downloadFileFromRestservice(urlDocFile, targetFileName, getTargetPath());
+				for (File file2 : fileList) {
+					pdmDocument = new PdmDocument(file2, docType);
+
+					Set<String> keyset = valueMap.keySet();
+					for (String key : keyset) {
+						pdmDocument.addDocMetaData(key, valueMap.get(key));
+					}
+					pdmDocs.add(pdmDocument);
+				}
+
+			} catch (JsonParseException e) {
+				throw new PdmDocumentsException(
+						Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+						e);
+			} catch (JsonMappingException e) {
+				throw new PdmDocumentsException(
+						Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+						e);
+			} catch (IOException e) {
+				throw new PdmDocumentsException(
+						Util.getMessage("pdmDocument.restservice.procad.error.jsonToObject", "ResponsePDMProductId"),
+						e);
+			} 
+		}else {
+			log4j.error(Util.getMessage("pdmDocument.restservice.procad.error.Dokument.notfound" ,  proString));
 		}
 	}
 	

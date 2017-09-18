@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
+import de.abas.ceks.jedp.protocol.EDPSessionAsync;
 import de.abas.eks.jfop.annotation.Stateful;
 import de.abas.eks.jfop.remote.FO;
 import de.abas.erp.api.gui.TextBox;
@@ -49,6 +50,9 @@ import de.abas.erp.db.selection.ExpertSelection;
 import de.abas.erp.db.selection.Selection;
 import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
+import de.abas.erp.print.core.jasper.JRRenderJob;
+import de.abas.erp.print.core.jasper.util.EDPSessionPool;
+import de.abas.erp.print.core.jasper.util.EDPSessionPoolFactory;
 import de.abas.jfop.base.buffer.BufferFactory;
 import de.abas.jfop.base.buffer.PrintBuffer;
 import de.abasgmbh.infosystem.pdmDocuments.config.Configuration;
@@ -248,7 +252,7 @@ private boolean isRealPrinter(Printer printer) {
 			if (printer != null) {
 				return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,bildschirmtyplist, printer);
 			}else {
-				if(checkDocumentString(pdmDocument, drucktyplist)
+				if(checkDocumentString(pdmDocument, bildschirmtyplist)
 				&& checkDocumenttyp(pdmDocument, head.getYdokart())){
 					return true;
 				}else return false;
@@ -350,18 +354,18 @@ private boolean isRealPrinter(Printer printer) {
 			Configuration config = Configuration.getInstance();
 			try {
 				config.setRestServer(head.getYserver(), head.getYuser() , head.getYpassword(), head.getYtenant());
-				config.setSqlConnection(head.getYserver(), head.getYsqlport(), head.getYdatabase() , head.getYsqluser(), head.getYsqlpassword(), head.getYsqldriver());
+				config.setSqlConnection(head.getYsqlserver(), head.getYsqlport(), head.getYdatabase() , head.getYsqluser(), head.getYsqlpassword(), head.getYsqldriver());
 		        config.setFiletypes(head.getYemailtypen(), head.getYdrucktypen(), head.getYbildschirmtypen());
 		        config.setPdmSystem(head.getYpdmsystem());
 		        config.setPartFieldName(head.getYfieldfornumber());
 		        config.setPartProFileIDFieldName(head.getYfieldforpartid());
 				ConfigurationHandler.saveConfigurationtoFile(config);
 			} catch (PdmDocumentsException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				log.error(e);
+				showErrorBox(ctx, Util.getMessage("main.saveconfiguration.error"));
+				
 			}
 		
-
 	}
 
 	@ButtonEventHandler(field = "ybuanzeigen", type = ButtonEventType.AFTER, table = true)
