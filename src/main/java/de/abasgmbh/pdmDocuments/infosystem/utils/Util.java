@@ -7,6 +7,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import de.abas.eks.jfop.remote.EKS;
+import de.abas.erp.api.gui.TextBox;
+import de.abas.erp.db.DbContext;
 
 
 
@@ -54,5 +56,8 @@ public class Util {
 	    return result;
 	}
 	
+	public static void showErrorBox(DbContext ctx, String message) {
+		new TextBox(ctx, Util.getMessage("main.exception.title"), message).show();
+	}
 	
 }

@@ -82,7 +82,7 @@ public class Main {
 			
 			try {
 				DocumentsInterface searchdokuments = documentSearchfactory.create(config);
-//				File tmpverz = new File("rmtmp");
+
 				FileWriter fileWriter;
 				File tempFile;
 				tempFile = gettempFile();
@@ -121,13 +121,13 @@ public class Main {
 					fileWriter.close();
 
 				} else {
-					showErrorBox(ctx, Util.getMessage("main.error.noConnection", head.getYserver()));
+					Util.showErrorBox(ctx, Util.getMessage("main.error.noConnection", head.getYserver()));
 				}
 			} catch (PdmDocumentsException | IOException e) {
-				showErrorBox(ctx, e.getMessage());
+				Util.showErrorBox(ctx, e.getMessage());
 			}
 		} else {
-			showErrorBox(ctx, Util.getMessage("main.error.noProduct"));
+			Util.showErrorBox(ctx, Util.getMessage("main.error.noProduct"));
 		}
 
 	}
@@ -362,7 +362,7 @@ private boolean isRealPrinter(Printer printer) {
 				ConfigurationHandler.saveConfigurationtoFile(config);
 			} catch (PdmDocumentsException e) {
 				log.error(e);
-				showErrorBox(ctx, Util.getMessage("main.saveconfiguration.error"));
+				Util.showErrorBox(ctx, Util.getMessage("main.saveconfiguration.error"));
 				
 			}
 		
@@ -415,10 +415,7 @@ private boolean isRealPrinter(Printer printer) {
 			}
 		}
 	}
-
-	private void showErrorBox(DbContext ctx, String message) {
-		new TextBox(ctx, Util.getMessage("main.exception.title"), message).show();
-	}
+	
 
 	private void getConfigInMask(PdmDocuments head, DbContext ctx) {
 
@@ -453,7 +450,7 @@ private boolean isRealPrinter(Printer printer) {
 			
 		} catch (PdmDocumentsException e) {
 			
-			showErrorBox(ctx, Util.getMessage("pdmDocument.error.loadKonfiguration") + "/n" + e.getMessage());
+			Util.showErrorBox(ctx, Util.getMessage("pdmDocument.error.loadKonfiguration") + "/n" + e.getMessage());
 		}
 		
 	}
