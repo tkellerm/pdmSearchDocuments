@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import de.abas.erp.db.schema.userenums.UserEnumPdmSystems;
-import de.abasgmbh.infosystem.pdmDocuments.DocumentSearchfactory;
-import de.abasgmbh.infosystem.pdmDocuments.DocumentsInterface;
-import de.abasgmbh.infosystem.pdmDocuments.PdmDocumentsException;
-import de.abasgmbh.infosystem.pdmDocuments.config.Configuration;
-import de.abasgmbh.infosystem.pdmDocuments.config.ConfigurationHandler;
-import de.abasgmbh.infosystem.pdmDocuments.data.PdmDocument;
+import de.abasgmbh.pdmDocuments.infosystem.DocumentSearchfactory;
+import de.abasgmbh.pdmDocuments.infosystem.DocumentsInterface;
+import de.abasgmbh.pdmDocuments.infosystem.PdmDocumentsException;
+import de.abasgmbh.pdmDocuments.infosystem.config.Configuration;
+import de.abasgmbh.pdmDocuments.infosystem.config.ConfigurationHandler;
+import de.abasgmbh.pdmDocuments.infosystem.data.PdmDocument;
 
 public class RestServiceKeytechTest {
 

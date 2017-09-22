@@ -7,7 +7,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import de.abasgmbh.infosystem.pdmDocuments.utils.DocumentsUtil;
+import de.abasgmbh.pdmDocuments.infosystem.utils.DocumentsUtil;
 
 public class DocumentsUtilsTest {
 

@@ -2,7 +2,7 @@ V#21
 K#n#PDMDOCUMENTS#Dokumente aus dem PDM-System holen#A#isrein/screen.OWPDM.PDMDOCUMENTS#25B.1##
 K#(0)#(0)###n#n#PdmDocuments#y
 K#n#(1)#
-K#java:de.abasgmbh.infosystem.pdmDocuments.Main@pdmDocumentsApp#####
+K#java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#####
 K#######
 K#owpdm#(127)##(116)#(98)###0#0#
 K#is/VERBOTEN##is/VERBOTEN###is/VERBOTEN###
@@ -65,7 +65,7 @@ Z#0#isisref##n####(0)######n#0#n#0##n##
 Z#0#isselect##n####(1)######n#0#n#0##n##
 Z#0#isauswahl##n####(1)######n#0#n#0##n##
 Z#0#isstufe##n####(1)######n#0#n#0##n##
-Z#0#isbstart##n####(1)##java:de.abasgmbh.infosystem.pdmDocuments.Main@pdmDocumentsApp####y#0#n#0##n##
+Z#0#isbstart##n####(1)##java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp####y#0#n#0##n##
 Z#0#isstartzeit##n####(0)######n#0#n#0##n##
 Z#1#isyartikel#P2:1#n#Artikel#A#A#(2)######y#1#y#0##y##
 Z#1#isystruktur#B#n#Dokumente aus der Struktur holen#A#A#(2)######y#1#y#0##y##
@@ -75,22 +75,22 @@ Z#1#isydwg#B#n#dwg Dateien#A#A#(2)######y#1#y#0##y##
 Z#1#isydxf#B#n#dxf Dateien#A#A#(2)######y#1#y#0##y##
 Z#1#isyalle#B#n#alle Dateitypen#A#A#(2)######y#1#y#0##y##
 Z#1#isydokart#GL30#n#Dokumentenart#A#A#(2)######y#1#y#0##y##
-Z#1#isypdmsystem#AZL99000004#n#PDM-SYSTEM#A#A#(2)#####java:de.abasgmbh.infosystem.pdmDocuments.Main@pdmDocumentsApp#y#1#y#0##y##
+Z#1#isypdmsystem#AZL99000004#n#PDM-SYSTEM#A#A#(2)#####java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#y#1#y#0##y##
 Z#1#isyserver#GL100#n#PDM -Server#A#A#(2)######y#1#y#0##y##
 Z#1#isyuser#GL30#n#Benutzer#A#A#(2)######y#1#y#0##y##
 Z#1#isypassword#GL30#n#Passwort#A#A#(2)######y#1#y#0##y##
-Z#1#isysaveconfig#BU3#n#Konfiguration speichern#A#A#(1)##java:de.abasgmbh.infosystem.pdmDocuments.Main@pdmDocumentsApp####y#1#y#0##y##
-Z#1#isyuebfile#TN#n#öbergabe fÅr Druck#A#A#(2)######y#1#y#0##y##
+Z#1#isysaveconfig#BU3#n#Konfiguration speichern#A#A#(1)##java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp####y#1#y#0##y##
+Z#1#isyuebfile#TN#n#ÔøΩbergabe fÔøΩr Druck#A#A#(2)######y#1#y#0##y##
 Z#1#isyanhangliste#GL#n#Anhangsliste#A#A#(2)######y#1#y#0##y##
 Z#1#isybeleg#VP11#n#Beleg#A#A#(2)######y#1#y#0##y##
-Z#1#isydrucktypen#GL50#n#Dateitypen fÅr den Druck auf Drucker#A#A#(2)######y#1#y#0##y##
-Z#1#isyemailtypen#GL50#n#Dateitypen fÅr den Emailversand#A#A#(2)######y#1#y#0##y##
+Z#1#isydrucktypen#GL50#n#Dateitypen fÔøΩr den Druck auf Drucker#A#A#(2)######y#1#y#0##y##
+Z#1#isyemailtypen#GL50#n#Dateitypen fÔøΩr den Emailversand#A#A#(2)######y#1#y#0##y##
 Z#1#isyauswpapersize#AZL99000002#n#Selektion Papierformat#A#A#(2)######y#1#y#0##y##
 Z#1#isydrucker#P91:1#n#Drucker#A#A#(2)######y#1#y#0##y##
-Z#1#isybildschirmtypen#GL50#n#Dateitypen fÅr Bildschirmanzeige#A#A#(2)######y#1#y#0##y##
+Z#1#isybildschirmtypen#GL50#n#Dateitypen fÔøΩr Bildschirmanzeige#A#A#(2)######y#1#y#0##y##
 Z#1#isytenant#GL30#n#Tenant (Datenbank Profile#A#A#(2)######y#1#y#0##y##
-Z#1#isyfieldfornumber#GL50#n#Feldname fÅr AbasNumber in ProFile#A#A#(2)######y#1#y#0##y##
-Z#1#isyfieldforpartid#GL50#n#Feldname fÅr PartID in ProFile#A#A#(2)######y#1#y#0##y##
+Z#1#isyfieldfornumber#GL50#n#Feldname fÔøΩr AbasNumber in ProFile#A#A#(2)######y#1#y#0##y##
+Z#1#isyfieldforpartid#GL50#n#Feldname fÔøΩr PartID in ProFile#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlserver#GL50#n#SQLServer IP / DNS-Name#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlport#I5#n#SQLServer Port#A#A#(2)######y#1#y#0##y##
 Z#1#isydatabase#GL50#n#SQLServer Datenbank#A#A#(2)######y#1#y#0##y##
@@ -124,7 +124,7 @@ Z#2#isypfad#GL250#y#Dateipfad#A#A#(0)######y#1#y#0##y##
 Z#2#isydateiname#GL100#y#Dateiname#A#A#(0)######y#1#y#0##y##
 Z#2#isydatend#GL5#y#Datei Typ#A#A#(0)######y#1#y#0##y##
 Z#2#isydoktyp#GL30#y#Dokument Typ#A#A#(0)######y#1#y#0##y##
-Z#2#isybuanzeigen#BU4#y#Dokumentanzeigen#A#A#(1)##java:de.abasgmbh.infosystem.pdmDocuments.Main@pdmDocumentsApp####y#1#y#0##y##
+Z#2#isybuanzeigen#BU4#y#Dokumentanzeigen#A#A#(1)##java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp####y#1#y#0##y##
 Z#2#isymeta1key#GL20#y#Meta 1#A#A#(0)######y#1#y#0##y##
 Z#2#isymeta1value#GL100#y#Meta 1#A#A#(0)######y#1#y#0##y##
 Z#2#isymeta2key#GL20#y#Meta 2#A#A#(0)######y#1#y#0##y##
