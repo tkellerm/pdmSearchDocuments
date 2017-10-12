@@ -80,23 +80,26 @@ Z#1#isyserver#GL100#n#PDM -Server#A#A#(2)######y#1#y#0##y##
 Z#1#isyuser#GL30#n#Benutzer#A#A#(2)######y#1#y#0##y##
 Z#1#isypassword#GL30#n#Passwort#A#A#(2)######y#1#y#0##y##
 Z#1#isysaveconfig#BU3#n#Konfiguration speichern#A#A#(1)##java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp####y#1#y#0##y##
-Z#1#isyuebfile#TN#n#�bergabe f�r Druck#A#A#(2)######y#1#y#0##y##
+Z#1#isyuebfile#TN#n#Übergabe für Druck#A#A#(2)######y#1#y#0##y##
 Z#1#isyanhangliste#GL#n#Anhangsliste#A#A#(2)######y#1#y#0##y##
 Z#1#isybeleg#VP11#n#Beleg#A#A#(2)######y#1#y#0##y##
-Z#1#isydrucktypen#GL50#n#Dateitypen f�r den Druck auf Drucker#A#A#(2)######y#1#y#0##y##
-Z#1#isyemailtypen#GL50#n#Dateitypen f�r den Emailversand#A#A#(2)######y#1#y#0##y##
+Z#1#isydrucktypen#GL50#n#Dateitypen für den Druck auf Drucker#A#A#(2)######y#1#y#0##y##
+Z#1#isyemailtypen#GL50#n#Dateitypen für den Emailversand#A#A#(2)######y#1#y#0##y##
 Z#1#isyauswpapersize#AZL99000002#n#Selektion Papierformat#A#A#(2)######y#1#y#0##y##
 Z#1#isydrucker#P91:1#n#Drucker#A#A#(2)######y#1#y#0##y##
-Z#1#isybildschirmtypen#GL50#n#Dateitypen f�r Bildschirmanzeige#A#A#(2)######y#1#y#0##y##
+Z#1#isybildschirmtypen#GL50#n#Dateitypen für Bildschirmanzeige#A#A#(2)######y#1#y#0##y##
 Z#1#isytenant#GL30#n#Tenant (Datenbank Profile#A#A#(2)######y#1#y#0##y##
-Z#1#isyfieldfornumber#GL50#n#Feldname f�r AbasNumber in ProFile#A#A#(2)######y#1#y#0##y##
-Z#1#isyfieldforpartid#GL50#n#Feldname f�r PartID in ProFile#A#A#(2)######y#1#y#0##y##
+Z#1#isyfieldfornumber#GL50#n#Feldname für AbasNumber in ProFile#A#A#(2)######y#1#y#0##y##
+Z#1#isyfieldforpartid#GL50#n#Feldname für PartID in ProFile#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlserver#GL50#n#SQLServer IP / DNS-Name#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlport#I5#n#SQLServer Port#A#A#(2)######y#1#y#0##y##
 Z#1#isydatabase#GL50#n#SQLServer Datenbank#A#A#(2)######y#1#y#0##y##
 Z#1#isysqluser#GL30#n#SQLServer User#A#A#(2)######y#1#y#0##y##
 Z#1#isysqlpassword#GL30#n#SQLServer Passwort#A#A#(2)######y#1#y#0##y##
 Z#1#isysqldriver#GL100#n#SQLServer Driver#A#A#(2)######y#1#y#0##y##
+Z#1#isyistdrucker#B#n#Drucker#A#A#(2)######y#1#y#0##y##
+Z#1#isyistemail#B#n#Email-Drucker#A#A#(2)######y#1#y#0##y##
+Z#1#isyistbildschirm#B#n#Bildschirm#A#A#(2)######y#1#y#0##y##
 Z#0#ittabnr##y####(0)######n#0#n#0##n##
 Z#0#itzid##y####(0)######n#0#n#0##n##
 Z#0#itzn##y####(0)######n#0#n#0##n##

@@ -2,7 +2,7 @@ plugins {
     id "groovy"
     id "maven-publish"
     id "com.palantir.git-version" version "0.5.3"
-	id "de.abas.esdk" version "0.6.8"
+	id "de.abas.esdk" version "0.7.0"
 	}
 
 repositories {
@@ -23,6 +23,8 @@ esdk {
 	    data = ["data.json"]
         keys = []
         enums = []
+        essentialsVersions = ["2016r2n03-2016r4n15", "2017r1n00-2017r4n17"]
+        
     }
 
     abas {

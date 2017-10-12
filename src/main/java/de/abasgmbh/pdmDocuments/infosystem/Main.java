@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 
 import de.abas.eks.jfop.annotation.Stateful;
 import de.abas.eks.jfop.remote.FO;
-import de.abas.erp.api.gui.TextBox;
+import de.abas.erp.api.session.GUIInformation;
 import de.abas.erp.axi.event.EventException;
 import de.abas.erp.axi.screen.ScreenControl;
 import de.abas.erp.axi2.EventHandlerRunner;
@@ -28,14 +28,17 @@ import de.abas.erp.common.type.Id;
 import de.abas.erp.common.type.enums.EnumPrinterType;
 import de.abas.erp.db.ContextManager;
 import de.abas.erp.db.DbContext;
+import de.abas.erp.db.EditorObject;
 import de.abas.erp.db.Query;
 import de.abas.erp.db.SelectableObject;
+import de.abas.erp.db.exception.CommandException;
 import de.abas.erp.db.infosystem.custom.owpdm.PdmDocuments;
 import de.abas.erp.db.infosystem.custom.owpdm.PdmDocuments.Row;
 import de.abas.erp.db.infosystem.standard.st.MultiLevelBOM;
 import de.abas.erp.db.schema.infrastructure.Printer;
 import de.abas.erp.db.schema.part.Product;
 import de.abas.erp.db.schema.part.SelectablePart;
+import de.abas.erp.db.schema.printparameter.PrintDialogEditor;
 import de.abas.erp.db.schema.purchasing.PurchaseOrder;
 import de.abas.erp.db.schema.purchasing.Purchasing;
 import de.abas.erp.db.schema.sales.Sales;
@@ -49,6 +52,7 @@ import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
 import de.abas.jfop.base.buffer.BufferFactory;
 import de.abas.jfop.base.buffer.PrintBuffer;
+import de.abas.jfop.base.buffer.UserTextBuffer;
 import de.abasgmbh.pdmDocuments.infosystem.config.Configuration;
 import de.abasgmbh.pdmDocuments.infosystem.config.ConfigurationHandler;
 import de.abasgmbh.pdmDocuments.infosystem.data.PdmDocument;
@@ -61,6 +65,8 @@ public class Main {
 	protected final static Logger log = Logger.getLogger(Main.class);
 	protected final static String SQL_DRIVER_DEFAULT = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	
+	
+	
 
 	private Configuration config = Configuration.getInstance();
 	
@@ -70,11 +76,23 @@ public class Main {
 		
 		getConfigInMask(head, ctx);
 		
-		log.info(Util.getMessage("pdmDocument.info.startvalues", head.getYartikel() , head.getYbeleg() , head.getYdrucker()));
+//		getAttachmentFileList(head);
+				
+		log.info(Util.getMessage("pdmDocument.info.startvalues", head.getYartikel() , head.getYbeleg() , head.getYdrucker() , head.getYanhangliste()));
+
+		if (head.getYdrucker() != null) {
+			head.setYistdrucker(isRealPrinter(head.getYdrucker()));
+			head.setYistemail(isEmailPrinter(head.getYdrucker()));
+		}else {
+			head.setYistdrucker(false);
+			head.setYistemail(false);
+		}
+		
+		if (!(head.getYistdrucker() && head.getYistemail())) {
+			head.setYistbildschirm(true);
+		}
 		
 		if (head.getYartikel() != null || head.getYbeleg() != null) {
-
-			
 			
 			head.table().clear();
 			loadProductsInTable(head, ctx);
@@ -85,7 +103,7 @@ public class Main {
 
 				FileWriter fileWriter;
 				File tempFile;
-				tempFile = gettempFile();
+				tempFile = gettempFile(head);
 
 				head.setYanhangliste(tempFile.getAbsolutePath());
 				fileWriter = new FileWriter(tempFile);
@@ -110,7 +128,8 @@ public class Main {
 									// In die Dateianhangliste eintragen
 									fileWriter.append(row.getYpfad() + System.getProperty("line.separator"));
 								} else {
-									copyFile(row);
+//									copyFile(row, head);
+//									wird im Multi-FOP Layout gelöst
 								}
 							}
 							
@@ -166,14 +185,15 @@ private boolean isRealPrinter(Printer printer) {
 	
 	
 
-	private File gettempFile() throws IOException {
+	private File gettempFile(PdmDocuments head) throws IOException {
 		File tmpverz = new File("rmtmp");
 		File tempFile;
-		PrintBuffer printBuffer = getPrintBuffer();
-		String emailAttachmentFile = printBuffer.getStringValue("attachmentFileList");
+		
+		String emailAttachmentFile = head.getYanhangliste();
+		
 		if (emailAttachmentFile.isEmpty()) {
 			tempFile = File.createTempFile("pdmDoc", ".TMP", tmpverz);
-			printBuffer.setValue("attachmentFileList", tempFile.toString());
+			
 			return tempFile;
 		} else {
 			tempFile = new File(emailAttachmentFile);
@@ -184,27 +204,102 @@ private boolean isRealPrinter(Printer printer) {
 		}
 
 	}
+	
+	
 
-	private void copyFile(Row row) throws PdmDocumentsException {
-		PrintBuffer printBuff = getPrintBuffer();
-		String actTempDir = printBuff.getStringValue("actTempDir");
-		if (!actTempDir.isEmpty()) {
-			String outputTempDir = actTempDir + "/output/";
-			File outputDir = new File(outputTempDir + row.getYdateiname());
-			File file = new File(row.getYpfad());
-			try {
-				Files.copy(file.toPath(), outputDir.toPath(), StandardCopyOption.REPLACE_EXISTING);
-			} catch (IOException e) {
-				throw new PdmDocumentsException("main.error.copyFile", e);
+//	private void copyFile(Row row, PdmDocuments head) throws PdmDocumentsException {
+//		
+//		String actTempDir = getActTempDir(head);
+//		if (!actTempDir.isEmpty()) {
+//			String outputTempDir = actTempDir + "/output/";
+//			File outputDir = new File(outputTempDir + row.getYdateiname());
+//			File file = new File(row.getYpfad());
+//			try {
+//				log.info(Util.getMessage("pdmdocuments.log.copyfile", file.toPath().toString() , outputDir.toPath().toString()));
+//				Files.copy(file.toPath(), outputDir.toPath(), StandardCopyOption.REPLACE_EXISTING);
+//			} catch (IOException e) {
+//				throw new PdmDocumentsException("main.error.copyFile", e);
+//			}
+//		}
+//
+//	}
+
+	private  String getAttachmentFileList(PdmDocuments head) {
+		BufferFactory buff = BufferFactory.newInstance(true);
+		UserTextBuffer utextBuff = buff.getUserTextBuffer();
+		utextBuff.defineVar("text" , "xttest");		
+		FO.formel("U|xttest = P|diadrucker^id");
+//		FO.formel("U|xttest = \"test\"");
+		String testString = utextBuff.getStringValue("xttest");
+		FO.eingabe("TESTFOP");
+		PrintDialogEditor printedit = null;
+		EditorObject test= null;
+		try {
+			test =  head.invokePrint();
+//			head.invokeButton("print");
+			if (test != null ) {
+				printedit = (PrintDialogEditor) test;
+				return printedit.getAttachmentFileList();
+			}
+			return "";
+		} catch (CommandException e1) {
+			log.error(e1);
+		} finally {
+			if (test != null) {
+				if (test.active()) {
+					test.abort();
+				} 
 			}
 		}
-
+		return null;
 	}
+	
+//	private  String getActTempDir(PdmDocuments head) {
+//		PrintDialogEditor test = null;
+//		try {
+//			test = (PrintDialogEditor) head.invokePrint();
+//			return test.getActTempDir();
+//		} catch (CommandException e1) {
+//			log.error(e1);
+//		} finally {
+//			if (test != null) {
+//				if (test.active()) {
+//					test.abort();
+//				} 
+//			}
+//		}
+//		return null;
+//	}
+	
+	private   Printer getactPrinter(PdmDocuments head, DbContext ctx) {
+		
+			PrintBuffer printBuffer = getPrintBuffer();
+			
+			Id printerId = printBuffer.getId("actPrinter");
+
+			if (printerId.isNullRef()) {
+				Printer printer = head.getYdrucker();
+				return printer;
+			}else {
+				String criteria = "id=" + printerId.toString();
+				Selection<Printer> selection = ExpertSelection.create(Printer.class, criteria);
+				Query<Printer> querySales = ctx.createQuery(selection);
+				List<Printer> printers = querySales.execute();
+					for (Printer printer2 : printers) {
+						return printer2;
+					} 
+			}
+			return null;
+
+			
+		
+	}
+	
+	
 
 	private PrintBuffer getPrintBuffer() {
-		BufferFactory bufferfactory = BufferFactory.newInstance(true);
-		PrintBuffer printBuff = bufferfactory.getPrintBuffer();
-		return printBuff;
+		BufferFactory bufferFact = BufferFactory.newInstance(true);
+		return bufferFact.getPrintBuffer();
 	}
 
 	private void insertDocuments(String product, DocumentsInterface searchdokuments, PdmDocuments head, DbContext ctx, Row row)
@@ -241,12 +336,12 @@ private boolean isRealPrinter(Printer printer) {
 		String[] emailtyplist = emailtypen.split(",");
 		String[] bildschirmtyplist = bildschirmtypen.split(",");
 		
-		PrintBuffer printBuff = getPrintBuffer();
+		
 
-		Id printerId = printBuff.getId("actPrinter");
+		Printer printer = getactPrinter(head, ctx);
 
-		if (printerId.isNullRef()) {
-			Printer printer = head.getYdrucker();
+		if (printer == null) {
+			printer = head.getYdrucker();
 			if (printer != null) {
 				return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,bildschirmtyplist, printer);
 			}else {
@@ -256,17 +351,8 @@ private boolean isRealPrinter(Printer printer) {
 				}else return false;
 			}
 		}else {
-			String criteria = "id=" + printerId.toString();
-			Selection<Printer> selection = ExpertSelection.create(Printer.class, criteria);
-			Query<Printer> querySales = ctx.createQuery(selection);
-			List<Printer> printers = querySales.execute();
-				for (Printer printer2 : printers) {
-					return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,bildschirmtyplist, printer2);
-				} 
+			return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,bildschirmtyplist, printer);		 
 		}
-
-		
-		return true;
 
 	}
 
@@ -372,7 +458,14 @@ private boolean isRealPrinter(Printer printer) {
 	public void ybuanzeigenAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head,
 			PdmDocuments.Row currentRow) throws EventException {
 
-		String zieldatvalue = "C:\\abas\\pdmDocuments\\" + currentRow.getYdateiname();
+		
+		
+		
+		 GUIInformation gui = new GUIInformation(ctx);
+		 File clientDir = gui.getClientTempDir();
+//				gP.getStringValue("cltempdir");
+		
+		String zieldatvalue = clientDir.getPath() + "\\" + currentRow.getYdateiname();
 		String valuecmd = " -PC -BIN " + currentRow.getYpfad() + " " + zieldatvalue;
 		FO.pc_copy(valuecmd);
 		FO.pc_open(zieldatvalue);
@@ -385,7 +478,7 @@ private boolean isRealPrinter(Printer printer) {
 	public void screenEnter(ScreenEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head)
 			throws EventException {
 		getConfigInMask(head, ctx);
-		showConfiguration(ctx);
+		showConfiguration(ctx);		
 	}
 
 	private void showConfiguration(DbContext ctx) {
@@ -932,7 +1025,6 @@ private boolean isRealPrinter(Printer printer) {
 	private void insertProductInRow(Product product, PdmDocuments head) {
 		Row row = head.table().appendRow();
 		row.setYtartikel(product);
-
 	}
 
 }

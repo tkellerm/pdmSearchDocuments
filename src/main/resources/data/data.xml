@@ -4,7 +4,7 @@
         <Record id="(1281,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1281,88,0)</Field>
-                <Field name="guid" abasType="GLA38">00ee1b5a-f57e-4d24-991a-bcee17a3e7ee</Field>
+                <Field name="guid" abasType="GLA38">02ebbf58-38d3-4fad-8397-2190de82a8b9</Field>
                 <Field name="such" abasType="SWK88">A2</Field>
                 <Field name="name" abasType="T46">DIN A2</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -15,7 +15,7 @@
         <Record id="(1280,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1280,88,0)</Field>
-                <Field name="guid" abasType="GLA38">485889ae-f9f5-422d-8854-5e9a5daafbf6</Field>
+                <Field name="guid" abasType="GLA38">30a15e7c-418e-44cb-94b3-74c5e9b3f3ae</Field>
                 <Field name="such" abasType="SWK88">A3</Field>
                 <Field name="name" abasType="T46">DIN A3</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -26,7 +26,7 @@
         <Record id="(154,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(154,88,0)</Field>
-                <Field name="guid" abasType="GLA38">2b93ed3e-5aa1-4475-b483-287b44acda32</Field>
+                <Field name="guid" abasType="GLA38">adb6103f-3f18-4308-be01-72aa609a264e</Field>
                 <Field name="such" abasType="SWK88">A5</Field>
                 <Field name="name" abasType="T46">DIN A5</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -37,7 +37,7 @@
         <Record id="(1283,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1283,88,0)</Field>
-                <Field name="guid" abasType="GLA38">bb8419f5-8104-4700-bd0d-aa9e92585bd6</Field>
+                <Field name="guid" abasType="GLA38">e547671f-e1dd-498a-b869-63cf50e50bc0</Field>
                 <Field name="such" abasType="SWK88">A0</Field>
                 <Field name="name" abasType="T46">DIN A0</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -48,7 +48,7 @@
         <Record id="(153,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(153,88,0)</Field>
-                <Field name="guid" abasType="GLA38">43cc592d-dcd7-4c2b-9eaa-04f2ed848093</Field>
+                <Field name="guid" abasType="GLA38">2bb044cc-5f41-4736-b9bd-3b581ce43549</Field>
                 <Field name="such" abasType="SWK88">A4</Field>
                 <Field name="name" abasType="T46">DIN A4</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -59,13 +59,105 @@
         <Record id="(1282,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1282,88,0)</Field>
-                <Field name="guid" abasType="GLA38">0f7410bd-decf-4c37-90a7-291baefd3cc4</Field>
+                <Field name="guid" abasType="GLA38">4ded6e1e-a874-4f02-aa44-f5058553d195</Field>
                 <Field name="such" abasType="SWK88">A1</Field>
                 <Field name="name" abasType="T46">DIN A1</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
                 <Field name="breite" abasType="RP4.1"> 594.0</Field>
                 <Field name="hoehe" abasType="RP4.1"> 841.0</Field>
             </Head>
+        </Record>
+        <Record id="(1286,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1286,88,0)</Field>
+                <Field name="guid" abasType="GLA38">485889ae-f9f5-422d-8854-5e9a5daafbf6</Field>
+                <Field name="such" abasType="SWK88">A3</Field>
+                <Field name="name" abasType="T46">DIN A3</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 297.0</Field>
+                <Field name="hoehe" abasType="RP4.1"> 420.0</Field>
+            </Head>
+        </Record>
+        <Record id="(1287,88,0)">
+            <Head>
+                <Field name="id" abasType="ID88">(1287,88,0)</Field>
+                <Field name="guid" abasType="GLA38">bb8419f5-8104-4700-bd0d-aa9e92585bd6</Field>
+                <Field name="such" abasType="SWK88">A0</Field>
+                <Field name="name" abasType="T46">DIN A0</Field>
+                <Field name="leinh" abasType="TAZ4">mm</Field>
+                <Field name="breite" abasType="RP4.1"> 841.0</Field>
+                <Field name="hoehe" abasType="RP4.1">1189.0</Field>
+            </Head>
+        </Record>
+    </RecordSet>
+    <RecordSet tableNumber="87:9" tableName="Datenexport:Aufrufparameter">
+        <Record id="(34162,87,0)">
+            <Head>
+                <Field name="id" abasType="ID87">(34162,87,0)</Field>
+                <Field name="guid" abasType="GLA38">a415079e-555f-4d7d-bf80-9b788091d9b2</Field>
+                <Field name="such" abasType="SWK87">PDMDOCUMENTSEK</Field>
+                <Field name="name" abasType="GL64">Dokumente aus dem PDM-System holen</Field>
+                <Field name="name2" abasType="GL64"></Field>
+                <Field name="icontxt" abasType="DV1">icon:infosystem</Field>
+                <Field name="dialogart" abasType="A238">Ändernd</Field>
+                <Field name="" abasType="-"></Field>
+                <Field name="nurkopf" abasType="B1">0</Field>
+                <Field name="kopierap" abasType="B1">0</Field>
+                <Field name="arb" abasType="GL20">owpdm</Field>
+                <Field name="" abasType="-"></Field>
+                <Field name="unsichtbar" abasType="B1">0</Field>
+                <Field name="zielobj" abasType="VID12">(716,65,0)</Field>
+                <Field name="zielobj" abasType="VID12">(716,65,0)</Field>
+                <Field name="zielobj" abasType="VID12">(716,65,0)</Field>
+                <Field name="zielobj" abasType="VID12">(716,65,0)</Field>
+                <Field name="aufrktxt" abasType="VID13">(201,12,0)</Field>
+                <Field name="aufrktxt" abasType="VID13">(201,12,0)</Field>
+                <Field name="aufrktxt" abasType="VID13">(201,12,0)</Field>
+                <Field name="aufrktxt" abasType="VID13">(201,12,0)</Field>
+                <Field name="zieltab" abasType="B1">0</Field>
+                <Field name="aufrtab" abasType="B1">0</Field>
+                <Field name="aufrbedtyp" abasType="A150"></Field>
+                <Field name="aufrbed" abasType="GL200"></Field>
+                <Field name="aufrzieltyp" abasType="A150"></Field>
+                <Field name="aufrziel" abasType="GL200"></Field>
+                <Field name="zielmodus" abasType="A120">hole</Field>
+            </Head>
+            <Row number="2">
+                <Field name="zid" abasType="IDZ87:9">(34162,87,0,2)</Field>
+                <Field name="zielaktion" abasType="A223">Kopffeld setzen</Field>
+                <Field name="zielvar" abasType="GL20">ydrucker</Field>
+                <Field name="zielzeile" abasType="GL15"></Field>
+                <Field name="aufrwtyp" abasType="A150">Druckparameter</Field>
+                <Field name="aufrwert" abasType="GL200">diadrucker^id</Field>
+                <Field name="aufrpflicht" abasType="B1">0</Field>
+            </Row>
+            <Row number="3">
+                <Field name="zid" abasType="IDZ87:9">(34162,87,0,3)</Field>
+                <Field name="zielaktion" abasType="A223">Kopffeld setzen</Field>
+                <Field name="zielvar" abasType="GL20">yanhangliste</Field>
+                <Field name="zielzeile" abasType="GL15"></Field>
+                <Field name="aufrwtyp" abasType="A150">Druckparameter</Field>
+                <Field name="aufrwert" abasType="GL200">anhangliste</Field>
+                <Field name="aufrpflicht" abasType="B1">0</Field>
+            </Row>
+            <Row number="4">
+                <Field name="zid" abasType="IDZ87:9">(34162,87,0,4)</Field>
+                <Field name="zielaktion" abasType="A223">Kopffeld setzen</Field>
+                <Field name="zielvar" abasType="GL20">bstart</Field>
+                <Field name="zielzeile" abasType="GL15"></Field>
+                <Field name="aufrwtyp" abasType="A150">Konstante</Field>
+                <Field name="aufrwert" abasType="GL200">1</Field>
+                <Field name="aufrpflicht" abasType="B1">0</Field>
+            </Row>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ87:9">(34162,87,0,1)</Field>
+                <Field name="zielaktion" abasType="A223">Kopffeld setzen</Field>
+                <Field name="zielvar" abasType="GL20">ybeleg</Field>
+                <Field name="zielzeile" abasType="GL15"></Field>
+                <Field name="aufrwtyp" abasType="A150">Kopffeld</Field>
+                <Field name="aufrwert" abasType="GL200">id</Field>
+                <Field name="aufrpflicht" abasType="B1">1</Field>
+            </Row>
         </Record>
     </RecordSet>
 </ABASData>
