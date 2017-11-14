@@ -4,7 +4,7 @@ build/
 /rmtmp/
 gradle.p*
 .settings/
-
+.classpath
 /exportEnums.log
 /gradle.debug.log
 /exportEnums_stacktrace.log

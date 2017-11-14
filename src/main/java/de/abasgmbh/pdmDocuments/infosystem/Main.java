@@ -515,14 +515,17 @@ public class Main {
 			head.setYpassword(config.getRestPassword());
 			head.setYtenant(config.getRestTenant());
 
-			head.setYsqlserver(config.getSqlServer());
-			head.setYsqlport(config.getSqlPort());
-			head.setYdatabase(config.getSqldatabase());
-			head.setYsqluser(config.getSqlUser());
-			head.setYsqlpassword(config.getSqlPassword());
-			head.setYsqldriver(config.getSqlDriver());
 
 			// Vorbelegung für SQL-Server falls noch nicht gespeichert
+			
+			head.setYsqlserver(checknull(config.getSqlServer()));
+			head.setYsqlport(checknull(config.getSqlPort()));
+			head.setYdatabase(checknull(config.getSqldatabase()));
+			head.setYsqluser(checknull(config.getSqlUser()));
+			head.setYsqlpassword(checknull(config.getSqlPassword()));
+			head.setYsqldriver(checknull(config.getSqlDriver()));
+			
+//			Vorbelegung für SQL-Server falls noch nicht gespeichert
 			if (head.getYsqldriver().isEmpty()) {
 				head.setYsqldriver(Main.SQL_DRIVER_DEFAULT);
 				config.setSqlDriver(Main.SQL_DRIVER_DEFAULT);
@@ -541,6 +544,25 @@ public class Main {
 			Util.showErrorBox(ctx, Util.getMessage("pdmDocument.error.loadKonfiguration") + "/n" + e.getMessage());
 		}
 
+	}
+
+	private int checknull(Integer value) {
+		if (value != null) {
+			return value;
+		}else {
+			return 0;
+		}
+		
+	}
+
+	private String checknull(String value) {
+
+		if (value != null) {
+			return value;
+		}else {
+			return "";
+		}
+		
 	}
 
 	private void loadProductsInTable(PdmDocuments head, DbContext ctx) {

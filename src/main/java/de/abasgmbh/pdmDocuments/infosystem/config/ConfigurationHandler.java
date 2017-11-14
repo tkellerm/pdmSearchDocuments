@@ -65,10 +65,11 @@ public class ConfigurationHandler {
 				String sqldriver = configProperties.getProperty(PDM_CONFIG_SQL_DRIVER);
 
 				Integer sqlPort = null;
-				if (!sqlPortString.isEmpty()) {
-					sqlPort = new Integer(sqlPortString);
+				if (sqlPortString != null) {
+					if (!sqlPortString.isEmpty()) {
+						sqlPort = new Integer(sqlPortString);
+					} 
 				}
-
 				String sqlUser = configProperties.getProperty(PDM_CONFIG_SQL_USER);
 				String sqlPassword = configProperties.getProperty(PDM_CONFIG_SQL_PASSWORD);
 
