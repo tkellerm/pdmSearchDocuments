@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ABASData>
+    <RecordSet tableNumber="12:31" tableName="Firma:Schlüsseltabelle">
+        <Record id="(1903,12,0)">
+            <Head>
+                <Field name="id" abasType="ID12">(1903,12,0)</Field>
+                <Field name="guid" abasType="GLA38">d6df12ba-6076-412c-8b7c-a3295d349139</Field>
+                <Field name="nummer" abasType="NK12">3011</Field>
+                <Field name="such" abasType="SWK12">V-04-02</Field>
+                <Field name="name" abasType="T64">Einkauf Kopf</Field>
+                <Field name="bname" abasType="GL50">Kopf</Field>
+                <Field name="bgrliste" abasType="GL85">4:2</Field>
+                <Field name="bart" abasType="A46">automatisch  (Kopf)</Field>
+                <Field name="baart" abasType="A222">beides</Field>
+                <Field name="bsel" abasType="B1">0</Field>
+            </Head>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ12:31">(1903,12,0,1)</Field>
+                <Field name="bvname" abasType="GL20">kopf</Field>
+            </Row>
+        </Record>
+        <Record id="(1920,12,0)">
+            <Head>
+                <Field name="id" abasType="ID12">(1920,12,0)</Field>
+                <Field name="guid" abasType="GLA38">4a0ad02a-6cf3-4dca-b382-6f1526dd6c31</Field>
+                <Field name="nummer" abasType="NK12">3012</Field>
+                <Field name="such" abasType="SWK12">V-03-02</Field>
+                <Field name="name" abasType="T64">Verkauf Kopf</Field>
+                <Field name="bname" abasType="GL50">Kopf</Field>
+                <Field name="bgrliste" abasType="GL85">3:2</Field>
+                <Field name="bart" abasType="A46">automatisch  (Kopf)</Field>
+                <Field name="baart" abasType="A222">beides</Field>
+                <Field name="bsel" abasType="B1">0</Field>
+            </Head>
+            <Row number="1">
+                <Field name="zid" abasType="IDZ12:31">(1920,12,0,1)</Field>
+                <Field name="bvname" abasType="GL20">kopf</Field>
+            </Row>
+        </Record>
+    </RecordSet>
+</ABASData>

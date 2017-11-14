@@ -4,9 +4,9 @@
 	<comment>Executes unit and integration tests.</comment>
 	<projects/>
 	<natures>
+		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 		<nature>com.jaspersoft.studio.babel.editor.rbeNature</nature>
-		<nature>org.eclipse.jdt.groovy.core.groovyNature</nature>
 	</natures>
 	<buildSpec>
 		<buildCommand>

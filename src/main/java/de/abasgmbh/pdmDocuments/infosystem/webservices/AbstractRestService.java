@@ -8,10 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.StatusType;
 
 import org.jboss.logging.Logger;
 import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
@@ -27,9 +26,9 @@ import de.abasgmbh.pdmDocuments.infosystem.utils.Util;
 public abstract class AbstractRestService implements DocumentsInterface {
 
 	protected final static Logger log = Logger.getLogger(AbstractRestService.class);
-	protected final static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(AbstractRestService.class); 
-	private static String  TIMESTAMP = Util.getTimestamp();
-	
+	protected final static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(AbstractRestService.class);
+	private static String TIMESTAMP = Util.getTimestamp();
+
 	protected String server;
 	protected String pdmProductID;
 	protected String pdmDocumentTyp;
@@ -65,8 +64,6 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		this.pdmDocumentTyp = pdmDocumentTyp;
 
 	}
-	
-	
 
 	protected String callRestservice(String url) throws PdmDocumentsException {
 
@@ -77,7 +74,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		Response response = target.request().get();
 		if (response.getStatus() == 200) {
 			log4j.info("ok - " + url);
-			
+
 			String value;
 			try {
 				value = response.readEntity(String.class);
@@ -90,10 +87,11 @@ public abstract class AbstractRestService implements DocumentsInterface {
 			if (response.getStatus() == 404) {
 				return "404";
 			}
-			log4j.error(url + " " + response.getStatus() + " " + response.getStatusInfo() +   " " + response.getMetadata().toString());
-			throw new PdmDocumentsException(
-					Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest", response.getStatus() + " " + response.getMetadata().toString()));
-		   }
+			log4j.error(url + " " + response.getStatus() + " " + response.getStatusInfo() + " "
+					+ response.getMetadata().toString());
+			throw new PdmDocumentsException(Util.getMessage("pdmDocument.restservice.keytech.error.getfilehttprequest",
+					response.getStatus() + " " + response.getMetadata().toString()));
+		}
 
 	}
 
@@ -108,7 +106,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 
 		ResteasyClientBuilder resteasyClientBuilder = new ResteasyClientBuilder().providerFactory(factory);
 
-		client = resteasyClientBuilder.build();
+		client = resteasyClientBuilder.socketTimeout(2, TimeUnit.SECONDS).build();
 
 		ResteasyWebTarget target = client.target(url);
 		target.register(new BasicAuthentication(this.user, this.password));
@@ -119,7 +117,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		OutputStream out = new FileOutputStream(outputfile);
 
 		int read = 0;
-		byte[] bytes = new byte[2048];
+		byte[] bytes = new byte[1024];
 		while ((read = inputStream.read(bytes)) != -1) {
 			out.write(bytes, 0, read);
 		}
@@ -131,17 +129,15 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		return fileList;
 
 	}
-	
-	protected String getTargetPath(){
-		String targetPath = "rmtmp/pdmgetDocuments/" + TIMESTAMP + "/"; 
-//		Sicherstellen das der TargetPath existiert
+
+	protected String getTargetPath() {
+		String targetPath = "rmtmp/pdmgetDocuments/" + TIMESTAMP + "/";
+		// Sicherstellen das der TargetPath existiert
 		File targetPathFile = new File(targetPath);
 		if (!targetPathFile.exists()) {
 			targetPathFile.mkdirs();
 		}
 		return targetPath;
 	}
-	
-	
 
 }
