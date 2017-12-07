@@ -6,10 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.SocketTimeoutException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
+import javax.ws.rs.InternalServerErrorException;
 import javax.ws.rs.core.Response;
 
 import org.jboss.logging.Logger;
@@ -21,6 +24,7 @@ import org.jboss.resteasy.spi.ResteasyProviderFactory;
 
 import de.abasgmbh.pdmDocuments.infosystem.DocumentsInterface;
 import de.abasgmbh.pdmDocuments.infosystem.PdmDocumentsException;
+import de.abasgmbh.pdmDocuments.infosystem.data.PdmDocument;
 import de.abasgmbh.pdmDocuments.infosystem.utils.Util;
 
 public abstract class AbstractRestService implements DocumentsInterface {
@@ -96,7 +100,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 	}
 
 	protected List<File> downloadFileFromRestservice(String url, String fileName, String path)
-			throws IOException, FileNotFoundException, PdmDocumentsException {
+			throws IOException, FileNotFoundException, InternalServerErrorException {
 
 		List<File> fileList = new ArrayList<File>();
 
@@ -127,6 +131,52 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		fileList.add(outputfile);
 
 		return fileList;
+
+	}
+
+	protected void getFilesforPDMDocs(ArrayList<PdmDocument> pdmDocs) {
+
+		for (PdmDocument pdmDocument2 : pdmDocs) {
+
+			String targetFileName = Util.replaceUmlaute(pdmDocument2.getFilename().replaceAll(" ", "_"));
+			try {
+				// TODO Artikel 3171243 HTTP500 Fehler
+				List<File> fileList = downloadFileFromRestservice(pdmDocument2.getUrlDocFile(), targetFileName,
+						getTargetPath());
+				if (fileList.size() >= 1) {
+					File file = fileList.get(0);
+					pdmDocument2.addFile(file);
+				}
+			} catch (SocketTimeoutException e) {
+				log.error(Util.getMessage("pdmDocument.restservice.procad.error.FileTimeOut",
+						pdmDocument2.getUrlDocFile()));
+				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.FileTimeOut",
+						pdmDocument2.getUrlDocFile()));
+			} catch (FileNotFoundException e) {
+				log.error(Util.getMessage("pdmDocument.restservice.procad.error.FilenotFound",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.FilenotFound",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+			} catch (IOException e) {
+				log.error(Util.getMessage("pdmDocument.restservice.procad.error.FilenotFound",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.FilenotFound",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+			} catch (InternalServerErrorException e) {
+				log.error(Util.getMessage("pdmDocument.restservice.procad.error.InternalServerError",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+
+				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.InternalServerError",
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
+			}
+
+		}
+	}
+
+	protected ArrayList<PdmDocument> filterPdmDocs(ArrayList<PdmDocument> pdmDocumentList, String[] fileTypList) {
+		ArrayList<PdmDocument> newList = (ArrayList<PdmDocument>) pdmDocumentList.stream()
+				.filter(pdmDocument -> pdmDocument.checkFileListTyp(fileTypList)).collect(Collectors.toList());
+		return newList;
 
 	}
 

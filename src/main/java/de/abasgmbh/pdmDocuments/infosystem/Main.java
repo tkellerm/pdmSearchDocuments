@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -75,6 +74,7 @@ import de.abasgmbh.pdmDocuments.infosystem.utils.Util;
 public class Main {
 	protected final static Logger log = Logger.getLogger(Main.class);
 	protected final static String SQL_DRIVER_DEFAULT = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+	protected final static Integer MAX_TREELEVEL = 999;
 
 	private Configuration config = Configuration.getInstance();
 
@@ -305,133 +305,169 @@ public class Main {
 	private void insertDocuments(String product, DocumentsInterface searchdokuments, PdmDocuments head, DbContext ctx,
 			Row row) throws PdmDocumentsException, IOException {
 
-		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product);
+		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product, getFileTypList());
 		int rowIndex = row.getRowNo();
 		for (PdmDocument pdmDocument : pdmDocuments) {
 
-			if (checkdocuments(head, pdmDocument, ctx)) {
-				rowIndex = rowIndex + 1;
-				Row rowNew;
-				if (rowIndex <= head.table().getRowCount()) {
-					rowNew = head.table().insertRow(rowIndex);
-				} else {
-					rowNew = head.table().appendRow();
-				}
-				rowNew.setYdateiname(pdmDocument.getFilename());
-				rowNew.setYdatend(pdmDocument.getFiletyp());
+			// if (checkdocuments(head, pdmDocument, ctx)) {
+			// rowIndex = rowIndex + 1;
+			// Row rowNew;
+			// if (rowIndex <= head.table().getRowCount()) {
+			// rowNew = head.table().insertRow(rowIndex);
+			// } else {
+			// rowNew = head.table().appendRow();
+			// }
+			// rowNew.setYdateiname(pdmDocument.getFilename());
+			// rowNew.setYdatend(pdmDocument.getFiletyp());
+			// rowNew.setYpfad(pdmDocument.getFile().getCanonicalPath().toString());
+			// rowNew.setYdoktyp(pdmDocument.getDocumenttyp());
+			// if (pdmDocument.hasError()) {
+			// rowNew.setYmeta1key("Fehler");
+			// rowNew.setYmeta1value(pdmDocument.getError());
+			// }
+			// }
+
+			rowIndex = rowIndex + 1;
+			Row rowNew;
+			if (rowIndex <= head.table().getRowCount()) {
+				rowNew = head.table().insertRow(rowIndex);
+			} else {
+				rowNew = head.table().appendRow();
+			}
+			rowNew.setYdateiname(pdmDocument.getFilename());
+			rowNew.setYdatend(pdmDocument.getFiletyp());
+			if (pdmDocument.hasFile()) {
 				rowNew.setYpfad(pdmDocument.getFile().getCanonicalPath().toString());
-				rowNew.setYdoktyp(pdmDocument.getDocumenttyp());
-
+			}
+			rowNew.setYdoktyp(pdmDocument.getDocumenttyp());
+			if (pdmDocument.hasError()) {
+				rowNew.setYmeta1key("Fehler");
+				rowNew.setYmeta1value(pdmDocument.getError());
 			}
 		}
 	}
 
-	private boolean checkdocuments(PdmDocuments head, PdmDocument pdmDocument, DbContext ctx) {
-
-		String drucktypen = head.getYdrucktypen();
-		String emailtypen = head.getYemailtypen();
-		String bildschirmtypen = head.getYbildschirmtypen();
-
-		String[] drucktyplist = drucktypen.split(",");
-		String[] emailtyplist = emailtypen.split(",");
-		String[] bildschirmtyplist = bildschirmtypen.split(",");
-
-		Printer printer = getactPrinter(head, ctx);
-
-		if (printer == null) {
-			printer = head.getYdrucker();
-			if (printer != null) {
-				return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist, bildschirmtyplist, printer);
-			} else {
-				if (checkDocumentString(pdmDocument, bildschirmtyplist)
-						&& checkDocumenttyp(pdmDocument, head.getYdokart())) {
-					return true;
-				} else
-					return false;
-			}
-		} else {
-			return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist, bildschirmtyplist, printer);
-		}
-
+	private String[] getFileTypList() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
-	private Boolean checkPrinter(PdmDocuments head, PdmDocument pdmDocument, String[] drucktyplist,
-			String[] emailtyplist, String[] bildschirmtyplist, Printer printer2) {
-		// EnumPrinterType printertyp = printer2.getPrinterType();
+	// private boolean checkdocuments(PdmDocuments head, PdmDocument
+	// pdmDocument, DbContext ctx) {
+	//
+	// String drucktypen = head.getYdrucktypen();
+	// String emailtypen = head.getYemailtypen();
+	// String bildschirmtypen = head.getYbildschirmtypen();
+	//
+	// String[] drucktyplist = drucktypen.split(",");
+	// String[] emailtyplist = emailtypen.split(",");
+	// String[] bildschirmtyplist = bildschirmtypen.split(",");
+	//
+	// Printer printer = getactPrinter(head, ctx);
+	//
+	// if (printer == null) {
+	// printer = head.getYdrucker();
+	// if (printer != null) {
+	// return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,
+	// bildschirmtyplist, printer);
+	// } else {
+	// if (checkDocumentString(pdmDocument, bildschirmtyplist)
+	// && checkDocumenttyp(pdmDocument, head.getYdokart())) {
+	// return true;
+	// } else
+	// return false;
+	// }
+	// } else {
+	// return checkPrinter(head, pdmDocument, drucktyplist, emailtyplist,
+	// bildschirmtyplist, printer);
+	// }
+	//
+	// }
 
-		if (isRealPrinter(printer2)) {
+	// private Boolean checkPrinter(PdmDocuments head, PdmDocument pdmDocument,
+	// String[] drucktyplist,
+	// String[] emailtyplist, String[] bildschirmtyplist, Printer printer2) {
+	// // EnumPrinterType printertyp = printer2.getPrinterType();
+	//
+	// if (isRealPrinter(printer2)) {
+	//
+	// if (checkDocumentString(pdmDocument, drucktyplist) &&
+	// checkDocumenttyp(pdmDocument, head.getYdokart())) {
+	//
+	// return true;
+	// } else {
+	// return false;
+	// }
+	//
+	// } else if (isEmailPrinter(printer2)) {
+	//
+	// if (checkDocumentString(pdmDocument, emailtyplist) &&
+	// checkDocumenttyp(pdmDocument, head.getYdokart())) {
+	//
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// } else {
+	// if (checkDocumentString(pdmDocument, bildschirmtyplist)
+	// && checkDocumenttyp(pdmDocument, head.getYdokart())) {
+	//
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// }
+	//
+	// }
 
-			if (checkDocumentString(pdmDocument, drucktyplist) && checkDocumenttyp(pdmDocument, head.getYdokart())) {
+	// private boolean checkDocumenttyp(PdmDocument pdmDocument, String
+	// documentart) {
+	//
+	// if (!documentart.isEmpty()) {
+	// if (pdmDocument.getDocumenttyp().equals(documentart)) {
+	// return true;
+	// } else {
+	// return false;
+	// }
+	// } else {
+	// return true;
+	// }
+	//
+	// }
 
-				return true;
-			} else {
-				return false;
-			}
-
-		} else if (isEmailPrinter(printer2)) {
-
-			if (checkDocumentString(pdmDocument, emailtyplist) && checkDocumenttyp(pdmDocument, head.getYdokart())) {
-
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			if (checkDocumentString(pdmDocument, bildschirmtyplist)
-					&& checkDocumenttyp(pdmDocument, head.getYdokart())) {
-
-				return true;
-			} else {
-				return false;
-			}
-		}
-
-	}
-
-	private boolean checkDocumenttyp(PdmDocument pdmDocument, String documentart) {
-
-		if (!documentart.isEmpty()) {
-			if (pdmDocument.getDocumenttyp().equals(documentart)) {
-				return true;
-			} else {
-				return false;
-			}
-		} else {
-			return true;
-		}
-
-	}
-
-	private boolean checkDocumentString(PdmDocument pdmDocument, String[] typlist) {
-
-		String filetyp = pdmDocument.getFiletyp();
-		Boolean allempty = true;
-		// boolean test = typlist.toString().isEmpty();
-		// int anz = typlist.length;
-
-		if (!typlist.toString().isEmpty()) {
-			for (String typ : typlist) {
-				if (!typ.isEmpty()) {
-					if (typ.trim().toUpperCase().equals(filetyp.toUpperCase())) {
-						log.trace(Util.getMessage("pdmDocument.checkdocument.includePdmDoc", pdmDocument.getFilename(),
-								Arrays.toString(typlist)));
-						return true;
-					}
-					allempty = false;
-				}
-			}
-		}
-
-		if (allempty) {
-			log.trace(Util.getMessage("pdmDocument.checkdocument.includePdmDoc.emptyTypliste",
-					pdmDocument.getFilename()));
-			return true;
-		} else {
-			log.trace(Util.getMessage("pdmDocument.checkdocument.excludePdmDoc", pdmDocument.getFilename(),
-					Arrays.toString(typlist)));
-			return false;
-		}
-	}
+	// private boolean checkDocumentString(PdmDocument pdmDocument, String[]
+	// typlist) {
+	//
+	// String filetyp = pdmDocument.getFiletyp();
+	// Boolean allempty = true;
+	// // boolean test = typlist.toString().isEmpty();
+	// // int anz = typlist.length;
+	//
+	// if (!typlist.toString().isEmpty()) {
+	// for (String typ : typlist) {
+	// if (!typ.isEmpty()) {
+	// if (typ.trim().toUpperCase().equals(filetyp.toUpperCase())) {
+	// log.trace(Util.getMessage("pdmDocument.checkdocument.includePdmDoc",
+	// pdmDocument.getFilename(),
+	// Arrays.toString(typlist)));
+	// return true;
+	// }
+	// allempty = false;
+	// }
+	// }
+	// }
+	//
+	// if (allempty) {
+	// log.trace(Util.getMessage("pdmDocument.checkdocument.includePdmDoc.emptyTypliste",
+	// pdmDocument.getFilename()));
+	// return true;
+	// } else {
+	// log.trace(Util.getMessage("pdmDocument.checkdocument.excludePdmDoc",
+	// pdmDocument.getFilename(),
+	// Arrays.toString(typlist)));
+	// return false;
+	// }
+	// }
 
 	@ButtonEventHandler(field = "ysaveconfig", type = ButtonEventType.AFTER)
 	public void ysaveconfigAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head)
@@ -515,17 +551,16 @@ public class Main {
 			head.setYpassword(config.getRestPassword());
 			head.setYtenant(config.getRestTenant());
 
-
 			// Vorbelegung für SQL-Server falls noch nicht gespeichert
-			
+
 			head.setYsqlserver(checknull(config.getSqlServer()));
 			head.setYsqlport(checknull(config.getSqlPort()));
 			head.setYdatabase(checknull(config.getSqldatabase()));
 			head.setYsqluser(checknull(config.getSqlUser()));
 			head.setYsqlpassword(checknull(config.getSqlPassword()));
 			head.setYsqldriver(checknull(config.getSqlDriver()));
-			
-//			Vorbelegung für SQL-Server falls noch nicht gespeichert
+
+			// Vorbelegung für SQL-Server falls noch nicht gespeichert
 			if (head.getYsqldriver().isEmpty()) {
 				head.setYsqldriver(Main.SQL_DRIVER_DEFAULT);
 				config.setSqlDriver(Main.SQL_DRIVER_DEFAULT);
@@ -549,54 +584,40 @@ public class Main {
 	private int checknull(Integer value) {
 		if (value != null) {
 			return value;
-		}else {
+		} else {
 			return 0;
 		}
-		
+
 	}
 
 	private String checknull(String value) {
 
 		if (value != null) {
 			return value;
-		}else {
+		} else {
 			return "";
 		}
-		
+
 	}
 
 	private void loadProductsInTable(PdmDocuments head, DbContext ctx) {
 
-		if (head.getYstruktur()) {
+		if (head.getYbeleg() == null) {
 			insertProductInRow(head.getYartikel(), head);
-			ContextManager contextmanager = ContextHelper.buildContextManager();
-			DbContext dbcontext = contextmanager.getServerContext();
-			MultiLevelBOM mlb = dbcontext.openInfosystem(MultiLevelBOM.class);
-			mlb.setArtikel(head.getYartikel());
-			mlb.setCountLevels(head.getYstufe());
-			mlb.setBmitag(false);
-			mlb.setBmitfm(false);
-			mlb.invokeStart();
-			Iterable<de.abas.erp.db.infosystem.standard.st.MultiLevelBOM.Row> mlbRows = mlb.table().getRows();
-			for (de.abas.erp.db.infosystem.standard.st.MultiLevelBOM.Row row : mlbRows) {
-				int treeLevel = row.getTreeLevel();
-				SelectableObject selProduct = row.getElem();
-				if (selProduct instanceof Product) {
-					Product product = (Product) selProduct;
-					insertProductInRow(product, treeLevel, head);
-				}
-			}
-			mlb.close();
-
 		} else {
+			SelectableObject beleg = head.getYbeleg();
+			ArrayList<Product> listProduct = getProducts(beleg, ctx);
+			for (Product product : listProduct) {
+				insertProductInRow(product, head);
+			}
 
-			if (head.getYbeleg() == null) {
-				insertProductInRow(head.getYartikel(), head);
-			} else {
-				SelectableObject beleg = head.getYbeleg();
-				ArrayList<Product> listProduct = getProducts(beleg, ctx);
-				for (Product product : listProduct) {
-					insertProductInRow(product, head);
+		}
+
+		if (head.getYstruktur()) {
+			List<Row> tableRows = head.getTableRows();
+			for (Row row : tableRows) {
+				if (row.getYtstufe() == 1) {
+					insertProductStructureInRow(head, row);
 				}
 
 			}
@@ -843,10 +864,44 @@ public class Main {
 		return productsel;
 	}
 
-	private void insertProductInRow(Product product, int treeLevel, PdmDocuments head) {
-		Row row = head.table().appendRow();
-		row.setYtartikel(product);
-		row.setYtstufe(treeLevel + 1);
+	private void insertProductStructureInRow(PdmDocuments head, Row row) {
+		int aktrow = row.getRowNo() + 1;
+		int treelevel = row.getYtstufe();
+		Product product = row.getYtartikel();
+
+		ArrayList<ProductListitem> productListitemList = getbomproducts(product, MAX_TREELEVEL);
+
+		for (ProductListitem productListitem : productListitemList) {
+			Row insertRow = head.table().insertRow(aktrow);
+			insertRow.setYtartikel(productListitem.getProduct());
+			insertRow.setYtstufe(productListitem.getStufe() + treelevel);
+		}
+
+	}
+
+	private ArrayList<ProductListitem> getbomproducts(Product product, Integer maxStufe) {
+		ArrayList<ProductListitem> productList = new ArrayList<ProductListitem>();
+		ContextManager contextmanager = ContextHelper.buildContextManager();
+		DbContext dbcontext = contextmanager.getServerContext();
+		MultiLevelBOM mlb = dbcontext.openInfosystem(MultiLevelBOM.class);
+		mlb.setArtikel(product);
+		mlb.setCountLevels(maxStufe);
+		mlb.setBmitag(false);
+		mlb.setBmitfm(false);
+		mlb.invokeStart();
+		Iterable<de.abas.erp.db.infosystem.standard.st.MultiLevelBOM.Row> mlbRows = mlb.table().getRows();
+		for (de.abas.erp.db.infosystem.standard.st.MultiLevelBOM.Row row : mlbRows) {
+			int treeLevel = row.getTreeLevel();
+			SelectableObject selProduct = row.getElem();
+			if (selProduct instanceof Product) {
+				Product productInPosition = (Product) selProduct;
+				ProductListitem productListitem = new ProductListitem(productInPosition, treeLevel);
+				productList.add(productListitem);
+			}
+		}
+		mlb.close();
+		return productList;
+
 	}
 
 	private void insertProductInRow(Product product, PdmDocuments head) {

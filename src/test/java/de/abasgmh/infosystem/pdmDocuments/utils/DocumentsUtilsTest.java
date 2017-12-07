@@ -1,6 +1,8 @@
 package de.abasgmh.infosystem.pdmDocuments.utils;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,11 +24,25 @@ public class DocumentsUtilsTest {
 			testtiff = DocumentsUtil.getPageFormat(testfiletiff);
 		} catch (IOException e) {
 			fail(e.getMessage());
-			
+
 		}
 		assertTrue(!testpdf.isEmpty() && !testtiff.isEmpty());
-		
-		
+
+	}
+
+	@Test
+	public void testgetFileExtensionFromName() {
+		String input1 = "test.tif";
+		String input2 = "test";
+		String input3 = "test;tif";
+		String output1 = DocumentsUtil.getFileExtensionFromName(input1);
+		String output2 = DocumentsUtil.getFileExtensionFromName(input2);
+		String output3 = DocumentsUtil.getFileExtensionFromName(input3);
+
+		assertEquals("tif", output1);
+		assertEquals("", output2);
+		assertEquals("", output3);
+
 	}
 
 }

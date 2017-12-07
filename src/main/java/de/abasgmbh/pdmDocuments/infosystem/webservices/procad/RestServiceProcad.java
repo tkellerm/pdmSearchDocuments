@@ -1,12 +1,10 @@
 package de.abasgmbh.pdmDocuments.infosystem.webservices.procad;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.NoRouteToHostException;
-import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -36,19 +34,6 @@ public class RestServiceProcad extends AbstractRestService {
 	private String tenant;
 
 	private Configuration config;
-	//
-	// public RestServiceProcad(String server, String user, String password,
-	// String tenant, String sqlserver, Integer sqlport, String sqldatabase,
-	// String sqluser, String sqlpassword) {
-	//
-	// super();
-	// this.setServer(server);
-	// this.setUser(user);
-	// this.setPasword(password);
-	// this.tenant = tenant;
-	//
-	//
-	// }
 
 	public RestServiceProcad(Configuration config) {
 		super();
@@ -120,11 +105,13 @@ public class RestServiceProcad extends AbstractRestService {
 	}
 
 	@Override
-	public ArrayList<PdmDocument> getAllDocuments(String abasIdNo) throws PdmDocumentsException {
+	public ArrayList<PdmDocument> getAllDocuments(String abasIdNo, String[] fileTypList) throws PdmDocumentsException {
 		String pdmProductID = searchPdmProductID(abasIdNo);
 		ArrayList<String> procadDocuments = getDokumentsFromSQL(pdmProductID);
 		ArrayList<PdmDocument> pdmDocs = getPdmDocumentsfromProcad(procadDocuments);
-		return pdmDocs;
+		ArrayList<PdmDocument> filterpdmDocumentsList = filterPdmDocs(pdmDocs, fileTypList);
+		getFilesforPDMDocs(filterpdmDocumentsList);
+		return filterpdmDocumentsList;
 	}
 
 	private ArrayList<PdmDocument> getPdmDocumentsfromProcad(ArrayList<String> procadDocuments)
@@ -149,41 +136,23 @@ public class RestServiceProcad extends AbstractRestService {
 						Values values = response.getValues();
 						Map<String, Object> valueMap = values.getAdditionalProperties();
 						String searchFileName = "/Document/orgName";
-						String filename = getStringFromMap(valueMap, searchFileName);
+						String searchDocVersionBaseId = "/Document/docVersionBaseId";
+						String filename = getStringFromMap(valueMap, searchDocVersionBaseId) + "_"
+								+ getStringFromMap(valueMap, searchFileName);
+
 						String searchDocType = "/Document/docType";
 						String docType = getStringFromMap(valueMap, searchDocType);
 						String searchfileSize = "/Document/fileSize";
 						Integer fileSize = getIntegerFromMap(valueMap, searchfileSize);
+						PdmDocument pdmDocument = new PdmDocument(filename, docType, urlDocFile);
 
-						if (fileSize != null) {
-							if (fileSize > 0) {
-								String targetFileName = Util.replaceUmlaute(filename.replaceAll(" ", "_"));
-								PdmDocument pdmDocument;
-								try {
-									List<File> fileList = downloadFileFromRestservice(urlDocFile, targetFileName,
-											getTargetPath());
-									for (File file2 : fileList) {
-										pdmDocument = new PdmDocument(file2, docType);
-
-										Set<String> keyset = valueMap.keySet();
-										for (String key : keyset) {
-											pdmDocument.addDocMetaData(key, valueMap.get(key));
-										}
-										pdmDocs.add(pdmDocument);
-									}
-								} catch (SocketTimeoutException e) {
-									log.error(Util.getMessage("pdmDocument.restservice.procad.error.FileTimeOut",
-											urlDocFile));
-
-								}
-							} else {
-
-								log.error(Util.getMessage("pdmDocument.restservice.procad.error.FileToSmall"));
-							}
-
-						} else {
-							log.error(Util.getMessage("pdmDocument.restservice.procad.error.FileSizeNull"));
+						Set<String> keyset = valueMap.keySet();
+						for (String key : keyset) {
+							pdmDocument.addDocMetaData(key, valueMap.get(key));
 						}
+						pdmDocs.add(pdmDocument);
+
+						//
 					} else {
 						log.error(Util.getMessage("pdmDocument.restservice.procad.error.noFiletoDocID", proString));
 					}

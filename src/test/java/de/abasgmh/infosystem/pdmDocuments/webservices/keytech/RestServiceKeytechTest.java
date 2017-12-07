@@ -1,6 +1,7 @@
 package de.abasgmh.infosystem.pdmDocuments.webservices.keytech;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
 
@@ -11,23 +12,22 @@ import de.abasgmbh.pdmDocuments.infosystem.DocumentSearchfactory;
 import de.abasgmbh.pdmDocuments.infosystem.DocumentsInterface;
 import de.abasgmbh.pdmDocuments.infosystem.PdmDocumentsException;
 import de.abasgmbh.pdmDocuments.infosystem.config.Configuration;
-import de.abasgmbh.pdmDocuments.infosystem.config.ConfigurationHandler;
 import de.abasgmbh.pdmDocuments.infosystem.data.PdmDocument;
 
 public class RestServiceKeytechTest {
 
-//	@Test
-//	public void testRestServiceKeytech() {
-//		fail("Not yet implemented");
-//	}
+	// @Test
+	// public void testRestServiceKeytech() {
+	// fail("Not yet implemented");
+	// }
 
 	@Test
-	public void testSearchPdmProductID() { 
+	public void testSearchPdmProductID() {
 		Configuration config = Configuration.getInstance();
 		config.setPdmSystem(UserEnumPdmSystems.KEYTECH);
-		
+
 		DocumentSearchfactory factory = new DocumentSearchfactory();
-		
+
 		try {
 			config.setRestServer("demo.keytech.de", "jgrant", "", "");
 			DocumentsInterface restService = factory.create(config);
@@ -44,25 +44,26 @@ public class RestServiceKeytechTest {
 	public void testGetAllDocuments() {
 		DocumentSearchfactory factory = new DocumentSearchfactory();
 		DocumentsInterface restService;
+		String[] typFileList = new String().split(",");
 		try {
 			restService = factory.create(Configuration.getInstance());
-			ArrayList<PdmDocument> ergebnis = restService.getAllDocuments("ITM004730");
-			assertTrue(ergebnis!=null);
+			ArrayList<PdmDocument> ergebnis = restService.getAllDocuments("ITM004730", typFileList);
+			assertTrue(ergebnis != null);
 		} catch (PdmDocumentsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			fail(e.toString());
 		}
 	}
-//
-//	@Test
-//	public void testGetAllDocumentsUnderThisProduct() {
-//		fail("Not yet implemented");
-//	}
-//
-//	@Test
-//	public void testRequestRestservicePDMProductID() {
-//		fail("Not yet implemented");
-//	}
+	//
+	// @Test
+	// public void testGetAllDocumentsUnderThisProduct() {
+	// fail("Not yet implemented");
+	// }
+	//
+	// @Test
+	// public void testRequestRestservicePDMProductID() {
+	// fail("Not yet implemented");
+	// }
 
 }

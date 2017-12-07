@@ -4,7 +4,7 @@
         <Record id="(1903,12,0)">
             <Head>
                 <Field name="id" abasType="ID12">(1903,12,0)</Field>
-                <Field name="guid" abasType="GLA38">d6df12ba-6076-412c-8b7c-a3295d349139</Field>
+                <Field name="guid" abasType="GLA38">6c586687-e5ee-410d-9856-15559e2bcf00</Field>
                 <Field name="nummer" abasType="NK12">3011</Field>
                 <Field name="such" abasType="SWK12">V-04-02</Field>
                 <Field name="name" abasType="T64">Einkauf Kopf</Field>
@@ -22,7 +22,7 @@
         <Record id="(1920,12,0)">
             <Head>
                 <Field name="id" abasType="ID12">(1920,12,0)</Field>
-                <Field name="guid" abasType="GLA38">4a0ad02a-6cf3-4dca-b382-6f1526dd6c31</Field>
+                <Field name="guid" abasType="GLA38">e6be07ba-ca13-4e12-a0d9-d8f31fdd1249</Field>
                 <Field name="nummer" abasType="NK12">3012</Field>
                 <Field name="such" abasType="SWK12">V-03-02</Field>
                 <Field name="name" abasType="T64">Verkauf Kopf</Field>

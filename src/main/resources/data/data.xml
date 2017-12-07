@@ -4,7 +4,7 @@
         <Record id="(1281,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1281,88,0)</Field>
-                <Field name="guid" abasType="GLA38">02ebbf58-38d3-4fad-8397-2190de82a8b9</Field>
+                <Field name="guid" abasType="GLA38">cf04b122-14fb-4b62-9d3e-326057aa42af</Field>
                 <Field name="such" abasType="SWK88">A2</Field>
                 <Field name="name" abasType="T46">DIN A2</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -15,7 +15,7 @@
         <Record id="(1280,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1280,88,0)</Field>
-                <Field name="guid" abasType="GLA38">30a15e7c-418e-44cb-94b3-74c5e9b3f3ae</Field>
+                <Field name="guid" abasType="GLA38">d5084bba-e35d-4cf9-acd9-795385a764d2</Field>
                 <Field name="such" abasType="SWK88">A3</Field>
                 <Field name="name" abasType="T46">DIN A3</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -26,7 +26,7 @@
         <Record id="(154,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(154,88,0)</Field>
-                <Field name="guid" abasType="GLA38">adb6103f-3f18-4308-be01-72aa609a264e</Field>
+                <Field name="guid" abasType="GLA38">ad41dfbf-2c33-49fa-9fa3-c43bbf3397c2</Field>
                 <Field name="such" abasType="SWK88">A5</Field>
                 <Field name="name" abasType="T46">DIN A5</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -37,7 +37,7 @@
         <Record id="(1283,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1283,88,0)</Field>
-                <Field name="guid" abasType="GLA38">e547671f-e1dd-498a-b869-63cf50e50bc0</Field>
+                <Field name="guid" abasType="GLA38">a8876386-0d17-45b3-a949-02581b655f6f</Field>
                 <Field name="such" abasType="SWK88">A0</Field>
                 <Field name="name" abasType="T46">DIN A0</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -48,7 +48,7 @@
         <Record id="(153,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(153,88,0)</Field>
-                <Field name="guid" abasType="GLA38">2bb044cc-5f41-4736-b9bd-3b581ce43549</Field>
+                <Field name="guid" abasType="GLA38">8efa8b12-2029-49d5-a975-ade7cea5f96c</Field>
                 <Field name="such" abasType="SWK88">A4</Field>
                 <Field name="name" abasType="T46">DIN A4</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -59,7 +59,7 @@
         <Record id="(1282,88,0)">
             <Head>
                 <Field name="id" abasType="ID88">(1282,88,0)</Field>
-                <Field name="guid" abasType="GLA38">4ded6e1e-a874-4f02-aa44-f5058553d195</Field>
+                <Field name="guid" abasType="GLA38">319c48aa-ddaa-44cf-a19a-83a779138885</Field>
                 <Field name="such" abasType="SWK88">A1</Field>
                 <Field name="name" abasType="T46">DIN A1</Field>
                 <Field name="leinh" abasType="TAZ4">mm</Field>
@@ -90,11 +90,21 @@
             </Head>
         </Record>
     </RecordSet>
+    <RecordSet tableNumber="65:1" tableName="Infosystem:Infosystem">
+        <Record id="(716,65,0)">
+            <Head>
+                <Field name="id" abasType="ID65">(716,65,0)</Field>
+                <Field name="such" abasType="SWK65">PDMDOCUMENTS</Field>
+                <Field name="name" abasType="T46">Dokumente aus dem PDM-System holen</Field>
+                <Field name="guid" abasType="GLA38">614fcd8d-7919-46d8-b671-c6469cba6ee5</Field>
+            </Head>
+        </Record>
+    </RecordSet>
     <RecordSet tableNumber="87:9" tableName="Datenexport:Aufrufparameter">
         <Record id="(34162,87,0)">
             <Head>
                 <Field name="id" abasType="ID87">(34162,87,0)</Field>
-                <Field name="guid" abasType="GLA38">a415079e-555f-4d7d-bf80-9b788091d9b2</Field>
+                <Field name="guid" abasType="GLA38">43cda073-46a5-45d4-87b7-e4469ba592b1</Field>
                 <Field name="such" abasType="SWK87">PDMDOCUMENTSEK</Field>
                 <Field name="name" abasType="GL64">Dokumente aus dem PDM-System holen</Field>
                 <Field name="name2" abasType="GL64"></Field>
@@ -158,6 +168,16 @@
                 <Field name="aufrwert" abasType="GL200">id</Field>
                 <Field name="aufrpflicht" abasType="B1">1</Field>
             </Row>
+        </Record>
+    </RecordSet>
+    <RecordSet tableNumber="12:26" tableName="Firma:Vartab">
+        <Record id="(201,12,0)">
+            <Head>
+                <Field name="id" abasType="ID12">(201,12,0)</Field>
+                <Field name="such" abasType="SWK12">V-04-22</Field>
+                <Field name="name" abasType="T46">Variablentabelle: Bestellung</Field>
+                <Field name="guid" abasType="GLA38">611afec7-3dff-482a-be2a-2c188c42e981</Field>
+            </Head>
         </Record>
     </RecordSet>
 </ABASData>
