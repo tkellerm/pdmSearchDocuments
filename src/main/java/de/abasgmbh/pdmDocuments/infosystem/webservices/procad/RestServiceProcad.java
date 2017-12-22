@@ -269,6 +269,7 @@ public class RestServiceProcad extends AbstractRestService {
 		try {
 			URL url = new URL(testRestServiceUrl);
 			URLConnection con = url.openConnection();
+			con.setConnectTimeout(TEST_TIMEOUT);
 
 			is = con.getInputStream();
 			log.info("Server erreichbar");

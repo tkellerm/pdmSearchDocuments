@@ -2,7 +2,7 @@ plugins {
     id "groovy"
     id "maven-publish"
     id "com.palantir.git-version" version "0.5.3"
-	id "de.abas.esdk" version "0.7.3"
+	id "de.abas.esdk" version "0.7.4"
 	}
 
 repositories {
@@ -15,12 +15,14 @@ repositories {
 esdk {
     app {
         name="pdmDocumentsApp"
-        vendorId="abasGmbH"
+        vendorId="a1"
         appId="pdm01"
         entryPoints = []
         shared=true
+        screens=["Purchasing:PurchaseOrder":["A"]]
+        //screens=["Einkauf:Bestellung":["A"]]
         infosystems = ["IS.OWPDM.PDMDOCUMENTS"]
-        tables = []
+        tables = ["Einkauf"]
 	    data = ["data.json", "enum.json" ]
         keys = ["3011","3012"]
         enums = []
@@ -58,7 +60,10 @@ esdk {
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
 }
-
+configurations { compile.extendsFrom provided }
+configurations.findAll { it ->
+    it.exclude module: "abas-compliance"
+}
 compileJava {
     options.encoding = "UTF-8"
 }

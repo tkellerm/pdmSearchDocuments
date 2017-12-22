@@ -222,7 +222,7 @@ public class RestServiceKeytech extends AbstractRestService {
 		try {
 			URL url = new URL(this.server);
 			URLConnection con = url.openConnection();
-
+			con.setConnectTimeout(TEST_TIMEOUT);
 			is = con.getInputStream();
 			log.info("Server erreichbar");
 			return true;

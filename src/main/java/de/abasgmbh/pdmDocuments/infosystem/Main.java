@@ -1,10 +1,16 @@
 package de.abasgmbh.pdmDocuments.infosystem;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.Reader;
+import java.io.StringReader;
+import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.log4j.Logger;
 
@@ -16,29 +22,28 @@ import de.abas.erp.axi.screen.ScreenControl;
 import de.abas.erp.axi2.EventHandlerRunner;
 import de.abas.erp.axi2.annotation.ButtonEventHandler;
 import de.abas.erp.axi2.annotation.EventHandler;
+import de.abas.erp.axi2.annotation.FieldEventHandler;
 import de.abas.erp.axi2.annotation.ScreenEventHandler;
 import de.abas.erp.axi2.event.ButtonEvent;
+import de.abas.erp.axi2.event.FieldEvent;
 import de.abas.erp.axi2.event.ScreenEvent;
 import de.abas.erp.axi2.type.ButtonEventType;
+import de.abas.erp.axi2.type.FieldEventType;
 import de.abas.erp.axi2.type.ScreenEventType;
-import de.abas.erp.common.type.Id;
 import de.abas.erp.common.type.enums.EnumPrinterType;
 import de.abas.erp.db.ContextManager;
 import de.abas.erp.db.DbContext;
-import de.abas.erp.db.EditorObject;
 import de.abas.erp.db.Query;
 import de.abas.erp.db.SelectableObject;
 import de.abas.erp.db.SelectableRecord;
 import de.abas.erp.db.TableDescriptor;
 import de.abas.erp.db.TableDescriptor.FieldQuantum;
-import de.abas.erp.db.exception.CommandException;
 import de.abas.erp.db.infosystem.custom.owpdm.PdmDocuments;
 import de.abas.erp.db.infosystem.custom.owpdm.PdmDocuments.Row;
 import de.abas.erp.db.infosystem.standard.st.MultiLevelBOM;
 import de.abas.erp.db.schema.infrastructure.Printer;
 import de.abas.erp.db.schema.part.Product;
 import de.abas.erp.db.schema.part.SelectablePart;
-import de.abas.erp.db.schema.printparameter.PrintDialogEditor;
 import de.abas.erp.db.schema.purchasing.BlanketOrder;
 import de.abas.erp.db.schema.purchasing.Invoice;
 import de.abas.erp.db.schema.purchasing.PackingSlip;
@@ -62,7 +67,6 @@ import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
 import de.abas.jfop.base.buffer.BufferFactory;
 import de.abas.jfop.base.buffer.PrintBuffer;
-import de.abas.jfop.base.buffer.UserTextBuffer;
 import de.abasgmbh.pdmDocuments.infosystem.config.Configuration;
 import de.abasgmbh.pdmDocuments.infosystem.config.ConfigurationHandler;
 import de.abasgmbh.pdmDocuments.infosystem.data.PdmDocument;
@@ -75,6 +79,8 @@ public class Main {
 	protected final static Logger log = Logger.getLogger(Main.class);
 	protected final static String SQL_DRIVER_DEFAULT = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 	protected final static Integer MAX_TREELEVEL = 999;
+	// protected final static String SEPERATOR = ";";
+	protected final static String SEPERATOR = System.getProperty("line.separator");
 
 	private Configuration config = Configuration.getInstance();
 
@@ -83,8 +89,6 @@ public class Main {
 			throws EventException {
 
 		getConfigInMask(head, ctx);
-
-		// getAttachmentFileList(head);
 
 		log.info(Util.getMessage("pdmDocument.info.startvalues", head.getYartikel(), head.getYbeleg(),
 				head.getYdrucker(), head.getYanhangliste()));
@@ -112,7 +116,7 @@ public class Main {
 
 				FileWriter fileWriter;
 				File tempFile;
-				tempFile = gettempFile(head);
+				tempFile = gettempFileAnhangListe(head);
 
 				head.setYanhangliste(tempFile.getAbsolutePath());
 				fileWriter = new FileWriter(tempFile);
@@ -136,12 +140,8 @@ public class Main {
 								if (isEmailPrinter(printer)) {
 									// In die Dateianhangliste eintragen
 									fileWriter.append(row.getYpfad() + System.getProperty("line.separator"));
-								} else {
-									// copyFile(row, head);
-									// wird im Multi-FOP Layout gelöst
 								}
 							}
-
 						}
 
 					}
@@ -188,18 +188,25 @@ public class Main {
 
 	}
 
-	private File gettempFile(PdmDocuments head) throws IOException {
-		File tmpverz = new File("rmtmp");
-		File tempFile;
+	private File gettempFileAnhangListe(PdmDocuments head) throws IOException {
 
 		String emailAttachmentFile = head.getYanhangliste();
 
-		if (emailAttachmentFile.isEmpty()) {
-			tempFile = File.createTempFile("pdmDoc", ".TMP", tmpverz);
+		return getTempFile(emailAttachmentFile, "pdmDoc", ".TMP", "rmtmp");
+
+	}
+
+	private File getTempFile(String fileName, String praefix, String suffix, String tempVerz) throws IOException {
+
+		File tmpverz = new File(tempVerz);
+		File tempFile;
+
+		if (fileName.isEmpty()) {
+			tempFile = File.createTempFile(praefix, suffix, tmpverz);
 
 			return tempFile;
 		} else {
-			tempFile = new File(emailAttachmentFile);
+			tempFile = new File(fileName);
 			if (!tempFile.exists()) {
 				tempFile.createNewFile();
 			}
@@ -228,35 +235,35 @@ public class Main {
 	//
 	// }
 
-	private String getAttachmentFileList(PdmDocuments head) {
-		BufferFactory buff = BufferFactory.newInstance(true);
-		UserTextBuffer utextBuff = buff.getUserTextBuffer();
-		utextBuff.defineVar("text", "xttest");
-		FO.formel("U|xttest = P|diadrucker^id");
-		// FO.formel("U|xttest = \"test\"");
-		String testString = utextBuff.getStringValue("xttest");
-		FO.eingabe("TESTFOP");
-		PrintDialogEditor printedit = null;
-		EditorObject test = null;
-		try {
-			test = head.invokePrint();
-			// head.invokeButton("print");
-			if (test != null) {
-				printedit = (PrintDialogEditor) test;
-				return printedit.getAttachmentFileList();
-			}
-			return "";
-		} catch (CommandException e1) {
-			log.error(e1);
-		} finally {
-			if (test != null) {
-				if (test.active()) {
-					test.abort();
-				}
-			}
-		}
-		return null;
-	}
+	// PRIVATE STRING GETATTACHMENTFILELIST(PDMDOCUMENTS HEAD) {
+	// BUFFERFACTORY BUFF = BUFFERFACTORY.NEWINSTANCE(TRUE);
+	// USERTEXTBUFFER UTEXTBUFF = BUFF.GETUSERTEXTBUFFER();
+	// UTEXTBUFF.DEFINEVAR("TEXT", "XTTEST");
+	// FO.FORMEL("U|XTTEST = P|DIADRUCKER^ID");
+	// // FO.FORMEL("U|XTTEST = \"TEST\"");
+	// STRING TESTSTRING = UTEXTBUFF.GETSTRINGVALUE("XTTEST");
+	// FO.EINGABE("TESTFOP");
+	// PRINTDIALOGEDITOR PRINTEDIT = NULL;
+	// EDITOROBJECT TEST = NULL;
+	// TRY {
+	// TEST = HEAD.INVOKEPRINT();
+	// // HEAD.INVOKEBUTTON("PRINT");
+	// IF (TEST != NULL) {
+	// PRINTEDIT = (PRINTDIALOGEDITOR) TEST;
+	// RETURN PRINTEDIT.GETATTACHMENTFILELIST();
+	// }
+	// RETURN "";
+	// } CATCH (COMMANDEXCEPTION E1) {
+	// LOG.ERROR(E1);
+	// } FINALLY {
+	// IF (TEST != NULL) {
+	// IF (TEST.ACTIVE()) {
+	// TEST.ABORT();
+	// }
+	// }
+	// }
+	// RETURN NULL;
+	// }
 
 	// private String getActTempDir(PdmDocuments head) {
 	// PrintDialogEditor test = null;
@@ -275,57 +282,42 @@ public class Main {
 	// return null;
 	// }
 
-	private Printer getactPrinter(PdmDocuments head, DbContext ctx) {
+	// private Printer getactPrinter(PdmDocuments head, DbContext ctx) {
+	//
+	// PrintBuffer printBuffer = getPrintBuffer();
+	//
+	// Id printerId = printBuffer.getId("actPrinter");
+	//
+	// if (printerId.isNullRef()) {
+	// Printer printer = head.getYdrucker();
+	// return printer;
+	// } else {
+	// String criteria = "id=" + printerId.toString();
+	// Selection<Printer> selection = ExpertSelection.create(Printer.class,
+	// criteria);
+	// Query<Printer> querySales = ctx.createQuery(selection);
+	// List<Printer> printers = querySales.execute();
+	// for (Printer printer2 : printers) {
+	// return printer2;
+	// }
+	// }
+	// return null;
+	//
+	// }
 
-		PrintBuffer printBuffer = getPrintBuffer();
-
-		Id printerId = printBuffer.getId("actPrinter");
-
-		if (printerId.isNullRef()) {
-			Printer printer = head.getYdrucker();
-			return printer;
-		} else {
-			String criteria = "id=" + printerId.toString();
-			Selection<Printer> selection = ExpertSelection.create(Printer.class, criteria);
-			Query<Printer> querySales = ctx.createQuery(selection);
-			List<Printer> printers = querySales.execute();
-			for (Printer printer2 : printers) {
-				return printer2;
-			}
-		}
-		return null;
-
-	}
-
-	private PrintBuffer getPrintBuffer() {
-		BufferFactory bufferFact = BufferFactory.newInstance(true);
-		return bufferFact.getPrintBuffer();
-	}
+	// private PrintBuffer getPrintBuffer() {
+	// BufferFactory bufferFact = BufferFactory.newInstance(true);
+	// return bufferFact.getPrintBuffer();
+	// }
 
 	private void insertDocuments(String product, DocumentsInterface searchdokuments, PdmDocuments head, DbContext ctx,
 			Row row) throws PdmDocumentsException, IOException {
 
-		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product, getFileTypList());
-		int rowIndex = row.getRowNo();
-		for (PdmDocument pdmDocument : pdmDocuments) {
+		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product, getFileTypList(head));
 
-			// if (checkdocuments(head, pdmDocument, ctx)) {
-			// rowIndex = rowIndex + 1;
-			// Row rowNew;
-			// if (rowIndex <= head.table().getRowCount()) {
-			// rowNew = head.table().insertRow(rowIndex);
-			// } else {
-			// rowNew = head.table().appendRow();
-			// }
-			// rowNew.setYdateiname(pdmDocument.getFilename());
-			// rowNew.setYdatend(pdmDocument.getFiletyp());
-			// rowNew.setYpfad(pdmDocument.getFile().getCanonicalPath().toString());
-			// rowNew.setYdoktyp(pdmDocument.getDocumenttyp());
-			// if (pdmDocument.hasError()) {
-			// rowNew.setYmeta1key("Fehler");
-			// rowNew.setYmeta1value(pdmDocument.getError());
-			// }
-			// }
+		ArrayList<PdmDocument> filtertDocuments = checkFilename(pdmDocuments, head);
+		int rowIndex = row.getRowNo();
+		for (PdmDocument pdmDocument : filtertDocuments) {
 
 			rowIndex = rowIndex + 1;
 			Row rowNew;
@@ -341,15 +333,45 @@ public class Main {
 			}
 			rowNew.setYdoktyp(pdmDocument.getDocumenttyp());
 			if (pdmDocument.hasError()) {
-				rowNew.setYmeta1key("Fehler");
-				rowNew.setYmeta1value(pdmDocument.getError());
+				Reader reader = new StringReader(pdmDocument.getError());
+				rowNew.setYerror(reader);
+
 			}
 		}
 	}
 
-	private String[] getFileTypList() {
-		// TODO Auto-generated method stub
-		return null;
+	private ArrayList<PdmDocument> checkFilename(ArrayList<PdmDocument> pdmDocuments, PdmDocuments head) {
+		ArrayList<String> fileNameList;
+		ArrayList<PdmDocument> newList = null;
+		try {
+			fileNameList = getyuebDateiArray(head);
+			newList = (ArrayList<PdmDocument>) pdmDocuments.stream()
+					.filter(pdmDocument -> pdmDocument.checkFileNameList(fileNameList)).collect(Collectors.toList());
+		} catch (IOException e) {
+			log.error(e);
+		}
+
+		return newList;
+	}
+
+	private String[] getFileTypList(PdmDocuments head) {
+		String drucktypen = head.getYdrucktypen();
+		String emailtypen = head.getYemailtypen();
+		String bildschirmtypen = head.getYbildschirmtypen();
+
+		String[] drucktyplist = drucktypen.split(",");
+		String[] emailtyplist = emailtypen.split(",");
+		String[] bildschirmtyplist = bildschirmtypen.split(",");
+		Printer printer = head.getYdrucker();
+		if (printer != null) {
+			if (isEmailPrinter(printer)) {
+				return emailtyplist;
+			}
+			if (isRealPrinter(printer)) {
+				return drucktyplist;
+			}
+		}
+		return bildschirmtyplist;
 	}
 
 	// private boolean checkdocuments(PdmDocuments head, PdmDocument
@@ -504,6 +526,212 @@ public class Main {
 		FO.pc_copy(valuecmd);
 		FO.pc_open(zieldatvalue);
 
+	}
+
+	@FieldEventHandler(field = "yauswahl", type = FieldEventType.EXIT, table = true)
+	public void yauswahlExit(FieldEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head,
+			PdmDocuments.Row currentRow) throws EventException {
+		try {
+			if (currentRow.getYauswahl()) {
+				// addFilenameAtYuebfile(currentRow.getYdateiname(), head);
+				addFilenameAtYuebdatei(currentRow.getYdateiname(), head);
+				addPathAtAttachmentlist(currentRow.getYpfad(), head);
+			} else {
+				deleteFilenameAtYuebdatei(currentRow.getYdateiname(), head);
+				deletePathAtAttachmentlist(currentRow.getYpfad(), head);
+			}
+		} catch (PdmDocumentsException e) {
+
+			Util.showErrorBox(ctx, Util.getMessage("pdmDocument.error.yauswahl") + "/n" + e.getMessage());
+		}
+
+	}
+
+	private void deletePathAtAttachmentlist(String ypfad, PdmDocuments head) throws PdmDocumentsException {
+		try {
+			File tempFile = getTempFileYanhangliste(head);
+
+			deleteFilenametoFile(tempFile, ypfad);
+
+		} catch (IOException e) {
+			log.error(e);
+			throw new PdmDocumentsException(Util.getMessage("error.create.Tempfile", e.getMessage()));
+
+		}
+	}
+
+	private void addPathAtAttachmentlist(String ypfad, PdmDocuments head) throws PdmDocumentsException {
+		try {
+			File tempFile = getTempFileYanhangliste(head);
+
+			addFilenametoFile(tempFile, ypfad);
+
+		} catch (IOException e) {
+			log.error(e);
+			throw new PdmDocumentsException(Util.getMessage("error.create.Tempfile", e.getMessage()));
+		}
+
+	}
+
+	private void deleteFilenameAtYuebdatei(String ydateiname, PdmDocuments head) throws PdmDocumentsException {
+		try {
+			File tempFile = getTempFileYuebdatei(head);
+
+			deleteFilenametoFile(tempFile, ydateiname);
+
+		} catch (IOException e) {
+			log.error(e);
+			throw new PdmDocumentsException(Util.getMessage("error.create.Tempfile", e.getMessage()));
+
+		}
+
+	}
+
+	private void deleteFilenametoFile(File tempFile, String ydateiname) throws FileNotFoundException, IOException {
+		String filenameString = "";
+
+		ArrayList<String> fileListArray = Util.readStringListFromFile(tempFile);
+
+		if (fileListArray.contains(ydateiname)) {
+			fileListArray.remove(ydateiname);
+		}
+		//
+		// String filenameStringOut = convertStringArraytoString(fileListArray,
+		// SEPERATOR);
+		// Util.writeStringtoFile(tempFile, filenameStringOut);
+		Util.writeStringtoFile(tempFile, fileListArray);
+
+	}
+
+	private void addFilenameAtYuebdatei(String ydateiname, PdmDocuments head) throws PdmDocumentsException {
+		try {
+			File tempFile = getTempFileYuebdatei(head);
+
+			addFilenametoFile(tempFile, ydateiname);
+
+		} catch (IOException e) {
+			log.error(e);
+			throw new PdmDocumentsException(Util.getMessage("error.create.Tempfile", e.getMessage()));
+
+		}
+
+	}
+
+	private void addFilenametoFile(File tempFile, String ydateiname) throws IOException {
+		// String filenameString = "";
+
+		ArrayList<String> fileListArray = Util.readStringListFromFile(tempFile);
+
+		if (!fileListArray.contains(ydateiname)) {
+			fileListArray.add(ydateiname);
+		}
+
+		// String filenameStringOut = convertStringArraytoString(fileListArray,
+		// SEPERATOR);
+		// Util.writeStringtoFile(tempFile, filenameStringOut);
+		Util.writeStringtoFile(tempFile, fileListArray);
+	}
+
+	private File getTempFileYanhangliste(PdmDocuments head) throws IOException {
+		File tempFile = null;
+		String yanhangliste = head.getYanhangliste();
+
+		if (yanhangliste.isEmpty()) {
+			tempFile = getTempFile("", "pdmDocUeb", ".TMP", "rmtmp");
+			head.setYuebdatei(tempFile.getAbsolutePath());
+		} else {
+			tempFile = getTempFile(yanhangliste, "pdmDocUeb", ".TMP", "rmtmp");
+		}
+
+		return tempFile;
+	}
+
+	private File getTempFileYuebdatei(PdmDocuments head) throws IOException {
+		File tempFile = null;
+		String yuebdatei = head.getYuebdatei();
+
+		if (yuebdatei.isEmpty()) {
+			tempFile = getTempFile("", "pdmDocUeb", ".TMP", "rmtmp");
+			head.setYuebdatei(tempFile.getAbsolutePath());
+		} else {
+			tempFile = getTempFile(yuebdatei, "pdmDocUeb", ".TMP", "rmtmp");
+		}
+
+		return tempFile;
+	}
+	// private void deleteFilenamFromYuebfile(String ydateiname, PdmDocuments
+	// head) {
+	//
+	// Writer writer = new StringWriter();
+	// try {
+	// ArrayList<String> fileListArray = getyuebFileArray(head);
+	// fileListArray.remove(ydateiname);
+	//
+	// String output = convertStringArraytoString(fileListArray, separator);
+	// Reader reader = new StringReader(output);
+	// head.setYuebfile(reader);
+	// } catch (IOException e) {
+	// log.error(e);
+	// }
+	//
+	// }
+
+	private ArrayList<String> getyuebDateiArray(PdmDocuments head) throws IOException {
+		ArrayList<String> fileListArray = new ArrayList<String>();
+		if (!head.getYuebdatei().isEmpty()) {
+			File tempFile = new File(head.getYuebdatei());
+			// String stringfromFile = Util.readStringFromFile(tempFile);
+			// fileListArray = convertStringtoStringArray(stringfromFile,
+			// SEPERATOR);
+			fileListArray = Util.readStringListFromFile(tempFile);
+		}
+		return fileListArray;
+	}
+
+	// private void addFilenameAtYuebfile(String ydateiname, PdmDocuments head)
+	// {
+	// Writer writer = new StringWriter();
+	// try {
+	// Writer freetextWriter = head.getYuebfile(writer);
+	// String separator = ";";
+	// ArrayList<String> fileListArray =
+	// convertStringtoStringArray(freetextWriter, separator);
+	//
+	// fileListArray.add(ydateiname);
+	//
+	// String output = convertStringArraytoString(fileListArray, separator);
+	// Reader reader = new StringReader(output);
+	// head.setYuebfile(reader);
+	// } catch (IOException e) {
+	// log.error(e);
+	// }
+	//
+	// }
+
+	private ArrayList<String> convertStringtoStringArray(Writer freetextWriter, String separator) {
+		String[] fileList = freetextWriter.toString().split(separator);
+		ArrayList<String> fileListArray = new ArrayList<String>(Arrays.asList(fileList));
+		return fileListArray;
+	}
+
+	private ArrayList<String> convertStringtoStringArray(String string, String separator) {
+		String[] fileList = string.split(separator);
+		ArrayList<String> fileListArray = new ArrayList<String>(Arrays.asList(fileList));
+		return fileListArray;
+	}
+
+	private String convertStringArraytoString(ArrayList<String> fileListArray, String separator) {
+		String output = "";
+		for (String filename : fileListArray) {
+			if (!filename.isEmpty()) {
+				if (output.isEmpty()) {
+					output = filename;
+				} else {
+					output = output + separator + filename;
+				}
+			}
+		}
+		return output;
 	}
 
 	@ScreenEventHandler(type = ScreenEventType.ENTER)
@@ -868,15 +1096,17 @@ public class Main {
 		int aktrow = row.getRowNo() + 1;
 		int treelevel = row.getYtstufe();
 		Product product = row.getYtartikel();
+		if (treelevel == 0) {
+			treelevel = MAX_TREELEVEL;
+		}
 
-		ArrayList<ProductListitem> productListitemList = getbomproducts(product, MAX_TREELEVEL);
+		ArrayList<ProductListitem> productListitemList = getbomproducts(product, treelevel);
 
 		for (ProductListitem productListitem : productListitemList) {
 			Row insertRow = head.table().insertRow(aktrow);
 			insertRow.setYtartikel(productListitem.getProduct());
 			insertRow.setYtstufe(productListitem.getStufe() + treelevel);
 		}
-
 	}
 
 	private ArrayList<ProductListitem> getbomproducts(Product product, Integer maxStufe) {

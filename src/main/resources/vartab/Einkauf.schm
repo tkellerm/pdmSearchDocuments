@@ -1,0 +1,17 @@
+database Einkauf {
+	number 4
+	classname Purchasing
+	structure Einkauf {
+		groupNumber 1
+		head {
+			field GL anhanglist {
+				label ""
+				heading ""
+				description "Anhangliste zum Sammeln von Dokumenten"
+				screen EDITABLE
+				showPriority A
+				changePriority A
+			}
+		}
+	}
+}

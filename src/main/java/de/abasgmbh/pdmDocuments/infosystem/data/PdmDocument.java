@@ -3,6 +3,7 @@ package de.abasgmbh.pdmDocuments.infosystem.data;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
@@ -206,6 +207,36 @@ public class PdmDocument {
 		} else {
 			log.trace(Util.getMessage("pdmDocument.checkdocument.excludePdmDoc", this.getFilename(),
 					Arrays.toString(fileListTyp)));
+			return false;
+		}
+
+	}
+
+	public Boolean checkFileNameList(ArrayList<String> fileNameList) {
+
+		String pdmFileName = this.filename;
+		Boolean allempty = true;
+
+		if (fileNameList != null) {
+			if (fileNameList.size() > 0) {
+				for (String filename : fileNameList) {
+					if (!filename.isEmpty()) {
+						if (filename.trim().toUpperCase().equals(pdmFileName.toUpperCase())) {
+							log.trace(Util.getMessage("pdmDocument.checkdocument.includeFilenameList",
+									this.getFilename()));
+							return true;
+						}
+						allempty = false;
+					}
+				}
+			}
+		}
+		if (allempty) {
+			log.trace(Util.getMessage("pdmDocument.checkdocument.includeFilenameList.emptyList", this.getFilename()));
+			return true;
+			// return false;
+		} else {
+			log.trace(Util.getMessage("pdmDocument.checkdocument.excludeFilenameList", this.getFilename()));
 			return false;
 		}
 

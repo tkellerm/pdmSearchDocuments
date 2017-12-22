@@ -32,6 +32,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 	protected final static Logger log = Logger.getLogger(AbstractRestService.class);
 	protected final static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(AbstractRestService.class);
 	private static String TIMESTAMP = Util.getTimestamp();
+	protected static final int TEST_TIMEOUT = 2000;
 
 	protected String server;
 	protected String pdmProductID;
@@ -149,9 +150,9 @@ public abstract class AbstractRestService implements DocumentsInterface {
 				}
 			} catch (SocketTimeoutException e) {
 				log.error(Util.getMessage("pdmDocument.restservice.procad.error.FileTimeOut",
-						pdmDocument2.getUrlDocFile()));
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
 				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.FileTimeOut",
-						pdmDocument2.getUrlDocFile()));
+						pdmDocument2.getUrlDocFile(), e.getMessage()));
 			} catch (FileNotFoundException e) {
 				log.error(Util.getMessage("pdmDocument.restservice.procad.error.FilenotFound",
 						pdmDocument2.getUrlDocFile(), e.getMessage()));
@@ -168,6 +169,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 
 				pdmDocument2.addError(Util.getMessage("pdmDocument.restservice.procad.error.InternalServerError",
 						pdmDocument2.getUrlDocFile(), e.getMessage()));
+
 			}
 
 		}
