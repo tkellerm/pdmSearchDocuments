@@ -12,6 +12,16 @@ database Einkauf {
 				showPriority A
 				changePriority A
 			}
+			field BU3 skip budocsammel {
+				label ""
+				heading ""
+				description ""
+				screen VIEW_EDITABLE
+				showPriority A
+				changePriority A
+			}
 		}
 	}
+	
+	
 }

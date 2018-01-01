@@ -2,7 +2,7 @@ plugins {
     id "groovy"
     id "maven-publish"
     id "com.palantir.git-version" version "0.5.3"
-	id "de.abas.esdk" version "0.7.4"
+	id "de.abas.esdk" version "0.7.5"
 	}
 
 repositories {

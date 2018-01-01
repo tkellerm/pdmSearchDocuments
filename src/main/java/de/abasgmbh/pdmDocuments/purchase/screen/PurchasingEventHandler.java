@@ -1,7 +1,8 @@
 package de.abasgmbh.pdmDocuments.purchase.screen;
 
-import java.io.File;
 import java.io.IOException;
+
+import org.jboss.logging.Logger;
 
 import de.abas.erp.api.AppContext;
 import de.abas.erp.api.commands.CommandFactory;
@@ -13,7 +14,13 @@ import de.abas.erp.axi2.annotation.ButtonEventHandler;
 import de.abas.erp.axi2.annotation.EventHandler;
 import de.abas.erp.axi2.event.ButtonEvent;
 import de.abas.erp.axi2.type.ButtonEventType;
+import de.abas.erp.common.type.enums.EnumEditorAction;
 import de.abas.erp.db.DbContext;
+import de.abas.erp.db.EditorAction;
+import de.abas.erp.db.EditorCommand;
+import de.abas.erp.db.EditorCommandFactory;
+import de.abas.erp.db.EditorObject;
+import de.abas.erp.db.exception.CommandException;
 import de.abas.erp.db.infosystem.custom.owpdm.PdmDocuments;
 import de.abas.erp.db.schema.purchasing.PurchasingEditor;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
@@ -25,15 +32,21 @@ import de.abasgmbh.pdmDocuments.infosystem.utils.Util;
 
 public class PurchasingEventHandler {
 
+	protected final static Logger log = Logger.getLogger(PurchasingEventHandler.class);
+
 	@ButtonEventHandler(field = "ypdm01budocsammel", type = ButtonEventType.AFTER)
 	public void ypdm01budocsammelAfter(ButtonEvent event, ScreenControl screenControl, DbContext ctx,
 			PurchasingEditor head) throws EventException {
 		try {
-			checkTempFile(head);
+
+			checkTempFile(head, event, ctx);
 			openPdmDocuments(head, ctx);
 		} catch (IOException e) {
 			Util.showErrorBox(ctx, Util.getMessage("purchasing.tempfile.error", e.getMessage()));
-			e.printStackTrace();
+			log.error(e);
+		} catch (CommandException e) {
+			Util.showErrorBox(ctx, Util.getMessage("purchasing.tempfile.write.error", e.getMessage()));
+			log.error(e);
 		}
 
 	}
@@ -51,18 +64,28 @@ public class PurchasingEventHandler {
 
 	}
 
-	private void checkTempFile(PurchasingEditor head) throws IOException {
-		if (head.getYpdm01anhanglist().isEmpty()) {
-			head.setYpdm01anhanglist(gettempFile().toString());
+	private void checkTempFile(PurchasingEditor head, ButtonEvent event, DbContext ctx)
+			throws IOException, CommandException {
+
+		if (event.getCommand().equals(EnumEditorAction.Edit)) {
+			if (head.getYpdm01anhanglist().isEmpty()) {
+				head.setYpdm01anhanglist(Util.gettempFile("tmp", "pdmDocSammel", "TMP").toString());
+			}
+		} else {
+
+			if (head.getYpdm01anhanglist().isEmpty()) {
+				EditorCommand ediCommand = EditorCommandFactory.create(EditorAction.MODIFY, head.getId().toString());
+
+				EditorObject editor = ctx.openEditor(ediCommand);
+
+				editor.setString("ypdm01anhanglist", Util.gettempFile("tmp", "pdmDocSammel", "TMP").toString());
+
+				editor.commit();
+
+			}
+
 		}
-	}
-
-	private File gettempFile() throws IOException {
-		File tmpverz = new File("tmp");
-		File tempFile;
-		tempFile = File.createTempFile("pdmDocSammel", ".TMP", tmpverz);
-
-		return tempFile;
 
 	}
+
 }

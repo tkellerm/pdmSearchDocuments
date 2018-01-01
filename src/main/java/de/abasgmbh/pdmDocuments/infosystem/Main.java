@@ -16,6 +16,7 @@ import org.apache.log4j.Logger;
 
 import de.abas.eks.jfop.annotation.Stateful;
 import de.abas.eks.jfop.remote.FO;
+import de.abas.eks.jfop.remote.FOe;
 import de.abas.erp.api.session.GUIInformation;
 import de.abas.erp.axi.event.EventException;
 import de.abas.erp.axi.screen.ScreenControl;
@@ -158,6 +159,9 @@ public class Main {
 			Util.showErrorBox(ctx, Util.getMessage("main.error.noProduct"));
 		}
 
+		if (!head.getReportFoot().isEmpty()) {
+			FOe.input(head.getReportFoot());
+		}
 	}
 
 	private boolean isEmailPrinter(Printer printer) {
@@ -1095,15 +1099,17 @@ public class Main {
 	private void insertProductStructureInRow(PdmDocuments head, Row row) {
 		int aktrow = row.getRowNo() + 1;
 		int treelevel = row.getYtstufe();
+		int sstltreelevel = head.getYstufe();
 		Product product = row.getYtartikel();
-		if (treelevel == 0) {
-			treelevel = MAX_TREELEVEL;
+		if (sstltreelevel == 0) {
+			sstltreelevel = MAX_TREELEVEL;
 		}
 
-		ArrayList<ProductListitem> productListitemList = getbomproducts(product, treelevel);
+		ArrayList<ProductListitem> productListitemList = getbomproducts(product, sstltreelevel);
 
 		for (ProductListitem productListitem : productListitemList) {
 			Row insertRow = head.table().insertRow(aktrow);
+			aktrow++;
 			insertRow.setYtartikel(productListitem.getProduct());
 			insertRow.setYtstufe(productListitem.getStufe() + treelevel);
 		}
