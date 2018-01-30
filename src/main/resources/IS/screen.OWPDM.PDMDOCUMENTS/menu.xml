@@ -2,7 +2,12 @@
 <!DOCTYPE popups SYSTEM "urn:x-abas.de:abasmenu.dtd">
 
 <popups>
- <popup id="menuExecute" />
+ <popup id="menuExecute">
+  <menuitem msgId="c3b24e28-d597-4a69-b351-cff9ae91f90e" s3Name="0:ybuadddoc" />
+  <menuitem msgId="d7f93053-d773-484e-8ac5-5ec1f52fa90f" s3Name="0:yallemarkieren" />
+  <menuitem msgId="8008f74c-da55-427d-9838-07420ea285e7" s3Name="0:ydoclist" />
+  <menuitem msgId="3a1bbae9-2704-4d69-884c-1784e6c29d58" s3Name="0:ydocprint" />
+ </popup>
  <popup id="menuTable">
   <menuitem msgId="1785ddd58ed04f8c8676b1de67537bf5" s3Name="1:ybuanzeigen" />
  </popup>

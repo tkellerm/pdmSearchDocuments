@@ -3,7 +3,7 @@ K#0#PDMDOCUMENTS#Dokumente aus dem PDM-System holen#(65)#isrein/screen.OWPDM.PDM
 K#(0)#(0)###0#0#PdmDocuments#1
 K#0#(1)#
 K#java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#####
-K#######
+K##owpdm/PDMDOCUMENTS.RPF#####
 K#owpdm#(127)##(116)#(98)###0#0#
 K#is/VERBOTEN##is/VERBOTEN###is/VERBOTEN###
 Z#0#itgrust##0####(0)######0#0#0#0##0##
@@ -67,7 +67,7 @@ Z#0#isauswahl##0####(1)######0#0#0#0##0##
 Z#0#isstufe##0####(1)######0#0#0#0##0##
 Z#0#isbstart##0####(1)##java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp####1#0#0#0##0##
 Z#0#isstartzeit##0####(0)######0#0#0#0##0##
-Z#1#isyartikel#P2:1#0#Artikel#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isyartikel#P2:1#0#Artikel#(65)#(65)#(2)#####owpdm/PDMDOCUMENTS.YARTIKEL.FX#1#1#1#0##1##
 Z#1#isystruktur#B#0#Dokumente aus der Struktur holen#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isystufe#IP4#0#Stufe#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isypdf#B#0#pdf Dateien#(65)#(65)#(2)######1#1#1#0##1##
@@ -75,7 +75,7 @@ Z#1#isydwg#B#0#dwg Dateien#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isydxf#B#0#dxf Dateien#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyalle#B#0#alle Dateitypen#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isydokart#GL30#0#Dokumentenart#(65)#(65)#(2)######1#1#1#0##1##
-Z#1#isypdmsystem#AZL99000004#0#PDM-SYSTEM#(65)#(65)#(2)#####java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#1#1#1#0##1##
+Z#1#isypdmsystem#AZL99000004#0#PDM-SYSTEM#(65)#(65)#(2)####owpdm/PDMDOCUMENTS.YPDMSYSTEM.FV#java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#1#1#1#0##1##
 Z#1#isyserver#GL100#0#PDM -Server#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyuser#GL30#0#Benutzer#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isypassword#GL30#0#Passwort#(65)#(65)#(2)######1#1#1#0##1##
@@ -101,6 +101,19 @@ Z#1#isyistdrucker#B#0#Drucker#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyistemail#B#0#Email-Drucker#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyistbildschirm#B#0#Bildschirm#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyuebdatei#GL#0#šbergabedatei#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isybestelldat#GL#0#Bestellzeichnungen#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isybuadddoc#BU3#0#Dokumente addieren#(65)#(65)#(1)##owfo/IS.PDMDOC.DOCUEBERNEHMEN.BN####1#1#1#0##1##
+Z#1#isyallemarkieren#BU3#0#alle Markieren#(65)#(65)#(1)##owpdm/PDMDOCUMENTS.YBUADDDOC.BA####1#1#1#0##1##
+Z#1#isydoclist#BU3#0#Dokumentenliste zeigen#(65)#(65)#(1)##owpdm/PDMDOCUMENTS.YDOCLIST.BA####1#1#1#0##1##
+Z#1#isydocprint#BU3#0#Dokumente drucken#(65)#(65)#(1)##owpdm/PDMDOCUMENTS.BUDRUCK.BB####1#1#1#0##1##
+Z#1#isynurfomatfeld#GL100#0#Klassifizierung#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isynurformate#B#0#Nur Formate#(65)#(65)#(2)#####owpdm/PDMDOCUMENTS.YBUADDDOC.BA#1#1#1#0##1##
+Z#1#isynurbgr#B#0#nur BGR#(65)#(65)#(2)#####owpdm/PDMDOCUMENTS.YBUADDDOC.BA#1#1#1#0##1##
+Z#1#isysammelzeichnungen#T255#0#Sammel#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isybuaddteil#BU3#0#Artikel-ADD#(65)#(65)#(1)##owfo/F42.YBUADDTEIL.BN####1#1#1#0##1##
+Z#1#isybudelteil#BU3#0#aRTIKEL-dEL#(65)#(65)#(1)##owfo/F42.YBUADDTEIL.BN####1#1#1#0##1##
+Z#1#isyzeichnungsteil#P2:1#0##(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isybutifview#BU3#0#1. TIF zeigen#(65)#(65)#(1)##owpdm/PDMDOCUMENTS.YBUTIFVIEW.BA####1#1#1#0##1##
 Z#0#ittabnr##1####(0)######0#0#0#0##0##
 Z#0#itzid##1####(0)######0#0#0#0##0##
 Z#0#itzn##1####(0)######0#0#0#0##0##
@@ -120,7 +133,7 @@ Z#0#istbaumiconz##1####(0)######0#2#0#0##0##
 Z#0#istmenuemoeglich##1####(0)######0#0#0#0##0##
 Z#0#istmenueaktion##1####(0)######0#0#0#0##0##
 Z#0#istmenuean##1####(0)######0#0#0#0##0##
-Z#2#isyauswahl#B#1#Auswahl#(65)#(65)#(2)#####java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#1#1#1#0##1##
+Z#2#isyauswahl#B#1#Auswahl#(65)#(65)#(2)####owpdm/PDMDOCUMENTS.YAUSWAHL.FV#java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#1#1#1#0##1##
 Z#2#isytstufe#IP4#1#Stufe#(65)#(65)#(0)######1#1#1#0##1##
 Z#2#isytartikel#P2:1#1#Artikel#(65)#(65)#(0)######1#1#1#0##1##
 Z#2#isytartikelname#PT2:1#1#Bezeichnung#(65)#(65)#(0)######1#3#1#0##1##
@@ -141,3 +154,4 @@ Z#2#isymeta5key#GL20#1#Meta 5#(65)#(65)#(0)######1#1#1#0##1##
 Z#2#isymeta5value#GL100#1#Meta 5#(65)#(65)#(0)######1#1#1#0##1##
 Z#2#isypapersize#AZL99000002#1#Format#(65)#(65)#(0)######1#1#1#0##1##
 Z#2#isyerror#TN#1#Fehler#(65)#(65)#(0)######1#1#1#0##1##
+Z#2#isysach#GL25#1#Sachmerkmal#(65)#(65)#(0)######1#1#1#0##1##

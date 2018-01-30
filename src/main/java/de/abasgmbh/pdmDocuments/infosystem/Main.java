@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -62,8 +64,10 @@ import de.abas.erp.db.schema.sales.ServiceQuotation;
 import de.abas.erp.db.schema.sales.WebOrder;
 import de.abas.erp.db.schema.userenums.UserEnumPdmSystems;
 import de.abas.erp.db.schema.workorder.WorkOrders;
+import de.abas.erp.db.selection.Conditions;
 import de.abas.erp.db.selection.ExpertSelection;
 import de.abas.erp.db.selection.Selection;
+import de.abas.erp.db.selection.SelectionBuilder;
 import de.abas.erp.db.util.ContextHelper;
 import de.abas.erp.jfop.rt.api.annotation.RunFopWith;
 import de.abas.jfop.base.buffer.BufferFactory;
@@ -106,13 +110,14 @@ public class Main {
 			head.setYistbildschirm(true);
 		}
 
-		if (head.getYartikel() != null || head.getYbeleg() != null) {
+		if (head.getYartikel() != null || head.getYsammelzeichnungen() != null || head.getYbeleg() != null) {
 
 			head.table().clear();
-			loadProductsInTable(head, ctx);
+
 			DocumentSearchfactory documentSearchfactory = new DocumentSearchfactory();
 
 			try {
+				loadProductsInTable(head, ctx);
 				DocumentsInterface searchdokuments = documentSearchfactory.create(config);
 
 				FileWriter fileWriter;
@@ -130,6 +135,10 @@ public class Main {
 							insertDocuments(row.getYtartikel().getIdno(), searchdokuments, head, ctx, row);
 						}
 					}
+
+					// nur Romaco
+					renameFiles(rows, ctx);
+
 					// Übergabe Dateien für den Druck anlegen.
 					rows = head.table().getRows();
 					for (Row row : rows) {
@@ -161,6 +170,36 @@ public class Main {
 
 		if (!head.getReportFoot().isEmpty()) {
 			FOe.input(head.getReportFoot());
+		}
+	}
+
+	private void renameFiles(Iterable<Row> rows, DbContext ctx) throws PdmDocumentsException {
+		String number = "";
+		String name = "";
+		for (Row row : rows) {
+
+			if (row.getYtartikel() != null) {
+				number = row.getYtartikel().getIdno();
+				name = row.getYtartikel().getDescr();
+			}
+			if (!row.getYpfad().isEmpty()) {
+				String fileExtension = row.getYdatend();
+				String oldPath = row.getYpfad();
+				String newPath = oldPath.substring(0, oldPath.lastIndexOf("/"));
+				String profileid = row.getYdateiname().substring(0, row.getYdateiname().indexOf("_"));
+				String newFilename = number + "_" + name + "_" + profileid + "." + fileExtension;
+				newFilename = Util.replaceUmlaute(newFilename.replaceAll(" ", "_"));
+				String newcompletePath = newPath + newFilename;
+				File orgFile = new File(oldPath);
+				File newFile = new File(newcompletePath);
+				try {
+					Files.move(orgFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					throw new PdmDocumentsException(Util.getMessage("error.renameFile.move"), e);
+				}
+				row.setYpfad(newcompletePath);
+				row.setYdateiname(newFilename);
+			}
 		}
 	}
 
@@ -330,6 +369,7 @@ public class Main {
 			} else {
 				rowNew = head.table().appendRow();
 			}
+
 			rowNew.setYdateiname(pdmDocument.getFilename());
 			rowNew.setYdatend(pdmDocument.getFiletyp());
 			if (pdmDocument.hasFile()) {
@@ -832,7 +872,7 @@ public class Main {
 
 	}
 
-	private void loadProductsInTable(PdmDocuments head, DbContext ctx) {
+	private void loadProductsInTable(PdmDocuments head, DbContext ctx) throws PdmDocumentsException {
 
 		if (head.getYbeleg() == null) {
 			insertProductInRow(head.getYartikel(), head);
@@ -840,6 +880,13 @@ public class Main {
 			SelectableObject beleg = head.getYbeleg();
 			ArrayList<Product> listProduct = getProducts(beleg, ctx);
 			for (Product product : listProduct) {
+				insertProductInRow(product, head);
+			}
+
+		}
+		if (!head.getYsammelzeichnungen().isEmpty()) {
+			Iterable<Product> productlist = getProductsFromString(head.getYsammelzeichnungen(), ctx);
+			for (Product product : productlist) {
 				insertProductInRow(product, head);
 			}
 
@@ -855,6 +902,30 @@ public class Main {
 			}
 		}
 
+	}
+
+	private Iterable<Product> getProductsFromString(String productString, DbContext ctx) throws PdmDocumentsException {
+		// trenner ;
+		ArrayList<Product> productList = new ArrayList<Product>();
+
+		String[] productStringlist = productString.split(";");
+		for (String productNumber : productStringlist) {
+			SelectionBuilder<Product> selectionBuilder = SelectionBuilder.create(Product.class);
+			selectionBuilder.add(Conditions.eq(Product.META.idno, productNumber));
+			Query<Product> queryproduct = ctx.createQuery(selectionBuilder.build());
+			List<Product> productQueryList = queryproduct.execute();
+
+			if (productQueryList.size() == 0) {
+				throw new PdmDocumentsException(Util.getMessage("error.sammellist.productnotfound", productNumber));
+			}
+			if (productQueryList.size() > 1) {
+				throw new PdmDocumentsException(Util.getMessage("error.sammellist.productnotunique", productNumber));
+			}
+			productList.add(productQueryList.get(0));
+
+		}
+
+		return productList;
 	}
 
 	private ArrayList<Product> getProducts(SelectableObject beleg, DbContext ctx) {
