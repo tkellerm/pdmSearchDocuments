@@ -189,18 +189,35 @@ public class Main {
 				String profileid = row.getYdateiname().substring(0, row.getYdateiname().indexOf("_"));
 				String newFilename = number + "_" + name + "_" + profileid + "." + fileExtension;
 				newFilename = Util.replaceUmlaute(newFilename.replaceAll(" ", "_"));
-				String newcompletePath = newPath + newFilename;
+				newFilename = Util.replaceSonderzeichen(newFilename);
+				String newcompletePath = newPath + "/" + newFilename;
 				File orgFile = new File(oldPath);
 				File newFile = new File(newcompletePath);
 				try {
-					Files.move(orgFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+					if (orgFile.exists()) {
+						if (newFile.exists()) {
+							Files.move(orgFile.toPath(), newFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+						} else {
+							Files.move(orgFile.toPath(), newFile.toPath(), StandardCopyOption.ATOMIC_MOVE);
+						}
+						actFileFields(row, newFilename, newcompletePath);
+					} else {
+						if (newFile.exists()) {
+							actFileFields(row, newFilename, newcompletePath);
+						}
+					}
+
 				} catch (IOException e) {
 					throw new PdmDocumentsException(Util.getMessage("error.renameFile.move"), e);
 				}
-				row.setYpfad(newcompletePath);
-				row.setYdateiname(newFilename);
+
 			}
 		}
+	}
+
+	private void actFileFields(Row row, String newFilename, String newcompletePath) {
+		row.setYpfad(newcompletePath);
+		row.setYdateiname(newFilename);
 	}
 
 	private boolean isEmailPrinter(Printer printer) {
@@ -875,7 +892,11 @@ public class Main {
 	private void loadProductsInTable(PdmDocuments head, DbContext ctx) throws PdmDocumentsException {
 
 		if (head.getYbeleg() == null) {
-			insertProductInRow(head.getYartikel(), head);
+
+			if (head.getYartikel() != null) {
+				insertProductInRow(head.getYartikel(), head);
+			}
+
 		} else {
 			SelectableObject beleg = head.getYbeleg();
 			ArrayList<Product> listProduct = getProducts(beleg, ctx);
@@ -884,6 +905,7 @@ public class Main {
 			}
 
 		}
+
 		if (!head.getYsammelzeichnungen().isEmpty()) {
 			Iterable<Product> productlist = getProductsFromString(head.getYsammelzeichnungen(), ctx);
 			for (Product product : productlist) {

@@ -24,6 +24,8 @@ public class Util {
 	private static String[][] UMLAUT_REPLACEMENTS = { { new String("Ä"), "Ae" }, { new String("Ü"), "Ue" },
 			{ new String("Ö"), "Oe" }, { new String("ä"), "ae" }, { new String("ü"), "ue" }, { new String("ö"), "oe" },
 			{ new String("ß"), "ss" } };
+	private static String[][] SONDERZEICHEN_REPLACEMENTS = { { new String("/"), "_" }, { new String(" "), "_" },
+			{ new String(";"), "_" }, { new String("\\"), "_" } };
 	private static Locale locale = Locale.ENGLISH;
 
 	private static Locale getLocale() {
@@ -55,8 +57,24 @@ public class Util {
 	public static String replaceUmlaute(String orig) {
 		String result = orig;
 
-		for (int i = 0; i < UMLAUT_REPLACEMENTS.length; i++) {
-			result = result.replace(UMLAUT_REPLACEMENTS[i][0], UMLAUT_REPLACEMENTS[i][1]);
+		result = replaceZeichen(orig, UMLAUT_REPLACEMENTS);
+
+		return result;
+	}
+
+	public static String replaceSonderzeichen(String orig) {
+		String result = orig;
+
+		result = replaceZeichen(orig, SONDERZEICHEN_REPLACEMENTS);
+
+		return result;
+	}
+
+	public static String replaceZeichen(String orig, String[][] replacements) {
+		String result = orig;
+
+		for (int i = 0; i < replacements.length; i++) {
+			result = result.replace(replacements[i][0], replacements[i][1]);
 		}
 
 		return result;
