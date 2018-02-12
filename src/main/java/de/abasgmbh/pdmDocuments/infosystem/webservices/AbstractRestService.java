@@ -32,7 +32,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 	protected final static Logger log = Logger.getLogger(AbstractRestService.class);
 	protected final static org.apache.log4j.Logger log4j = org.apache.log4j.Logger.getLogger(AbstractRestService.class);
 	private static String TIMESTAMP = Util.getTimestamp();
-	protected static final int TEST_TIMEOUT = 2000;
+	protected static final int TEST_TIMEOUT = 5000;
 
 	protected String server;
 	protected String pdmProductID;

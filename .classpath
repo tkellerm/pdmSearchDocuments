@@ -310,12 +310,12 @@
 			<attribute name="gradle_used_by_scope" value="integTest,main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db/1.0.0-SNAPSHOT/1703c2c9396f011166d7ab77d0a5d4dc3833bca/abas-db-1.0.0-SNAPSHOT.jar">
+	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db/1.0.0-SNAPSHOT/70d4d3da5a1bc9d8ff4df01828c687b0da503332/abas-db-1.0.0-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="integTest,main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db-infosys/1.0.0-SNAPSHOT/d21993e9af5fe7e774525a96b08e456cd02c295e/abas-db-infosys-1.0.0-SNAPSHOT.jar">
+	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db-infosys/1.0.0-SNAPSHOT/4a87169379a6a673d6708aefe61c149600d7a77f/abas-db-infosys-1.0.0-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="integTest,main,test"/>
 		</attributes>
