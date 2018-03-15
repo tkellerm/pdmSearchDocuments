@@ -25,7 +25,7 @@ public class Util {
 			{ new String("Ö"), "Oe" }, { new String("ä"), "ae" }, { new String("ü"), "ue" }, { new String("ö"), "oe" },
 			{ new String("ß"), "ss" } };
 	private static String[][] SONDERZEICHEN_REPLACEMENTS = { { new String("/"), "_" }, { new String(" "), "_" },
-			{ new String(";"), "_" }, { new String("\\"), "_" } };
+			{ new String(";"), "_" }, { new String("\\"), "_" }, { new String("="), "_" } };
 	private static Locale locale = Locale.ENGLISH;
 
 	private static Locale getLocale() {
@@ -65,7 +65,9 @@ public class Util {
 	public static String replaceSonderzeichen(String orig) {
 		String result = orig;
 
-		result = replaceZeichen(orig, SONDERZEICHEN_REPLACEMENTS);
+		result = orig.replaceAll("\\W", "_");
+
+		// result = replaceZeichen(orig, SONDERZEICHEN_REPLACEMENTS);
 
 		return result;
 	}

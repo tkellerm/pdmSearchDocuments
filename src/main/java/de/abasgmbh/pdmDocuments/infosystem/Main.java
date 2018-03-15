@@ -187,9 +187,10 @@ public class Main {
 				String oldPath = row.getYpfad();
 				String newPath = oldPath.substring(0, oldPath.lastIndexOf("/"));
 				String profileid = row.getYdateiname().substring(0, row.getYdateiname().indexOf("_"));
-				String newFilename = number + "_" + name + "_" + profileid + "." + fileExtension;
+				String newFilename = number + "_" + name + "_" + profileid;
 				newFilename = Util.replaceUmlaute(newFilename.replaceAll(" ", "_"));
 				newFilename = Util.replaceSonderzeichen(newFilename);
+				newFilename = newFilename + "." + fileExtension;
 				String newcompletePath = newPath + "/" + newFilename;
 				File orgFile = new File(oldPath);
 				File newFile = new File(newcompletePath);
@@ -375,7 +376,9 @@ public class Main {
 
 		ArrayList<PdmDocument> pdmDocuments = searchdokuments.getAllDocuments(product, getFileTypList(head));
 
-		ArrayList<PdmDocument> filtertDocuments = checkFilename(pdmDocuments, head);
+		ArrayList<PdmDocument> filtertDocuments1 = checkFilename(pdmDocuments, head);
+		ArrayList<PdmDocument> filtertDocuments = checkDoktyp(filtertDocuments1, head);
+
 		int rowIndex = row.getRowNo();
 		for (PdmDocument pdmDocument : filtertDocuments) {
 
@@ -408,6 +411,20 @@ public class Main {
 			fileNameList = getyuebDateiArray(head);
 			newList = (ArrayList<PdmDocument>) pdmDocuments.stream()
 					.filter(pdmDocument -> pdmDocument.checkFileNameList(fileNameList)).collect(Collectors.toList());
+		} catch (IOException e) {
+			log.error(e);
+		}
+
+		return newList;
+	}
+
+	private ArrayList<PdmDocument> checkDoktyp(ArrayList<PdmDocument> pdmDocuments, PdmDocuments head) {
+		ArrayList<String> doctypList;
+		ArrayList<PdmDocument> newList = null;
+		try {
+			doctypList = getydokartArray(head);
+			newList = (ArrayList<PdmDocument>) pdmDocuments.stream()
+					.filter(pdmDocument -> pdmDocument.checkDocTypList(doctypList)).collect(Collectors.toList());
 		} catch (IOException e) {
 			log.error(e);
 		}
@@ -747,6 +764,18 @@ public class Main {
 			fileListArray = Util.readStringListFromFile(tempFile);
 		}
 		return fileListArray;
+	}
+
+	private ArrayList<String> getydokartArray(PdmDocuments head) throws IOException {
+		ArrayList<String> docArtArray = new ArrayList<String>();
+		if (!head.getYdokart().isEmpty()) {
+			String[] docArtStringlist = head.getYdokart().split(";");
+			for (String dokartString : docArtStringlist) {
+				docArtArray.add(dokartString);
+			}
+
+		}
+		return docArtArray;
 	}
 
 	// private void addFilenameAtYuebfile(String ydateiname, PdmDocuments head)

@@ -241,4 +241,35 @@ public class PdmDocument {
 		}
 
 	}
+
+	public Boolean checkDocTypList(ArrayList<String> doctypList) {
+
+		String pdmDocumenttyp = this.documenttyp;
+		Boolean allempty = true;
+
+		if (doctypList != null) {
+			if (doctypList.size() > 0) {
+				for (String doctyp : doctypList) {
+					if (!doctyp.isEmpty()) {
+						if (doctyp.trim().toUpperCase().equals(pdmDocumenttyp.toUpperCase())) {
+							log.trace(
+									Util.getMessage("pdmDocument.checkdocument.includeDoctypList", this.getFilename()));
+							return true;
+						}
+						allempty = false;
+					}
+				}
+			}
+		}
+		if (allempty) {
+			log.trace(Util.getMessage("pdmDocument.checkdocument.includeDoctypList.emptyList", this.getFilename()));
+			return true;
+			// return false;
+		} else {
+			log.trace(Util.getMessage("pdmDocument.checkdocument.excludeDoctypList", this.getFilename()));
+			return false;
+		}
+
+	}
+
 }

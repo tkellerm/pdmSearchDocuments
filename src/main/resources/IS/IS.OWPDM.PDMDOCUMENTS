@@ -20,7 +20,7 @@ Z#0#itobjdbez##0####(0)######0#2#0#0##0##
 Z#0#itobjinzeile##0####(0)######0#0#0#0##0##
 Z#0#itozeilen##0####(0)######0#0#0#0##0##
 Z#0#itdateiarchivieren##0####(0)######0#0#0#0##0##
-Z#0#itbudruck##0####(1)######0#0#0#0##0##
+Z#0#itbudruck##0####(1)##owpdm/PDMDOCUMENTS.BUDRUCK.BA####0#0#0#0##0##
 Z#0#itbudruck2##0####(1)######0#0#0#0##0##
 Z#0#itbuinfosys##0####(1)######0#0#0#0##0##
 Z#0#itbuaktion##0####(1)######0#0#0#0##0##
@@ -74,7 +74,7 @@ Z#1#isypdf#B#0#pdf Dateien#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isydwg#B#0#dwg Dateien#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isydxf#B#0#dxf Dateien#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyalle#B#0#alle Dateitypen#(65)#(65)#(2)######1#1#1#0##1##
-Z#1#isydokart#GL30#0#Dokumentenart#(65)#(65)#(2)######1#1#1#0##1##
+Z#1#isydokart#GL255#0#Dokumentenart#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isypdmsystem#AZL99000004#0#PDM-SYSTEM#(65)#(65)#(2)####owpdm/PDMDOCUMENTS.YPDMSYSTEM.FV#java:de.abasgmbh.pdmDocuments.infosystem.Main@pdmDocumentsApp#1#1#1#0##1##
 Z#1#isyserver#GL100#0#PDM -Server#(65)#(65)#(2)######1#1#1#0##1##
 Z#1#isyuser#GL30#0#Benutzer#(65)#(65)#(2)######1#1#1#0##1##

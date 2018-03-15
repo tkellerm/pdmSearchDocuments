@@ -11,57 +11,71 @@
      <layout.notebook>
       <pane.notebook msgId="d95984c6da90849d3f88401c8ff68171">
        <layout.grid>
-        <metainfo axis="column" grid="2" indent="large" />
         <cell gridX="0" gridY="0">
-         <label msgId="15f40291299d8c47431c7045a05f9cf8" />
-        </cell>
-        <cell gridX="1" gridY="0">
-         <erpfield s3Name="0:yartikel" />
-        </cell>
-        <cell gridX="2" gridY="0">
-         <label msgId="fc91edeb-ced5-494a-91c3-e2e703b3c0dd" />
-        </cell>
-        <cell gridX="3" gridY="0">
-         <erpfield s3Name="0:ybeleg" />
-        </cell>
-        <cell gridX="4" gridY="0" />
-        <cell gridX="0" gridY="1">
-         <label msgId="f29e844d051ac2c8cc28426fd6c2bdd7" />
-        </cell>
-        <cell gridX="1" gridY="1">
-         <erpfield s3Name="0:ydokart" />
-        </cell>
-        <cell gridX="2" gridY="1">
-         <label msgId="e6434034cb48693f80cbd1e7c3799e12" />
-        </cell>
-        <cell gridX="3" gridY="1">
-         <erpfield s3Name="0:ystruktur" />
-        </cell>
-        <cell gridX="4" gridY="1" />
-        <cell gridX="0" gridY="2">
-         <label msgId="pdmdocuments_owpdm_fhead_yauswpapersize" />
-        </cell>
-        <cell gridX="1" gridY="2">
-         <erpfield s3Name="0:yauswpapersize" />
-        </cell>
-        <cell gridX="2" gridY="2">
-         <label msgId="deb678c4-468e-46e6-a916-4dbc32c7e08e" />
-        </cell>
-        <cell gridX="3" gridY="2">
-         <erpfield s3Name="0:ynurformate" />
-        </cell>
-        <cell gridX="4" gridY="2" />
-        <cell gridX="0" gridY="3" />
-        <cell gridX="1" gridY="3" />
-        <cell gridX="2" gridY="3">
-         <label msgId="ace287b3-93c1-424e-a602-f1a8ef58833d" />
-        </cell>
-        <cell gridX="3" gridY="3">
-         <erpfield s3Name="0:ynurbgr" />
-        </cell>
-        <cell gridX="4" gridY="3">
-         <label msgId="702d4105-37ad-4726-85db-3fafb8fc7984" />
-         <erpfield dimX="15" dimY="10" s3Name="0:ysammelzeichnungen" />
+         <layout.grid>
+          <cell alignX="fill" alignY="fill" gridX="0" gridY="0">
+           <layout.grid>
+            <cell gridX="0" gridY="0" />
+            <cell gridX="1" gridY="0" />
+            <cell gridX="2" gridY="0" />
+            <cell alignY="beginning" gridX="3" gridY="0" />
+            <cell gridX="0" gridY="1">
+             <label msgId="15f40291299d8c47431c7045a05f9cf8" />
+            </cell>
+            <cell gridX="1" gridY="1">
+             <erpfield s3Name="0:yartikel" />
+            </cell>
+            <cell gridX="2" gridY="1">
+             <label msgId="fc91edeb-ced5-494a-91c3-e2e703b3c0dd" />
+            </cell>
+            <cell gridX="3" gridY="1">
+             <erpfield s3Name="0:ybeleg" />
+            </cell>
+            <cell gridX="0" gridY="2">
+             <label msgId="f29e844d051ac2c8cc28426fd6c2bdd7" />
+            </cell>
+            <cell gridX="1" gridY="2">
+             <erpfield s3Name="0:ydokart" />
+            </cell>
+            <cell gridX="2" gridY="2">
+             <label msgId="e6434034cb48693f80cbd1e7c3799e12" />
+            </cell>
+            <cell gridX="3" gridY="2">
+             <erpfield s3Name="0:ystruktur" />
+            </cell>
+            <cell gridX="0" gridY="3">
+             <label msgId="pdmdocuments_owpdm_fhead_yauswpapersize" />
+            </cell>
+            <cell gridX="1" gridY="3">
+             <erpfield s3Name="0:yauswpapersize" />
+            </cell>
+            <cell gridX="2" gridY="3">
+             <label msgId="deb678c4-468e-46e6-a916-4dbc32c7e08e" />
+            </cell>
+            <cell gridX="3" gridY="3">
+             <erpfield s3Name="0:ynurformate" />
+            </cell>
+            <cell gridX="0" gridY="4" />
+            <cell gridX="1" gridY="4" />
+            <cell gridX="2" gridY="4">
+             <label msgId="ace287b3-93c1-424e-a602-f1a8ef58833d" />
+            </cell>
+            <cell gridX="3" gridY="4">
+             <erpfield s3Name="0:ynurbgr" />
+            </cell>
+           </layout.grid>
+          </cell>
+          <cell alignX="fill" alignY="fill" gridX="1" gridY="0">
+           <layout.grid>
+            <cell alignX="center" alignY="beginning" gridX="0" gridY="0">
+             <label msgId="702d4105-37ad-4726-85db-3fafb8fc7984" />
+            </cell>
+            <cell alignY="beginning" gridX="0" gridY="1">
+             <erpfield dimX="15" dimY="10" s3Name="0:ysammelzeichnungen" />
+            </cell>
+           </layout.grid>
+          </cell>
+         </layout.grid>
         </cell>
        </layout.grid>
       </pane.notebook>

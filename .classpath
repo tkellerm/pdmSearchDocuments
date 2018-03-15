@@ -310,7 +310,7 @@
 			<attribute name="gradle_used_by_scope" value="integTest,main,test"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db/1.0.0-SNAPSHOT/70d4d3da5a1bc9d8ff4df01828c687b0da503332/abas-db-1.0.0-SNAPSHOT.jar">
+	<classpathentry kind="lib" path="C:/Users/tkellermann/.gradle/caches/modules-2/files-2.1/de.abas.clientdir/abas-db/1.0.0-SNAPSHOT/62f3f56d50883d032bc3cf477dc1e121328de3bd/abas-db-1.0.0-SNAPSHOT.jar">
 		<attributes>
 			<attribute name="gradle_used_by_scope" value="integTest,main,test"/>
 		</attributes>
