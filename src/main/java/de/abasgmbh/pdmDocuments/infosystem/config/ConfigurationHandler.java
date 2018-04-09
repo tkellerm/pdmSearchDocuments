@@ -30,6 +30,7 @@ public class ConfigurationHandler {
 	private static String PDM_CONFIG_FILETYPES_EMAIL = "pdm.config.filetypes.email";
 	private static String PDM_CONFIG_FILETYPES_PRINTER = "pdm.config.filetypes.printer";
 	private static String PDM_CONFIG_FILETYPES_SCREEN = "pdm.config.filetypes.screen";
+	private static String PDM_CONFIG_DOKART = "pdm.config.dokart";
 
 	public static Configuration loadConfiguration() throws PdmDocumentsException {
 
@@ -68,7 +69,7 @@ public class ConfigurationHandler {
 				if (sqlPortString != null) {
 					if (!sqlPortString.isEmpty()) {
 						sqlPort = new Integer(sqlPortString);
-					} 
+					}
 				}
 				String sqlUser = configProperties.getProperty(PDM_CONFIG_SQL_USER);
 				String sqlPassword = configProperties.getProperty(PDM_CONFIG_SQL_PASSWORD);
@@ -78,9 +79,11 @@ public class ConfigurationHandler {
 				String fileTypesScreen = configProperties.getProperty(PDM_CONFIG_FILETYPES_SCREEN);
 				String fieldForPartNumber = configProperties.getProperty(PDM_CONFIG_FIELDFORPARTNUMBER);
 				String fieldforPartProFileID = configProperties.getProperty(PDM_CONFIG_FIELDFORPARTPROFILEID);
+				String dokart = configProperties.getProperty(PDM_CONFIG_DOKART);
 
-				config.initConfiguration(restServer, restUser, restPassword, restTenant, fieldForPartNumber, fieldforPartProFileID , pdmSystem, sqlServer, sqlPort,
-						sqldatabase, sqldriver, sqlUser, sqlPassword, fileTypesEmail, fileTypesPrinter, fileTypesScreen);
+				config.initConfiguration(restServer, restUser, restPassword, restTenant, fieldForPartNumber,
+						fieldforPartProFileID, pdmSystem, sqlServer, sqlPort, sqldatabase, sqldriver, sqlUser,
+						sqlPassword, fileTypesEmail, fileTypesPrinter, fileTypesScreen, dokart);
 
 			} catch (IOException e) {
 				throw new PdmDocumentsException(Util.getMessage("pdmDocument.error.loadKonfiguration"), e);
@@ -106,7 +109,7 @@ public class ConfigurationHandler {
 		configProperties.setProperty(PDM_CONFIG_USER, config.getRestUser());
 		configProperties.setProperty(PDM_CONFIG_PASSWORD, config.getRestPassword());
 		configProperties.setProperty(PDM_CONFIG_TENANT, config.getRestTenant());
-		
+
 		configProperties.setProperty(PDM_CONFIG_PDMSYSTEM, config.getPdmSystem().name().toString());
 
 		configProperties.setProperty(PDM_CONFIG_SQL_SERVER, config.getSqlServer());
@@ -121,6 +124,8 @@ public class ConfigurationHandler {
 		configProperties.setProperty(PDM_CONFIG_FILETYPES_SCREEN, config.getFileTypesScreen());
 		configProperties.setProperty(PDM_CONFIG_FIELDFORPARTNUMBER, config.getPartFieldName());
 		configProperties.setProperty(PDM_CONFIG_FIELDFORPARTPROFILEID, config.getPartProFileIDFieldName());
+
+		configProperties.setProperty(PDM_CONFIG_DOKART, config.getDokart());
 
 		FileOutputStream out;
 		try {

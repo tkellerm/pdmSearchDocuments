@@ -6,11 +6,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
-import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -582,6 +580,7 @@ public class Main {
 			config.setPdmSystem(head.getYpdmsystem());
 			config.setPartFieldName(head.getYfieldfornumber());
 			config.setPartProFileIDFieldName(head.getYfieldforpartid());
+			config.setDokart(head.getYdokart());
 			ConfigurationHandler.saveConfigurationtoFile(config);
 		} catch (PdmDocumentsException e) {
 			log.error(e);
@@ -798,31 +797,36 @@ public class Main {
 	//
 	// }
 
-	private ArrayList<String> convertStringtoStringArray(Writer freetextWriter, String separator) {
-		String[] fileList = freetextWriter.toString().split(separator);
-		ArrayList<String> fileListArray = new ArrayList<String>(Arrays.asList(fileList));
-		return fileListArray;
-	}
-
-	private ArrayList<String> convertStringtoStringArray(String string, String separator) {
-		String[] fileList = string.split(separator);
-		ArrayList<String> fileListArray = new ArrayList<String>(Arrays.asList(fileList));
-		return fileListArray;
-	}
-
-	private String convertStringArraytoString(ArrayList<String> fileListArray, String separator) {
-		String output = "";
-		for (String filename : fileListArray) {
-			if (!filename.isEmpty()) {
-				if (output.isEmpty()) {
-					output = filename;
-				} else {
-					output = output + separator + filename;
-				}
-			}
-		}
-		return output;
-	}
+	// private ArrayList<String> convertStringtoStringArray(Writer
+	// freetextWriter, String separator) {
+	// String[] fileList = freetextWriter.toString().split(separator);
+	// ArrayList<String> fileListArray = new
+	// ArrayList<String>(Arrays.asList(fileList));
+	// return fileListArray;
+	// }
+	//
+	// private ArrayList<String> convertStringtoStringArray(String string,
+	// String separator) {
+	// String[] fileList = string.split(separator);
+	// ArrayList<String> fileListArray = new
+	// ArrayList<String>(Arrays.asList(fileList));
+	// return fileListArray;
+	// }
+	//
+	// private String convertStringArraytoString(ArrayList<String>
+	// fileListArray, String separator) {
+	// String output = "";
+	// for (String filename : fileListArray) {
+	// if (!filename.isEmpty()) {
+	// if (output.isEmpty()) {
+	// output = filename;
+	// } else {
+	// output = output + separator + filename;
+	// }
+	// }
+	// }
+	// return output;
+	// }
 
 	@ScreenEventHandler(type = ScreenEventType.ENTER)
 	public void screenEnter(ScreenEvent event, ScreenControl screenControl, DbContext ctx, PdmDocuments head)
@@ -891,6 +895,8 @@ public class Main {
 			head.setYemailtypen(config.getFileTypesEmail());
 			head.setYfieldfornumber(config.getPartFieldName());
 			head.setYfieldforpartid(config.getPartProFileIDFieldName());
+
+			head.setYdokart(config.getDokart());
 
 		} catch (PdmDocumentsException e) {
 
