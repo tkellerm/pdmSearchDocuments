@@ -257,9 +257,8 @@ public class RestServiceProcad extends AbstractRestService {
 		SQLConnectionHandler sqlConn = new SQLConnectionHandler(config);
 		if (sqlConn != null) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 
 	}
 

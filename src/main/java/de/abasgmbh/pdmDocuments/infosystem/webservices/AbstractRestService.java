@@ -13,9 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.ws.rs.InternalServerErrorException;
-import javax.ws.rs.core.Response;
 
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.jboss.resteasy.client.jaxrs.BasicAuthentication;
 import org.jboss.resteasy.client.jaxrs.ResteasyClient;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
@@ -76,7 +75,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		ResteasyWebTarget target = client.target(url);
 		target.register(new BasicAuthentication(this.user, this.password));
 
-		Response response = target.request().get();
+		javax.ws.rs.core.Response response = target.request().get();
 		if (response.getStatus() == 200) {
 			log4j.info("ok - " + url);
 
@@ -111,7 +110,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 
 		ResteasyClientBuilder resteasyClientBuilder = new ResteasyClientBuilder().providerFactory(factory);
 
-		client = resteasyClientBuilder.socketTimeout(2, TimeUnit.SECONDS).build();
+		client = resteasyClientBuilder.socketTimeout(20, TimeUnit.SECONDS).build();
 
 		ResteasyWebTarget target = client.target(url);
 		target.register(new BasicAuthentication(this.user, this.password));
