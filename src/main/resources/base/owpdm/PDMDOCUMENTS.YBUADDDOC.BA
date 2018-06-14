@@ -1,0 +1,46 @@
+..!interpreter english translate noabbrev
+..*****************************************************************************
+.. Name           : PDMDOCUMENTS.YBUADDDOC.BA
+.. Date           : 20.12.17
+.. Version        : 2017r4n10
+.. Author         : abas-ka
+.. Functionality  :
+..
+.. Interface (arguments and their meaning)
+..    uses array argument (arg.i)           : no
+..    uses name argument  (xpname=value)    : no
+..
+..    Argument     meaning
+..    -------------------------------------------------------------------------
+..
+.. Program flow   :
+...Includes       :
+..*****************************************************************************
+..
+..*****************************************************************************
+.type bool xbistform ? _F|defined(U|xbistform)
+.select screen Head
+.formula M|ydrucker=G|passw^pdreinst^drucker
+.formula M|ydrucker="FERTIGUNG-S2" ? 'M|ydrucker'="100190"
+.formula M|ydrucker="100225" ? 'G|passw^pdreinst^drucker^nummer' ="100226"
+.select screen line
+!LOOP
+.continue ENDE ? _G|mehr
+.formula M|ysach=M|ytartikel^sach ? _F|empty(M|ytartikel)
+.colour -background -1 -1 -1 'M|aktzeile'
+.continue MARKER ? _F|empty(M|ydateiname)
+.formula U|xbistform=False
+.formula U|xbistform=True ? _M|ynurformate 
+.formula U|xbistform=True ? M|ynurformate & F|substr(M|ysach,1,2) ="13"
+.formula U|xbistform=True ? M|ynurformate & F|substr(M|ysach,1,2) ="03"
+.formula U|xbistform=True ? M|ynurbgr & F|substr(M|ysach,1,2) ="04"
+!MARKER
+.continue NOMARK ? F|empty(M|ydateiname) ;  _U|xbistform
+.formula M|yauswahl=True ? _F|empty(M|ydateiname)
+.formula M|yauswahl=False ? F|toupper('M|ydatend')="TIF"
+.colour -background 0 255 0 'M|aktzeile'
+!NOMARK
+.select screen line
+.continue LOOP
+!ENDE
+.continue
