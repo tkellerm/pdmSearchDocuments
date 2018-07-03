@@ -92,7 +92,7 @@ public class Main {
 			throws EventException {
 
 		getConfigInMask(head, ctx);
-
+		Boolean noErrorsInPDM = true;
 		log.info(Util.getMessage("pdmDocument.info.startvalues", head.getYartikel(), head.getYbeleg(),
 				head.getYdrucker(), head.getYanhangliste()));
 
@@ -130,7 +130,15 @@ public class Main {
 					Iterable<Row> rows = head.table().getRows();
 					for (Row row : rows) {
 						if (row.getYtartikel() != null) {
-							insertDocuments(row.getYtartikel().getIdno(), searchdokuments, head, ctx, row);
+
+							try {
+								insertDocuments(row.getYtartikel().getIdno(), searchdokuments, head, ctx, row);
+							} catch (PdmDocumentsException e) {
+								StringReader strReader = new StringReader(e.getMessage());
+								row.setYerror(strReader);
+								noErrorsInPDM = false;
+								log.error(e);
+							}
 						}
 					}
 
@@ -164,6 +172,10 @@ public class Main {
 			}
 		} else {
 			Util.showErrorBox(ctx, Util.getMessage("main.error.noProduct"));
+		}
+
+		if (!noErrorsInPDM) {
+			Util.showErrorBox(ctx, Util.getMessage("main.error.errorInTable"));
 		}
 
 		if (!head.getReportFoot().isEmpty()) {

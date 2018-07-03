@@ -114,10 +114,11 @@ public abstract class AbstractRestService implements DocumentsInterface {
 
 		ResteasyWebTarget target = client.target(url);
 		target.register(new BasicAuthentication(this.user, this.password));
-
+		log.info(Util.getMessage("pdmDocument.restservice.downloadFile.info", url, fileName));
 		InputStream inputStream = target.request().get(InputStream.class);
 
 		File outputfile = new File(path + fileName);
+
 		OutputStream out = new FileOutputStream(outputfile);
 
 		int read = 0;
@@ -128,6 +129,7 @@ public abstract class AbstractRestService implements DocumentsInterface {
 		inputStream.close();
 		out.flush();
 		out.close();
+		log.info(Util.getMessage("pdmDocument.restservice.downloadFile.sucess", fileName));
 		fileList.add(outputfile);
 
 		return fileList;
