@@ -1,8 +1,8 @@
 plugins {
-    id "groovy"
-    id "maven-publish"
-    id "com.palantir.git-version" version "0.5.3"
-	id "de.abas.esdk" version "0.10.1"
+//    id "groovy"
+//    id "maven-publish"
+//    id "com.palantir.git-version" version "0.5.3"
+	id "de.abas.esdk" version "0.10.14"
 	}
 
 repositories {
@@ -26,8 +26,8 @@ esdk {
         tables = ["Einkauf"]
 	    data = ["data.json", "enum.json" ]
         keys = ["3011","3012"]
-        enums = []
-        essentialsVersions = ["2016r2n03-2016r4n15", "2017r1n00-2017r4n17"]
+        enums = ["PdmSystems"]
+        essentialsVersions = ["2016r2n03-2016r4n15", "2017r1n00-2017r4n17" , "2018r1n00-2018r4n17"]
         preconditions = ["workDirs=owpdm"]
     }
 
@@ -79,40 +79,41 @@ group='de.abasgmbh.pdm'
 //    version versionString.substring(1)
 //}
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId 'abasGmbH'
-            artifactId 'pdmSearchDocuments'
-            artifact "build/libs/${project.name}-standalone-app.jar"
-        }
-    }
-    repositories {
-        if(project.hasProperty("nexusSnapshotURL") && project.hasProperty("nexusReleaseURL")
-                && project.hasProperty("nexusUser") && project.hasProperty("nexusPassword")){
-            if(project.version.endsWith('-SNAPSHOT')) {
-                maven {
-                    url nexusSnapshotURL
-                    credentials {
-                        username nexusUser
-                        password nexusPassword
-                    }
-                }
-            } else {
-                maven {
-                    url nexusReleaseURL
-                    credentials {
-                        username nexusUser
-                        password nexusPassword
-                    }
-                }
-            }
-        }
-    }
-}
+//publishing {
+//    publications {
+//        mavenJava(MavenPublication) {
+//            groupId 'abasGmbH'
+//            artifactId 'pdmSearchDocuments'
+//            artifact "build/libs/${project.name}-standalone-app.jar"
+//        }
+//    }
+//    repositories {
+//        if(project.hasProperty("nexusSnapshotURL") && project.hasProperty("nexusReleaseURL")
+//                && project.hasProperty("nexusUser") && project.hasProperty("nexusPassword")){
+//            if(project.version.endsWith('-SNAPSHOT')) {
+//                maven {
+//                    url nexusSnapshotURL
+//                   credentials {
+//                      username nexusUser
+//                        password nexusPassword
+//                    }
+//                }
+//            } else {
+//                maven {
+//                    url nexusReleaseURL
+//                    credentials {
+//                        username nexusUser
+//                        password nexusPassword
+//                 }
+//                }
+//            }
+//        }
+//    }
+//}
 
 dependencies {
     provided 'de.abas.homedir:log4j:1.0.0'
+    provided 'de.abas.homedir:abas-print:1.0.0'
 	compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.1.2.Final'
     compile group: 'org.jboss.resteasy', name: 'resteasy-client', version: '3.1.2.Final'
     compile group: 'org.jboss.resteasy', name: 'resteasy-multipart-provider', version: '3.1.2.Final'

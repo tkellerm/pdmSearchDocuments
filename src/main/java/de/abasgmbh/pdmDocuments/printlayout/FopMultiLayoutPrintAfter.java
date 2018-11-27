@@ -20,10 +20,9 @@ import de.abasgmbh.pdmDocuments.infosystem.utils.Util;
 @RunFopWith(EventHandlerRunner.class)
 public class FopMultiLayoutPrintAfter implements DataGenerator, DatagenFopGenerator {
 	Logger logger = Logger.getLogger(FopMultiLayoutPrintAfter.class);
-	
 
 	@Override
-	public int startDatagen( ) {
+	public int startDatagen() {
 		BufferFactory bufferFactory = BufferFactory.newInstance(true);
 		PrintBuffer printBuffer = bufferFactory.getPrintBuffer();
 		ScreenBuffer screenBuf = bufferFactory.getScreenBuffer();
@@ -33,22 +32,24 @@ public class FopMultiLayoutPrintAfter implements DataGenerator, DatagenFopGenera
 				String maskYpfad = screenBuf.getStringValue("ypfad");
 				if (!maskYpfad.isEmpty()) {
 					String aktttmp = printBuffer.getStringValue("actTempDir");
-//					String string = PrintDialogEditor.META.actTempDir.toString();
-					
+					// String string =
+					// PrintDialogEditor.META.actTempDir.toString();
+
 					String outputTempDir = aktttmp + "output/";
 					File file = new File(maskYpfad);
 					File outputDir = new File(outputTempDir + file.getName());
-					
+
 					try {
-						logger.info(Util.getMessage("pdmdocuments.log.copyfile", file.toPath().toString() , outputDir.toPath().toString()));
+						logger.info(Util.getMessage("pdmdocuments.log.copyfile", file.toPath().toString(),
+								outputDir.toPath().toString()));
 						Files.copy(file.toPath(), outputDir.toPath(), StandardCopyOption.REPLACE_EXISTING);
 					} catch (IOException e) {
 						logger.error(e);
-						logger.error(Util.getMessage("main.error.copyFile",e.getMessage()));
+						logger.error(Util.getMessage("main.error.copyFile", e.getMessage()));
 						return 1;
-					}	
+					}
 				}
-				
+
 			}
 		}
 		return 0;
@@ -57,37 +58,37 @@ public class FopMultiLayoutPrintAfter implements DataGenerator, DatagenFopGenera
 	@Override
 	public void buildExtensions() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setFieldListProvider(FieldListProvider arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setRecordCaptionExpression(String arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setUseCDATA(boolean arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setUseCommonHVarFop(boolean arg0) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void writeFop(String arg0, String arg1) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
